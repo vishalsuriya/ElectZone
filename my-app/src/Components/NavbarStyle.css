@@ -35,5 +35,55 @@
     cursor: pointer;
   }
 
-  
+  /* Add this to your NavbarStyle.css or create a new CSS file */
+
+/* Styles for the modal */
+.modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* semi-transparent black overlay */
+}
+
+/* Styles for the modal content */
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Styles for the close button */
+.modal-content button {
+  margin-top: 10px;
+  cursor: pointer;
+  padding: 10px;
+  background:#4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+}
+
+/* Additional styles to center the modal content */
+.modal-content form {
+  text-align: center;
+}
+
+.modal-content label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+}
+
   
