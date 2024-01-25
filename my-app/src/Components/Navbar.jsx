@@ -63,10 +63,9 @@
 
 // export default Navbar;
 
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { IoSearch } from 'react-icons/io5';
-import '../Components/NavbarStyle.css';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { IoSearch } from "react-icons/io5";
 
 function Navbar() {
   const [showLoginForm, setShowLoginForm] = useState(false);
@@ -81,25 +80,32 @@ function Navbar() {
 
   const handleLoginSubmit = (event) => {
     event.preventDefault();
-    console.log('User logged in!');
+    console.log("User logged in!");
     setShowLoginForm(false);
   };
 
   return (
     <div>
-      <div className='header'>
+      <div className="header">
         <Link to="/">
           <h1>ElectZone</h1>
         </Link>
         <ul>
           <li>
-            <input type='text' placeholder='Search' id='searchInput' name='searchInput' />
+            <input
+              type="text"
+              placeholder="Search"
+              id="searchInput"
+              name="searchInput"
+            />
           </li>
           <li>
             <IoSearch />
           </li>
           <li>
-            <button onClick={handleLoginClick}>Login</button>
+            <button className="head-btn" onClick={handleLoginClick}>
+              Login
+            </button>
           </li>
         </ul>
       </div>
@@ -107,19 +113,23 @@ function Navbar() {
       {showLoginForm && (
         <div className="modal">
           <div className="modal-content">
-            <form onSubmit={handleLoginSubmit}>
+            <a className="close-button" onClick={handleLoginFormClose}>
+              X
+            </a>
+            <form className="form-control" onSubmit={handleLoginSubmit}>
               <label>
                 Username:
-                <input type="text" autoComplete='off' name="username" />
+                <input type="text" autoComplete="off" name="username" />
               </label>
               <label>
                 Password:
                 <input type="password" name="password" />
               </label>
               <Link to={"/Login"}>
-                <button type="submit">Submit</button>
+                <button type="submit" className="login-btn">
+                  Login
+                </button>
               </Link>
-              <button type="button" onClick={handleLoginFormClose}>Close</button>
             </form>
           </div>
         </div>
