@@ -4,6 +4,7 @@ function Footer  () {
   return (
     <div>
       <div>Footer</div>
+      <h1>Hekki</h1>
     </div>
   )
 }
