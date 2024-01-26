@@ -1,14 +1,19 @@
+// Navbar2.js
+
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { IoSearch } from "react-icons/io5";
 import { FaBars } from "react-icons/fa";
 import { BsCartCheckFill } from "react-icons/bs";
 import "../Components/NavbarStyle.css";
+
 function Navbar2() {
   const [showMenu, setShowMenu] = useState(false);
+
   const handleMenuClick = () => {
     setShowMenu(!showMenu);
   };
+
   return (
     <div className="header">
       <h1>ElectZone</h1>
@@ -25,28 +30,32 @@ function Navbar2() {
           <IoSearch />
         </li>
         <li>
-          <Link to={"/"}>
-            {" "}
-            <button className="head-btn">Logout</button>
-          </Link>
         </li>
         <li>
           <BsCartCheckFill />
         </li>
         <li onClick={handleMenuClick}>
-          <FaBars></FaBars>
+          <FaBars />
         </li>
       </ul>
       {showMenu && (
-        <div className="menu">
-          <ul>
-            <li>My Profile</li>
-            <li>My Cart</li>
-            <li>Settings</li>
-            <Link to={"/"}>
-              <li>Logout</li>
-            </Link>
-          </ul>
+        <div className="dropdown-menu">
+          <ol>
+            <li className="menu-item">
+              <Link to="/profile">My Profile</Link>
+            </li>
+            <li className="menu-item">
+              <Link to="/cart">My Cart</Link>
+            </li>
+            <li className="menu-item">
+              <Link to="/settings">Settings</Link>
+            </li>
+            <li className="menu-item">
+              <Link to="/">
+               <li className="menu-item">Logout</li>
+              </Link>
+            </li>
+          </ol>
         </div>
       )}
     </div>

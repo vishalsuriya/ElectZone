@@ -1,17 +1,41 @@
-
+.dropdown-menu {
+  height: 150px;
+  width: 100px;
+  position: absolute;
+  top: 70px;
+  left: 1265px;
+  background-color: black;
+  border: 1px solid black;
+  text-align:left;
+}
+.menu-item::after {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 10px 10px;
+  border-style: solid;
+  border-color: transparent transparent black;
+}
+ol{
+  list-style-type: none;
+  text-decoration: none;
+}
+.menu-item {
+  padding-bottom: 15px;
+  padding-top: 2px;
+  text-align: center;
+}
 .header {
+  height: 70px;
+  width: 100%;
     background-color: #333;
-    /* padding: 10px; */
     display: flex;
     justify-content: space-between;
     align-items: center;
     color: #fff;
   }
-  
-  .header h1 {
-    margin: 0;
-  }
-  
   ul {
     list-style-type: none;
     display: flex;
@@ -20,12 +44,13 @@
   
   ul li {
     margin: 0 10px;
+    text-decoration: none;
   }
   
   input[type='text'] {
     padding: 5px;
   }
-  
+
   .head-btn{
     background-color: #4CAF50;
     color: white;
@@ -34,10 +59,6 @@
     border-radius: 4px;
     cursor: pointer;
   }
-
-  /* Add this to your NavbarStyle.css or create a new CSS file */
-
-/* Styles for the modal */
 .modal {
   display: flex;
   align-items: center;
@@ -47,10 +68,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* semi-transparent black overlay */
+  background: rgba(0, 0, 0, 0.5); 
 }
-
-/* Styles for the modal content */
 .modal-content {
   background: #fff;
   padding: 20px;
@@ -68,20 +87,6 @@
     border-radius: 4px;
     cursor: pointer;
 }
-.close-button {
-  position: absolute;
-  top: 4px;
-  bottom: 5px;
-  right: 10px;
-  cursor: pointer;
-  padding: 10px;
-  
-  color: #0c0101;
-  font-size: 1rem;
-}
-
-
-
 .modal-content label {
   display: block;
   margin-bottom: 10px;
