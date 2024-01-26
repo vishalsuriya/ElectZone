@@ -45,6 +45,7 @@ function Navbar2() {
             <li>Settings</li>
             <Link to={"/"}>
               <li>Logout</li>
+              {/* <h1>Yugesh</h1> */}
             </Link>
           </ul>
         </div>
