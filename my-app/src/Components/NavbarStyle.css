@@ -1,7 +1,7 @@
 
 .header {
     background-color: #333;
-    padding: 10px;
+    /* padding: 10px; */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -26,7 +26,7 @@
     padding: 5px;
   }
   
-  button {
+  .head-btn{
     background-color: #4CAF50;
     color: white;
     padding: 8px 16px;
@@ -56,27 +56,36 @@
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  position: relative; /* Set position relative for absolute positioning of close button */
 }
 
-/* Styles for the close button */
-.modal-content button {
-  margin-top: 10px;
+.login-btn{
+   background-color: #4CAF50;
+    color: white;
+    border: none;
+    margin-left: 100px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.close-button {
+  position: absolute;
+  top: 4px;
+  bottom: 5px;
+  right: 10px;
   cursor: pointer;
   padding: 10px;
-  background:#4CAF50;
-  color: #fff;
-  border: none;
-  border-radius: 3px;
+  
+  color: #0c0101;
+  font-size: 1rem;
 }
 
-/* Additional styles to center the modal content */
-.modal-content form {
-  text-align: center;
-}
+
 
 .modal-content label {
   display: block;
   margin-bottom: 10px;
+  
 }
 
 .modal-content input {
@@ -86,4 +95,7 @@
   box-sizing: border-box;
 }
 
-  
+.form-control{
+
+  margin-top: 10px;
+}
