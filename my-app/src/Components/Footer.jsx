@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; 
 import "../Components/FooterStyle.css";
-import {FaGithub, FaHome,FaLinkedin,FaMailBulk,FaPhone} from "react-icons/fa";
+import { FaFacebook,FaSquareTwitter } from "react-icons/fa6";
+import { GrInstagram } from "react-icons/gr";
 export default function Footer() {
   return (
     <div className='footer'>
@@ -10,9 +11,9 @@ export default function Footer() {
           <h1>Quick Links</h1>
           <ul>
             <li><Link to='/home'>Home</Link></li>
-            <li><Link to='/products'>Products</Link></li>
+            <li><Link to='/About'>About Us</Link></li>
             <li><Link to='/categories'>Categories</Link></li>
-            <li><Link to='/contact'>Contact Us</Link></li>
+            <li><Link to='/Contact'>Contact Us</Link></li>
           </ul>
         </div>
         <div className='center'>
@@ -27,16 +28,11 @@ export default function Footer() {
         <div className='right'>
           <h1>Stay Connected</h1>
           <div className='social-links'>
-            <a href='#'></a>
-            <a href='#'></a>
-            <a href='#'></a>
-        
+            <a href=''><FaFacebook /></a>
+            <a href=''><GrInstagram/></a>
+            <a href=''><FaSquareTwitter/></a>
           </div>
         </div>
-      </div>
-      <div className='trust-elements'>
-        <p>Secure Payment Methods</p>
-        <img src='/images/secure-payment-icons.png' alt='Secure Payment Methods' />
       </div>
     </div>
   );
