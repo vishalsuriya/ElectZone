@@ -39,23 +39,15 @@ function Navbar2() {
         </li>
       </ul>
       {showMenu && (
-        <div className="dropdown-menu">
-          <ol>
-            <li className="menu-item">
-              <Link to="/profile">My Profile</Link>
-            </li>
-            <li className="menu-item">
-              <Link to="/cart">My Cart</Link>
-            </li>
-            <li className="menu-item">
-              <Link to="/settings">Settings</Link>
-            </li>
-            <li className="menu-item">
-              <Link to="/">
-               <li className="menu-item">Logout</li>
-              </Link>
-            </li>
-          </ol>
+        <div className="menu">
+          <ul>
+            <li>My Profile</li>
+            <li>My Cart</li>
+            <li>Settings</li>
+            <Link to={"/"}>
+              <li>Logout</li>
+            </Link>
+          </ul>
         </div>
       )}
     </div>
