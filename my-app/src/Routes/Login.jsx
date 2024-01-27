@@ -1,11 +1,11 @@
-import Footer from '../Components/Footer';
-import Navbar2 from '../Components/Navbar2'
 import React from 'react';
+import NavigationBar2 from '../Components/NavigationBar2';
+import Footer from '../Components/Footer';
 function Login() {
   return (
     <div>
-    < Navbar2 />
-    < Footer />
+      <NavigationBar2 />
+      <Footer />
        </div>
   );
 }
