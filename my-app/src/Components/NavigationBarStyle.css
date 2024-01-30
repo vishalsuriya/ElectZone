@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=PT+Serif:ital@0;1&display=swap');
+.navbar-nav .nav-link.dropdown-toggle::after {
+    display: none;
+  }
+
+  /* NavigationBar2.css */
+
+/* Add styles for the dropdown */
+#basic-nav-dropdown {
+    border: 1px solid transparent; /* Set a default transparent border */
+  }
+  
+  #basic-nav-dropdown:hover {
+    border-color: #ced4da; /* Change border color on hover */
+  }
+  
+  /* Move the dropdown slightly at the end of the header */
+  #basic-nav-dropdown {
+    margin-right: 10px; /* Adjust the margin as needed */
+  }
+  
+  @media (min-width: 992px) {
+    .full-screen-margin {
+      margin-right: 2px;
+    }
+  }
