@@ -1,32 +1,19 @@
-import Carousel from 'react-bootstrap/Carousel';
-import  img from "../assets/project2.png";
+import React from 'react';
+import { MDBCarousel, MDBCarouselItem } from 'mdb-react-ui-kit';
+
 function Slide() {
   return (
-    <Carousel>
-      <Carousel.Item interval={3000}>
-        <img src={img} text="First slide" />
-        <Carousel.Caption>
-          <h3>First slide label</h3>
-          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-        </Carousel.Caption>
-      </Carousel.Item>
-      <Carousel.Item interval={3000}>
-        <img src={img} text="Second slide" />
-        <Carousel.Caption>
-          <h3>Second slide label</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </Carousel.Caption>
-      </Carousel.Item>
-      <Carousel.Item interval={3000}>
-        <img src={img} text="Third slide" />
-        <Carousel.Caption>
-          <h3>Third slide label</h3>
-          <p>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-          </p>
-        </Carousel.Caption>
-      </Carousel.Item>
-    </Carousel>
+    <MDBCarousel showControls>
+      <MDBCarouselItem itemId={1}>
+        <img src='https://mdbootstrap.com/img/new/slides/041.jpg' className='d-block w-100' alt='...' />
+      </MDBCarouselItem>
+      <MDBCarouselItem itemId={2}>
+        <img src='https://mdbootstrap.com/img/new/slides/042.jpg' className='d-block w-100' alt='...' />
+      </MDBCarouselItem>
+      <MDBCarouselItem itemId={3}>
+        <img src='https://mdbootstrap.com/img/new/slides/043.jpg' className='d-block w-100' alt='...' />
+      </MDBCarouselItem>
+    </MDBCarousel>
   );
 }
 

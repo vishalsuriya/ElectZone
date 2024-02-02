@@ -6,8 +6,7 @@ import { FaShoppingCart, FaBars, FaSearch } from 'react-icons/fa';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Button from 'react-bootstrap/Button';
 import '../Components/NavigationBarStyle.css';
-import  img from '../Components/ElectZone-logos_black.png'
-
+import  img from '../assets/ElectZone-logos_black.png';
 function NavigationBar2() {
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
@@ -35,7 +34,7 @@ function NavigationBar2() {
       <Container style={{ maxWidth: '95%' }}>
       <Navbar.Brand className="d-flex align-items-center">
           <img
-            src={img}// Replace with the actual path to your logo image
+            src={img}
             alt="Logo"
             className="d-inline-block align-top ml-auto me-2"
             width="35"
@@ -48,7 +47,7 @@ function NavigationBar2() {
         <Navbar.Toggle
           aria-controls="basic-navbar-nav"
           onClick={handleDropdownToggle}
-          className="full-screen-margin" // Apply the custom class for full-screen margin
+          className="full-screen-margin"
         >
           <FaBars />
         </Navbar.Toggle>
@@ -56,7 +55,7 @@ function NavigationBar2() {
           <Nav className="mx-auto">
             <div className="d-flex align-items-center">
               <input type="text" placeholder="Search" className="me-2 form-control" />
-              <Button variant="outline-secondary">
+              <Button variant="secondary">
                 <FaSearch />
               </Button>
             </div>
@@ -73,19 +72,16 @@ function NavigationBar2() {
                 align="end"
                 onClick={handleDropdownToggle}
               >
-                <NavDropdown.Item href="#action/3.1">My Profile</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">Settings</NavDropdown.Item>
+                <NavDropdown.Item href="/UserProfile">My Profile</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.2">Contact us</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item href="#">Logout</NavDropdown.Item>
+                <NavDropdown.Item href="/">Logout</NavDropdown.Item>
               </NavDropdown>
             </div>
-          
-
           </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
   );
 }
-
 export default NavigationBar2;
