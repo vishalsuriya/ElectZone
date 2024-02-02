@@ -1,22 +1,14 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
+import {Link} from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Button from "react-bootstrap/Button";
 import Navbar from "react-bootstrap/Navbar";
-import  img from '../Components/ElectZone-logos_black.png'
-import login from '../Routes/Login.jsx';
-
-import { FaSearch, FaBars } from "react-icons/fa";
+import  img from '../assets/ElectZone-logos_black.png'
+import { FaSearch } from "react-icons/fa";
 import { GrLogin } from "react-icons/gr";
 
 function NavigationBar() {
-  const [showDropdown, setShowDropdown] = useState(false);
-
-  const handleDropdownToggle = () => {
-    setShowDropdown(!showDropdown);
-  };
-
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container style={{ maxWidth: '95%' }}>
@@ -43,11 +35,11 @@ function NavigationBar() {
           </Nav>
 
           <Nav>
-            <Link to={login} >
-              <Button variant="outline-primary" style={{ padding: '0.3rem 0.5rem', fontSize: '0.8rem' }}>
+          <Link to= "/UserLogin">
+              <Button variant="primary" style={{ padding: '0.3rem 0.5rem', fontSize: '0.8rem' }}>
                 <GrLogin /> Login
               </Button>
-            </Link>
+              </Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
