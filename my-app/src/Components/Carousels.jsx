@@ -1,6 +1,5 @@
 import React from 'react';
 import { MDBCarousel, MDBCarouselItem } from 'mdb-react-ui-kit';
-
 function Slide() {
   return (
     <MDBCarousel showControls>
