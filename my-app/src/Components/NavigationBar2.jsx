@@ -30,7 +30,7 @@ function NavigationBar2() {
   }, []);
 
   return (
-    <Navbar expand="lg" className="bg-body-tertiary">
+    <Navbar expand="lg" className="bg-body-tertiary bg-secondary">
       <Container style={{ maxWidth: '95%' }}>
       <Navbar.Brand className="d-flex align-items-center">
           <img

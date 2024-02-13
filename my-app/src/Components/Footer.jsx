@@ -3,7 +3,7 @@ import { MDBFooter, MDBContainer, MDBRow, MDBCol, MDBIcon, MDBBtn, MDBInput } fr
 
 function Footer() {
   return (
-    <MDBFooter bgColor='light' className='text-center text-lg-start text-muted'>
+    <MDBFooter bgColor='secondary' className='text-center text-lg-start text-muted'>
       <section className='p-4 mt-5'>
         <MDBContainer className='text-center text-md-start mt-5'>
           <MDBRow className='mt-3'>
