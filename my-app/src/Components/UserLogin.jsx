@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   MDBContainer,
   MDBInput,
@@ -9,12 +9,21 @@ import {
 from 'mdb-react-ui-kit';
 import{Link} from "react-router-dom";
 function UserLogin  ()  {
+  const [email,setEmail] = useState("");
+  const [password,setPassword] = useState("");
+  const submitHandler = (e)=>{
+    e.preventDefault();
+  }
   return (
    <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
-
-      <MDBInput wrapperClass='mb-4' label='Email address' id='form1' type='email'/>
-      <MDBInput wrapperClass='mb-4' label='Password' id='form2' type='password'/>
-
+      <form onSubmit={submitHandler}>
+      <MDBInput wrapperClass='mb-4' label='Email address' id='form1' type='email'
+      value={email} onChange={event => setEmail(event.target.value)}
+      />
+      <MDBInput wrapperClass='mb-4' label='Password' id='form2' type='password'
+      value={password} onChange={event => setPassword(event.target.value)}
+      />
+</form>
       <div className="d-flex justify-content-between mx-3 mb-4">
         <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Remember me' />
         <a href="!#">Forgot password?</a>

@@ -1,8 +1,8 @@
-
+import img from "../assets/1k ohm.jpg"
 const CardData = [
     {
       id :1,
-      imgsrc: "https://mdbootstrap.com/img/new/standard/nature/111.webp",
+      imgsrc: img,
       title: "title",
       content: "Some quick example text to build on the card title and make up the bulk of the card's content.",
       price : "800"

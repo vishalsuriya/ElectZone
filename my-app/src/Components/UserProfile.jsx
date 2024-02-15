@@ -1,8 +1,10 @@
-import React from 'react'
+import React,{Link} from 'react'
 
 function UserProfile ()  {
   return (
-    <div>UserProfile</div>
+    <div>
+    <h1>hello</h1>
+</div>
   )
 }
 
