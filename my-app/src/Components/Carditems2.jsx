@@ -1,5 +1,7 @@
-import React from 'react';
+import React from 'react'
 import "../Components/CarditemsStyle.css";
+import CardData from './CardData';
+import { useNavigate} from "react-router-dom";
 import {
   MDBCard,
   MDBCardBody,
@@ -9,12 +11,8 @@ import {
   MDBBtn,
   MDBRipple
 } from 'mdb-react-ui-kit';
-import CardData from './CardData';
-import { useNavigate} from "react-router-dom";
-import {useCart} from "react-use-cart";
-function CardItems() {
-  const navigate = useNavigate();
-  const {addItem} = useCart();
+ function Carditems2  ()  {
+    const navigate = useNavigate();
   return (
     <div className="product-cards-container">
       {CardData.map((product, index) => (
@@ -27,9 +25,11 @@ function CardItems() {
               <div className="product-details">
                 <span className="price">${product.price}</span>
                 <div className="button-container">
-                  <MDBBtn className='btn-buy-now me-4' onClick={()=>{navigate("/BuyProducts")}}>Buy Now</MDBBtn>
-                  <button onClick={()=> addItem(product)}
-      
+                  <MDBBtn className='btn-buy-now me-4'
+                  onClick={()=>{navigate("/UserLogin")}}
+                  >Buy Now</MDBBtn>
+                  <button 
+                  onClick={()=>{navigate("/UserLogin")}}
                   >Add to cart</button>
                 </div>
               </div>
@@ -40,5 +40,4 @@ function CardItems() {
     </div>
   );
 }
-
-export default CardItems;
+export default Carditems2;

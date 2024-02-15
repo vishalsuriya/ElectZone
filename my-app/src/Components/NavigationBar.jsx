@@ -1,5 +1,5 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Button from "react-bootstrap/Button";
@@ -9,6 +9,7 @@ import { FaSearch } from "react-icons/fa";
 import { GrLogin } from "react-icons/gr";
 
 function NavigationBar() {
+ const navigate = useNavigate();
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container style={{ maxWidth: '95%' }}>
@@ -35,11 +36,11 @@ function NavigationBar() {
           </Nav>
 
           <Nav>
-          <Link to= "/UserLogin">
-              <Button variant="primary" style={{ padding: '0.3rem 0.5rem', fontSize: '0.8rem' }}>
+              <Button onClick={()=>{navigate("/UserLogin")}} variant="primary" style={{ padding: '0.3rem 0.5rem', fontSize: '0.8rem'
+            
+             }}>
                 <GrLogin /> Login
               </Button>
-              </Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
