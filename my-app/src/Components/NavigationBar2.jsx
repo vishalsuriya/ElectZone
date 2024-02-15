@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef,Link } from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -30,6 +30,7 @@ function NavigationBar2() {
   }, []);
 
   return (
+    
     <Navbar expand="lg" className="bg-body-tertiary bg-secondary">
       <Container style={{ maxWidth: '95%' }}>
       <Navbar.Brand className="d-flex align-items-center">
@@ -61,8 +62,8 @@ function NavigationBar2() {
             </div>
           </Nav>
           <Nav className="ml-auto">
-            <Nav.Link>
-              <FaShoppingCart />
+            <Nav.Link href='/Cartpage'>
+            <FaShoppingCart />
             </Nav.Link>
             <div  ref={dropdownRef}>
               <NavDropdown
@@ -74,6 +75,8 @@ function NavigationBar2() {
               >
                 <NavDropdown.Item href="/UserProfile">My Profile</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">Contact us</NavDropdown.Item>
+                <NavDropdown.Item href="/Cartpage">My Cart</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.2">My orders</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="/">Logout</NavDropdown.Item>
               </NavDropdown>

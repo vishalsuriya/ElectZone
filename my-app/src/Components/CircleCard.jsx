@@ -7,51 +7,56 @@ function CircleCard() {
     <MDBRow className='custom-center-class'>
       <MDBCol lg='2' md='4' className='mb-4'>
         <div className='circular-image-container'>
-          <img
+         <a href='CircleCard1'> <img
             src='https://mdbootstrap.com/img/new/standard/city/047.webp'
             className='img-fluid'
             alt=''
           />
+          </a>
           <a className='text-center' href="#">IC</a>
         </div>
       </MDBCol>
       <MDBCol lg='2' md='4' className='mb-4'>
         <div className='circular-image-container'>
-          <img
+        <a href='/CircleCard2'>  <img
             src='https://mdbootstrap.com/img/new/standard/city/047.webp'
             className='img-fluid'
             alt=''
           />
+          </a>
           <a className='text-center' href="#">IC</a>
         </div>
       </MDBCol>
       <MDBCol lg='2' md='4' className='mb-4'>
         <div className='circular-image-container'>
-          <img
+         <a href='/CircleCard3'> <img
             src='https://mdbootstrap.com/img/new/standard/city/047.webp'
             className='img-fluid'
             alt=''
           />
+          </a>
           <a className='text-center' href="#">IC</a>
         </div>
       </MDBCol>
       <MDBCol lg='2' md='4' className='mb-4'>
         <div className='circular-image-container'>
-          <img
+        <a href='/CircleCard4'>    <img
             src='https://mdbootstrap.com/img/new/standard/city/047.webp'
             className='img-fluid'
             alt=''
           />
+          </a>
           <a className='text-center' href="#">IC</a>
         </div>
       </MDBCol>
       <MDBCol lg='2' md='4' className='mb-4'>
         <div className='circular-image-container'>
-          <img
+        <a href='/CircleCard5'>  <img
             src='https://mdbootstrap.com/img/new/standard/city/047.webp'
             className='img-fluid'
             alt=''
           />
+          </a>
           <a className='text-center' href="#">IC</a>
         </div>
       </MDBCol>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import "../Components/CarditemsStyle.css";
 import {
   MDBCard,
@@ -9,15 +9,13 @@ import {
   MDBBtn,
   MDBRipple
 } from 'mdb-react-ui-kit';
-import CardData from './CardData';
-import { useNavigate} from "react-router-dom";
-import {useCart} from "react-use-cart";
-function CardItems() {
-  const navigate = useNavigate();
+import { useCart } from 'react-use-cart';
+import CircleData2 from './CircleCardData2';
+ function CircleCard2 ()  {
   const {addItem} = useCart();
   return (
     <div className="product-cards-container">
-      {CardData.map((product, index) => (
+      {CircleData2.map((product, index) => (
         <MDBRipple key={index} rippleColor='light' rippleTag='div' className='bg-image hover-overlay'>
           <MDBCard style={{ width: '300px' }} className='card-container'>
             <MDBCardImage src={product.imgsrc} alt={product.title} />
@@ -27,9 +25,8 @@ function CardItems() {
               <div className="product-details">
                 <span className="price">${product.price}</span>
                 <div className="button-container">
-                  <MDBBtn className='btn-buy-now me-4' onClick={()=>{navigate("/BuyProducts")}}>Buy Now</MDBBtn>
+                  <MDBBtn className='btn-buy-now me-4'>Buy Now</MDBBtn>
                   <button onClick={()=> addItem(product)}
-      
                   >Add to cart</button>
                 </div>
               </div>
@@ -40,5 +37,4 @@ function CardItems() {
     </div>
   );
 }
-
-export default CardItems;
+export default CircleCard2;
