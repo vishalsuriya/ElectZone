@@ -1,7 +1,7 @@
-import React from 'react'
+import React from "react";
 import "../Components/CarditemsStyle.css";
-import CardData from './CardData';
-import { useNavigate} from "react-router-dom";
+import CardData from "./CardData";
+import { useNavigate } from "react-router-dom";
 import {
   MDBCard,
   MDBCardBody,
@@ -9,35 +9,58 @@ import {
   MDBCardText,
   MDBCardImage,
   MDBBtn,
-  MDBRipple
-} from 'mdb-react-ui-kit';
- function Carditems2  ()  {
-    const navigate = useNavigate();
+  MDBRipple,
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+} from "mdb-react-ui-kit";
+
+function Carditems2() {
+  const navigate = useNavigate();
+
   return (
-    <div className="product-cards-container">
-      {CardData.map((product, index) => (
-        <MDBRipple key={index} rippleColor='light' rippleTag='div' className='bg-image hover-overlay'>
-          <MDBCard style={{ width: '300px' }} className='card-container'>
-            <MDBCardImage src={product.imgsrc} alt={product.title} />
-            <MDBCardBody>
-              <MDBCardTitle>{product.title}</MDBCardTitle>
-              <MDBCardText>{product.content}</MDBCardText>
-              <div className="product-details">
-                <span className="price">${product.price}</span>
-                <div className="button-container">
-                  <MDBBtn className='btn-buy-now me-4'
-                  onClick={()=>{navigate("/UserLogin")}}
-                  >Buy Now</MDBBtn>
-                  <button 
-                  onClick={()=>{navigate("/UserLogin")}}
-                  >Add to cart</button>
-                </div>
-              </div>
-            </MDBCardBody>
-          </MDBCard>
-        </MDBRipple>
-      ))}
-    </div>
+    <MDBContainer>
+      <MDBRow className="row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {CardData.map((product, index) => (
+          <MDBCol key={index}>
+            <MDBRipple
+              rippleColor="light"
+              rippleTag="div"
+              className="bg-image hover-overlay"
+            >
+              <MDBCard className="card-container">
+                <MDBCardImage src={product.imgsrc} alt={product.title} />
+                <MDBCardBody>
+                  <MDBCardTitle>{product.title}</MDBCardTitle>
+                  <MDBCardText>{product.content}</MDBCardText>
+                  <div className="product-details">
+                    <span className="price">${product.price}</span>
+                    <div className="button-container">
+                      <MDBBtn
+                        className="btn-buy-now me-4"
+                        onClick={() => {
+                          navigate("/UserLogin");
+                        }}
+                      >
+                        Buy Now
+                      </MDBBtn>
+                      <button
+                        onClick={() => {
+                          navigate("/UserLogin");
+                        }}
+                      >
+                        Add to cart
+                      </button>
+                    </div>
+                  </div>
+                </MDBCardBody>
+              </MDBCard>
+            </MDBRipple>
+          </MDBCol>
+        ))}
+      </MDBRow>
+    </MDBContainer>
   );
 }
+
 export default Carditems2;
