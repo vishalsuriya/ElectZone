@@ -1,12 +1,13 @@
-import React, { useState, useEffect, useRef,Link } from 'react';
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import { FaShoppingCart, FaBars, FaSearch } from 'react-icons/fa';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import Button from 'react-bootstrap/Button';
-import '../Components/NavigationBarStyle.css';
-import  img from '../assets/ElectZone-logos_black.png';
+import React, { useState, useEffect, useRef } from "react";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import { FaShoppingCart, FaBars, FaSearch } from "react-icons/fa";
+import NavDropdown from "react-bootstrap/NavDropdown";
+import Button from "react-bootstrap/Button";
+import img from "../assets/ElectZone-logos_black.png";
+import "../Components/NavigationBarStyle.css";
+
 function NavigationBar2() {
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
@@ -22,26 +23,24 @@ function NavigationBar2() {
   };
 
   useEffect(() => {
-    document.addEventListener('click', handleDocumentClick);
+    document.addEventListener("click", handleDocumentClick);
 
     return () => {
-      document.removeEventListener('click', handleDocumentClick);
+      document.removeEventListener("click", handleDocumentClick);
     };
   }, []);
 
   return (
-    
     <Navbar expand="lg" className="bg-body-tertiary bg-secondary">
-      <Container style={{ maxWidth: '95%' }}>
-      <Navbar.Brand className="d-flex align-items-center">
+      <Container fluid>
+        <Navbar.Brand className="d-flex align-items-center justify-content-start ms-5">
           <img
             src={img}
             alt="Logo"
-            className="d-inline-block align-top ml-auto me-2"
-            width="35"
-            height="35"
-          />
-          {' '}
+            className="d-inline-block align-top me-1"
+            width="40"
+            height="40"
+          />{" "}
           ElectZone
         </Navbar.Brand>
 
@@ -53,30 +52,42 @@ function NavigationBar2() {
           <FaBars />
         </Navbar.Toggle>
         <Navbar.Collapse id="basic-navbar-nav" className="text-center">
-          <Nav className="mx-auto">
-            <div className="d-flex align-items-center">
-              <input type="text" placeholder="Search" className="me-2 form-control" />
-              <Button variant="secondary">
+          <Nav className="mx-auto" style={{ border: "1px solid blue" }}>
+            <div className="input-group " style={{ flex: "1" }}>
+              <input
+                type="text"
+                placeholder="Search"
+                className="form-control search-input"
+              />
+              <Button className="search-button">
                 <FaSearch />
               </Button>
             </div>
           </Nav>
-          <Nav className="ml-auto">
-            <Nav.Link href='/Cartpage'>
-            <FaShoppingCart />
+
+          <Nav className="ml-auto ">
+            <Nav.Link href="/Cartpage" className="shop-cart me-3">
+              <FaShoppingCart size={22} />
             </Nav.Link>
-            <div  ref={dropdownRef}>
+            <div ref={dropdownRef}>
               <NavDropdown
-                title={<FaBars  />}
+                className="shop-cart"
+                title={<FaBars size={22} />}
                 id="basic-nav-dropdown"
                 show={showDropdown}
                 align="end"
                 onClick={handleDropdownToggle}
               >
-                <NavDropdown.Item href="/UserProfile">My Profile</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">Contact us</NavDropdown.Item>
+                <NavDropdown.Item href="/UserProfile">
+                  My Profile
+                </NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.2">
+                  Contact us
+                </NavDropdown.Item>
                 <NavDropdown.Item href="/Cartpage">My Cart</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">My orders</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.2">
+                  My orders
+                </NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="/">Logout</NavDropdown.Item>
               </NavDropdown>
@@ -87,4 +98,5 @@ function NavigationBar2() {
     </Navbar>
   );
 }
+
 export default NavigationBar2;
