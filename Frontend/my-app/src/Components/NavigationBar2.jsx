@@ -6,7 +6,7 @@ import { FaShoppingCart, FaBars, FaSearch } from "react-icons/fa";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Button from "react-bootstrap/Button";
 import img from "../assets/ElectZone-logos_black.png";
-import "../Components/NavigationBarStyle.css";
+import "./NavigationBarStyle.css";
 
 function NavigationBar2() {
   const [showDropdown, setShowDropdown] = useState(false);

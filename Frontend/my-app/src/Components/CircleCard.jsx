@@ -1,6 +1,6 @@
 import React from "react";
 import { MDBRow, MDBCol } from "mdb-react-ui-kit";
-import "../Components/CircleCardStyle.css";
+import "./CircleCardStyle.css";
 
 function CircleCard() {
   return (
