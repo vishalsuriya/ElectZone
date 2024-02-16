@@ -1,9 +1,7 @@
 const mongoose = require("mongoose");
 
-// Define your MongoDB URI here
 const MONGO_URL =
-  "mongodb+srv://sivab2211:root@cluster0.wilizo0.mongodb.net/ElectZone"; // Update with your MongoDB URI
-
+  "mongodb+srv://sivab2211:root@cluster0.wilizo0.mongodb.net/ElectZone";
 const connectDB = async () => {
   try {
     const con = await mongoose.connect(MONGO_URL, {
