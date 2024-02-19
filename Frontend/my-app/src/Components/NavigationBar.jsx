@@ -11,7 +11,7 @@ import { GrLogin } from "react-icons/gr";
 function NavigationBar() {
   const navigate = useNavigate();
   return (
-    <Navbar expand="lg" className="bg-body-tertiary">
+    <Navbar expand="lg" className="navbar">
       <Container style={{ maxWidth: "100%" }}>
         <Navbar.Brand className="d-flex align-items-center justify-content-start ms-5">
           <img
@@ -26,17 +26,20 @@ function NavigationBar() {
 
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="mx-auto" style={{ border: "1px solid blue" }}>
+          <Nav className="mx-auto" style={{ border: "1px solid #ff9e4a" }}>
             <div
               className="input-group  border-end-0"
-              style={{ flex: "1", borderRadius: "4px 0 0 4px" }}
+              style={{
+                flex: "1",
+                borderRadius: "4px 0 0 4px",
+              }}
             >
               <input
                 type="text"
                 placeholder="Search"
                 className="form-control"
               />
-              <Button>
+              <Button style={{ backgroundColor: " #ff9e4a" }}>
                 <FaSearch />
               </Button>
             </div>
@@ -47,8 +50,11 @@ function NavigationBar() {
               onClick={() => {
                 navigate("/UserLogin");
               }}
-              variant="primary"
-              style={{ padding: "0.3rem 0.5rem", fontSize: "0.8rem" }}
+              style={{
+                padding: "0.4rem 0.5rem",
+                fontSize: "0.9rem",
+                backgroundColor: " #ff9e4a",
+              }}
             >
               <GrLogin /> Login
             </Button>

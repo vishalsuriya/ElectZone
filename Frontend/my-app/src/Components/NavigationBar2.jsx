@@ -31,7 +31,7 @@ function NavigationBar2() {
   }, []);
 
   return (
-    <Navbar expand="lg" className="bg-body-tertiary bg-secondary">
+    <Navbar expand="lg" className="navbar">
       <Container fluid>
         <Navbar.Brand className="d-flex align-items-center justify-content-start ms-5">
           <img
@@ -52,14 +52,14 @@ function NavigationBar2() {
           <FaBars />
         </Navbar.Toggle>
         <Navbar.Collapse id="basic-navbar-nav" className="text-center">
-          <Nav className="mx-auto" style={{ border: "1px solid blue" }}>
+          <Nav className="mx-auto" style={{ border: "1px solid #ff9e4a" }}>
             <div className="input-group " style={{ flex: "1" }}>
               <input
                 type="text"
                 placeholder="Search"
                 className="form-control search-input"
               />
-              <Button className="search-button">
+              <Button className="search-button" style={{ backgroundColor: " #ff9e4a" }}>
                 <FaSearch />
               </Button>
             </div>

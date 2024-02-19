@@ -1,7 +1,11 @@
 import React from "react";
 import { MDBRow, MDBCol } from "mdb-react-ui-kit";
 import "./CircleCardStyle.css";
-
+import img1 from "../assets/Resistor.jpg";
+import img2 from "../assets/Inductor.jpg";
+import img3 from "../assets/LED.jpg";
+import img4 from "../assets/Capacitor.jpg";
+import img5 from "../assets/Battery.webp";
 function CircleCard() {
   return (
     <MDBRow className="custom-center-class" style={{ width: "100%" }}>
@@ -9,14 +13,10 @@ function CircleCard() {
         <div className="circular-image-container">
           <a href="CircleCard1">
             {" "}
-            <img
-              src="https://mdbootstrap.com/img/new/standard/city/047.webp"
-              className="img-fluid"
-              alt=""
-            />
+            <img src={img1} className="img-fluid" alt="" />
           </a>
-          <a className="text-center" href="#">
-            IC
+          <a className="text-center" href="/CircleCard1">
+            Resistors
           </a>
         </div>
       </MDBCol>
@@ -24,14 +24,10 @@ function CircleCard() {
         <div className="circular-image-container">
           <a href="/CircleCard2">
             {" "}
-            <img
-              src="https://mdbootstrap.com/img/new/standard/city/047.webp"
-              className="img-fluid"
-              alt=""
-            />
+            <img src={img2} className="img-fluid" alt="" />
           </a>
-          <a className="text-center" href="#">
-            IC
+          <a className="text-center" href="/CircleCard2">
+            Inductors
           </a>
         </div>
       </MDBCol>
@@ -39,14 +35,10 @@ function CircleCard() {
         <div className="circular-image-container">
           <a href="/CircleCard3">
             {" "}
-            <img
-              src="https://mdbootstrap.com/img/new/standard/city/047.webp"
-              className="img-fluid"
-              alt=""
-            />
+            <img src={img3} className="img-fluid" alt="" />
           </a>
-          <a className="text-center" href="#">
-            IC
+          <a className="text-center" href="/CircleCard3">
+            LEDS
           </a>
         </div>
       </MDBCol>
@@ -54,14 +46,10 @@ function CircleCard() {
         <div className="circular-image-container">
           <a href="/CircleCard4">
             {" "}
-            <img
-              src="https://mdbootstrap.com/img/new/standard/city/047.webp"
-              className="img-fluid"
-              alt=""
-            />
+            <img src={img4} className="img-fluid" alt="" />
           </a>
-          <a className="text-center" href="#">
-            IC
+          <a className="text-center" href="/CircleCard4">
+            Capcitors
           </a>
         </div>
       </MDBCol>
@@ -69,14 +57,10 @@ function CircleCard() {
         <div className="circular-image-container">
           <a href="/CircleCard5">
             {" "}
-            <img
-              src="https://mdbootstrap.com/img/new/standard/city/047.webp"
-              className="img-fluid"
-              alt=""
-            />
+            <img src={img5} className="img-fluid" alt="" />
           </a>
-          <a className="text-center" href="#">
-            IC
+          <a className="text-center" href="/CircleCard5">
+            Battery
           </a>
         </div>
       </MDBCol>

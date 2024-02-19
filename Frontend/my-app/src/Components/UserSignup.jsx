@@ -1,5 +1,4 @@
 import React,{useState} from 'react'
-import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {
     MDBBtn,
@@ -13,33 +12,24 @@ import {
     MDBIcon,
   }
   from 'mdb-react-ui-kit';
-
+import { useNavigate } from 'react-router-dom';
 function UserSignup  () {
-  const navigate = useNavigate;
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const[email,setEmail] = useState("");
   const[password,setPassword] = useState("");
-  async function submit(e) {
+  const handleSubmit = async(e)=>{
     e.preventDefault();
-    try {
-      const res = await axios.post('https://localhost:8000/UserSignup', {
-        name,
-        email,
-        password,
-      });
 
-      if (res.data === "exists") {
-        alert("User already exists");
-      } else if (res.data === "notexists") {
-        navigate("/UserLogin");
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      alert('Something went wrong. Please try again.');
-    }
+      await  axios.post('http://localhost:8000/register',{
+        name , email ,password
+      })
+      .then(result =>console.log(result))
+      navigate("/UserLogin");
   }
   return (
     <div>
+       
   <MDBContainer fluid>
 <MDBCard className='text-black m-5' style={{borderRadius: '25px'}}>
   <MDBCardBody>
@@ -47,34 +37,27 @@ function UserSignup  () {
       <MDBCol md='10' lg='6' className='order-2 order-lg-1 d-flex flex-column align-items-center'>
 
         <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
-
         <div className="d-flex flex-row align-items-center mb-4 ">
           <MDBIcon fas icon="user me-3" size='lg'/>
           <MDBInput label='Your Name' id='form1' type='text' className='w-100'
-           value={name} onChange={(event) => setName(event.target.value)}
+            onChange={(e) => setName(e.target.value)}
           />
         </div>
 
         <div className="d-flex flex-row align-items-center mb-4">
           <MDBIcon fas icon="envelope me-3" size='lg'/>
           <MDBInput label='Your Email' id='form2' type='email'
-          value={email} onChange={(event) => setEmail(event.target.value)}
+         onChange={(e) => setEmail(e.target.value)}
           />
         </div>
 
         <div className="d-flex flex-row align-items-center mb-4">
           <MDBIcon fas icon="lock me-3" size='lg'/>
           <MDBInput label='Password' id='form3' type='password'
-           value={password} onChange={(event) => setPassword(event.target.value)}
+           onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-
-        <div className="d-flex flex-row align-items-center mb-4">
-          <MDBIcon fas icon="key me-3" size='lg'/>
-          <MDBInput label='Repeat your password' id='form4' type='password'/>
-        </div>
-      <Link to={"/UserLogin"}>  <MDBBtn className='mb-4' size='lg' onClick={submit}>Register</MDBBtn></Link>
-
+        <MDBBtn className='mb-4' size='lg' onClick={handleSubmit}>Register</MDBBtn>
       </MDBCol>
 
       <MDBCol md='10' lg='6' className='order-1 order-lg-2 d-flex align-items-center'>

@@ -12,9 +12,8 @@ import {
 function Footer() {
   return (
     <MDBFooter
-      bgColor="secondary"
-      className="text-center text-lg-start text-muted"
-      style={{ width: "100%" }}
+      className="text-center text-lg-start text-muted footbar"
+      style={{ width: "100%", backgroundColor: "#cc7121" }}
     >
       <section className="p-4 mt-5">
         <MDBContainer className="text-center text-md-start mt-5">
@@ -48,13 +47,23 @@ function Footer() {
                 <MDBIcon icon="print" className="me-3" /> + 01 234 567 89
               </p>
             </MDBCol>
-            <MDBCol md="4" size="12" className="mb-4 text-center">
+            <MDBCol
+              md="4"
+              size="12"
+              className="mb-4 text-center"
+              style={{ border: "#000000" }}
+            >
               <MDBInput
                 type="text"
                 id="form5Example2"
                 placeholder="Email address"
+                className="search-input"
               />
-              <MDBBtn size="auto" className="mt-3">
+              <MDBBtn
+                size="auto"
+                className="mt-3"
+                style={{ backgroundColor: "#ff9e4a" }}
+              >
                 Subscribe
               </MDBBtn>
             </MDBCol>
@@ -134,7 +143,7 @@ function Footer() {
       >
         © {new Date().getFullYear()} Copyright:
         <a className="text-reset fw-bold" href="https://mdbootstrap.com/">
-          MDBootstrap.com
+          ElectZone.com
         </a>
       </div>
     </MDBFooter>
