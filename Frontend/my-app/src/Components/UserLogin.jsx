@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState }  from 'react'
 import {
   MDBContainer,
   MDBInput,
@@ -7,20 +7,47 @@ import {
   MDBIcon
 }
 from 'mdb-react-ui-kit';
-import{Link} from "react-router-dom";
+import{Link, useNavigate} from "react-router-dom";
+import axios from "axios";
 function UserLogin  ()  {
-  const [email,setEmail] = useState("");
-  const [password,setPassword] = useState("");
-  const submitHandler = (e)=>{
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  async function submit(e) {
     e.preventDefault();
+    try {
+      const res = await axios.post('http://localhost:8000/UserLogin', {
+        email,
+        password,
+      });
+
+      if (res.data.status === 'success') {
+        if (res.data.message === 'exists') {
+          navigate('/Login');
+        } 
+      }
+        else if(res.data.status === 'failure'){
+         if (res.data.message === 'notexists') {
+          alert('You have not signed up');
+        }
+      }
+       else {
+        alert('Invalid email Or password');
+      }
+    } catch (error) {
+      console.error('Error:', error.message);
+
+      alert('Wrong details');
+    }
   }
   return (
    <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
-      <form onSubmit={submitHandler}>
-      <MDBInput wrapperClass='mb-4' label='Email address' id='form1' type='email'
+      <form >
+      <MDBInput wrapperClass='mb-4' label='Email address' id='email' type='email'
       value={email} onChange={event => setEmail(event.target.value)}
       />
-      <MDBInput wrapperClass='mb-4' label='Password' id='form2' type='password'
+      <MDBInput wrapperClass='mb-4' label='Password' id='password' type='password'
       value={password} onChange={event => setPassword(event.target.value)}
       />
 </form>
@@ -29,7 +56,9 @@ function UserLogin  ()  {
         <a href="!#">Forgot password?</a>
       </div>
 
-  <Link to={"/Login"}> <MDBBtn className="mb-4 w-100">Sign in</MDBBtn></Link>   
+  <Link to={"/Login"}> <MDBBtn className="mb-4 w-100" type='submit' 
+  onClick={submit}
+  >Sign in</MDBBtn></Link>   
 
       <div className="text-center">
         <p>Not a member? <a href="/UserSignup">Register</a></p>

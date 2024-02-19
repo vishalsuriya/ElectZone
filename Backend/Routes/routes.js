@@ -1,6 +1,4 @@
 const express = require("express");
-const route = express.Router();
+const router = express.Router();
 const services = require("../services/render");
 const controller = require("../Controller/controller");
-
-module.exports = routes;
