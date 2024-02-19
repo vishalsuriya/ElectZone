@@ -31,7 +31,7 @@ function NavigationBar2() {
   }, []);
 
   return (
-    <Navbar expand="lg" className="bg-body-tertiary bg-secondary">
+    <Navbar expand="lg" className="navbar">
       <Container fluid>
         <Navbar.Brand className="d-flex align-items-center justify-content-start ms-5">
           <img

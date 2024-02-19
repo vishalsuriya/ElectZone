@@ -5,6 +5,7 @@ var cardSchema = new mongoose.Schema({
     type: String,
   },
   imgsrc: {
+    data: Buffer,
     type: String,
   },
   title: {
