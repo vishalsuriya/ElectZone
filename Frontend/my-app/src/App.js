@@ -15,6 +15,7 @@ import CircleCard4 from "./Components/CircleCard4";
 import CircleCard5 from "./Components/CircleCard5";
 import { CartProvider } from "react-use-cart";
 import BuyProducts from "./Components/BuyProducts";
+import UserProfile from "./Components/UserProfile";
 function App() {
   return (
     <>
@@ -33,6 +34,7 @@ function App() {
      <Route path="/CircleCard4" element ={<CircleCard4/>}/>
      <Route path="/CircleCard5" element ={<CircleCard5/>}/>
      <Route path="/BuyProducts" element ={<BuyProducts/>}/>
+     <Route path="/UserProfile" element ={<UserProfile/>}/>
     </Routes>
     </CartProvider>
     </>
