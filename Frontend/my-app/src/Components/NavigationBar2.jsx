@@ -78,6 +78,9 @@ function NavigationBar2() {
                 align="end"
                 onClick={handleDropdownToggle}
               >
+                <NavDropdown.Item href="/Login">
+                  Home
+                </NavDropdown.Item>
                 <NavDropdown.Item href="/UserProfile">
                   My Profile
                 </NavDropdown.Item>

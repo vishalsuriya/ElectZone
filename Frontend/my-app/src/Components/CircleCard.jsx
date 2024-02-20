@@ -16,7 +16,7 @@ function CircleCard() {
             <img src={img1} className="img-fluid" alt="" />
           </a>
           <a className="text-center" href="/CircleCard1">
-            Resistors
+            IC
           </a>
         </div>
       </MDBCol>
@@ -27,7 +27,7 @@ function CircleCard() {
             <img src={img2} className="img-fluid" alt="" />
           </a>
           <a className="text-center" href="/CircleCard2">
-            Inductors
+            Sensors
           </a>
         </div>
       </MDBCol>
@@ -38,7 +38,7 @@ function CircleCard() {
             <img src={img3} className="img-fluid" alt="" />
           </a>
           <a className="text-center" href="/CircleCard3">
-            LEDS
+            Switches
           </a>
         </div>
       </MDBCol>
@@ -49,7 +49,7 @@ function CircleCard() {
             <img src={img4} className="img-fluid" alt="" />
           </a>
           <a className="text-center" href="/CircleCard4">
-            Capcitors
+            Capcitor
           </a>
         </div>
       </MDBCol>
