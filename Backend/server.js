@@ -8,12 +8,12 @@ const Userlogins = require("../Backend/model/LoginModel");
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+const bcrypt = require('bcrypt');
 connectDB();
 
 app.get("/", async (req, res) => {
   try {
     const Card = await Cards.find();
-     console.log(Card);
      res.send(Card);
   } catch (error) {
     console.error("Error retrieving data:", error);
@@ -21,37 +21,44 @@ app.get("/", async (req, res) => {
   }
 });
 
-app.get("/", async (req, res) => {
+
+// user login
+
+app.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+  console.log('Received credentials:', email, password);
+
   try {
-    const userLogins = await Userlogins.find({}); 
-    res.send(userLogins);
-  } catch (error) {
-    console.error("Error retrieving data:", error);
-    res.status(500).send("Internal Server Error");
+    const user = await Userlogins.findOne({ email: email });
+    console.log(user)
+    if (user) {
+      const match =  bcrypt.compare(password, user.password);
+      if (match) {
+        res.json({status: "success", message: "exists"});
+      } else {
+        res.json("Invalid credentials. Please try again.");
+      }
+    } else {
+      res.json("No record exists");
+    }
+  } catch (err) {
+    console.error('Error during authentication:', err);
+    res.status(500).json("Internal server error");
   }
 });
 
-app.post("/UserLogin", async (req, res) => {
-  const { email, password } = req.body;
-  const lowercaseEmail = email.toLowerCase(); 
-  try {
-    const user = await Userlogins.findOne({ email: lowercaseEmail }, 'password');
-    if (user && user.password === password) {
-      res.json({ status: "success", message: "exists" });
-    } else {
-      res.json({ status: "failure", message: "notexists" });
-    }
-  } catch (error) {
-    console.error("Error during UserLogin:", error);
-    res.status(500).json({ status: "error", message: "Internal Server Error" });
-  }
-});
+// user registeration
 
 app.post('/register',(req,res)=>{
-   Userlogins.create(req.body)
-   .then(Userlogins => res.json(Userlogins))
-   .catch(err => res.json(err));
-})
+  const {name,email,password}= req.body;
+  bcrypt.hash(password,10)
+  .then(hash =>{
+    Userlogins.create({name,email,password : hash})
+    .then(Userlogins => res.json(Userlogins))
+    .catch(err => res.json(err));
+  }).catch(err=> console.log(err.message));
+   
+});
 
 const PORT = process.env.PORT || 8000;
 app.listen(8000, () => {
