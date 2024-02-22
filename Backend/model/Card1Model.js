@@ -4,6 +4,9 @@ var card1Schema = new mongoose.Schema({
   id: {
     type: String,
   },
+  imgsrc: {
+    type: String,
+  },
   title: {
     type: String,
   },

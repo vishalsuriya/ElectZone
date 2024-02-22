@@ -10,18 +10,7 @@ import {
   MDBBtn,
   MDBRipple,
 } from "mdb-react-ui-kit";
-import img1 from "../assets/Resistor.jpg";
-import img2 from "../assets/Capacitor.jpg";
-import img3 from "../assets/servo.webp";
-import img4 from "../assets/Inductor.jpg";
-import img5 from "../assets/ethernet.webp";
-import img6 from "../assets/trans.webp";
-import img7 from "../assets/lcd.webp";
-import img8 from "../assets/light.jpg";
-import img9 from "../assets/push.jpg";
-import img10 from "../assets/tweeter.jpg";
-import img11 from "../assets/terminal.jpg";
-import img12 from "../assets/zener.jpg";
+
 function CardItems() {
   const { addItem } = useCart();
   const [data, setData] = useState([]);
@@ -43,21 +32,6 @@ function CardItems() {
     fetchData();
   }, []);
 
-  const image = [
-    img1,
-    img2,
-    img3,
-    img4,
-    img5,
-    img6,
-    img7,
-    img8,
-    img9,
-    img10,
-    img11,
-    img12,
-  ];
-
   return (
     <div className="product-cards-container">
       {data.map((product, index) => (
@@ -68,7 +42,7 @@ function CardItems() {
           className="bg-image hover-overlay"
         >
           <MDBCard style={{ width: "300px" }} className="card-container">
-            <MDBCardImage src={image[index]} alt={product.title} />
+            <MDBCardImage src={product.imgsrc} alt={product.title} />
             <MDBCardBody>
               <MDBCardTitle>{product.title}</MDBCardTitle>
               <MDBCardText>{product.content}</MDBCardText>
