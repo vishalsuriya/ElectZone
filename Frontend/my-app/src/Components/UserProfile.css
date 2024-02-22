@@ -1,15 +1,47 @@
+.heading{
+  margin-left: 150px;
+  margin-top: 20px;
+}
 .profilePic {
-    width: 60%;
-    display: flex;
-    align-items: center;
-    padding: 20px;
-  }
-  .profileContainer {
-    display: flex;
-    margin: 20px;
-  }
-  @media only screen and (max-width: 768px) {
-    .profileContainer {
-      flex-direction: column-reverse;
-    }
-  }
+  width: 60%;
+  display: flex;
+  align-items: center;
+  padding: 20px;
+}
+form {
+  max-width: 400px; 
+  margin-left: 150px;
+}
+.custom-file-label {
+  cursor: pointer;
+  background-color: #3498db;
+  color: #fff;
+  border: 1px solid #3498db;
+  border-radius: 5px;
+  padding: 8px 12px;
+  display: inline-block;
+}
+
+.custom-file-label:hover {
+  background-color: #2980b9;
+}
+.custom-file-control {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 8px 12px;
+  display: inline-block;
+  background-color: #f9f9f9;
+}
+.update {
+  margin-top: 20px;
+  background-color: #2ecc71;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.update:hover {
+  background-color: #27ae60;
+}
