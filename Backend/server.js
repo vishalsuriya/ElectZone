@@ -22,65 +22,65 @@ app.use(express.json());
 app.use(bodyParser.json({ limit: '5mb' }));
 connectDB();
 //home card
-// app.get("/", async (req, res) => {
-//   try {
-//     const Card = await Cards.find();
-//     res.send(Card);
-//   } catch (error) {
-//     console.error("Error retrieving data:", error);
-//     res.status(500).send("Internal Server Error");
-//   }
-// });
-// //circlecard1
-// app.get("/cards1", async (req, res) => {
-//   try {
-//     const Card = await Cards1.find();
-//     res.send(Card);
-//   } catch (error) {
-//     console.error("Error retrieving data:", error);
-//     res.status(500).send("Internal Server Error");
-//   }
-// });
-// //circlecard2
-// app.get("/cards2", async (req, res) => {
-//   try {
-//     const Card = await Cards2.find();
-//     res.send(Card);
-//   } catch (error) {
-//     console.error("Error retrieving data:", error);
-//     res.status(500).send("Internal Server Error");
-//   }
-// });
-// //circlecard3
-// app.get("/cards3", async (req, res) => {
-//   try {
-//     const Card = await Cards3.find();
-//     res.send(Card);
-//   } catch (error) {
-//     console.error("Error retrieving data:", error);
-//     res.status(500).send("Internal Server Error");
-//   }
-// });
-// //circlecard4
-// app.get("/cards4", async (req, res) => {
-//   try {
-//     const Card = await Cards4.find();
-//     res.send(Card);
-//   } catch (error) {
-//     console.error("Error retrieving data:", error);
-//     res.status(500).send("Internal Server Error");
-//   }
-// });
-// //circlecard5
-// app.get("/cards5", async (req, res) => {
-//   try {
-//     const Card = await Cards5.find();
-//     res.send(Card);
-//   } catch (error) {
-//     console.error("Error retrieving data:", error);
-//     res.status(500).send("Internal Server Error");
-//   }
-// });
+app.get("/", async (req, res) => {
+  try {
+    const Card = await Cards.find();
+    res.send(Card);
+  } catch (error) {
+    console.error("Error retrieving data:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+//circlecard1
+app.get("/cards1", async (req, res) => {
+  try {
+    const Card = await Cards1.find();
+    res.send(Card);
+  } catch (error) {
+    console.error("Error retrieving data:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+//circlecard2
+app.get("/cards2", async (req, res) => {
+  try {
+    const Card = await Cards2.find();
+    res.send(Card);
+  } catch (error) {
+    console.error("Error retrieving data:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+//circlecard3
+app.get("/cards3", async (req, res) => {
+  try {
+    const Card = await Cards3.find();
+    res.send(Card);
+  } catch (error) {
+    console.error("Error retrieving data:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+//circlecard4
+app.get("/cards4", async (req, res) => {
+  try {
+    const Card = await Cards4.find();
+    res.send(Card);
+  } catch (error) {
+    console.error("Error retrieving data:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+//circlecard5
+app.get("/cards5", async (req, res) => {
+  try {
+    const Card = await Cards5.find();
+    res.send(Card);
+  } catch (error) {
+    console.error("Error retrieving data:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
 
 
 // // user login
