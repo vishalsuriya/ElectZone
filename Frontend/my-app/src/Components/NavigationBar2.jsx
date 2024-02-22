@@ -11,6 +11,7 @@ import "./NavigationBarStyle.css";
 function NavigationBar2() {
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
+  const [value, setValue] = useState("");
 
   const handleDropdownToggle = () => {
     setShowDropdown(!showDropdown);
@@ -30,6 +31,11 @@ function NavigationBar2() {
     };
   }, []);
 
+  const onSearch = () => {
+    // API call with value
+    console.log("search", value);
+  };
+
   return (
     <Navbar expand="lg" className="navbar">
       <Container fluid>
@@ -48,6 +54,7 @@ function NavigationBar2() {
           aria-controls="basic-navbar-nav"
           onClick={handleDropdownToggle}
           className="full-screen-margin"
+          role="button"
         >
           <FaBars />
         </Navbar.Toggle>
@@ -56,10 +63,17 @@ function NavigationBar2() {
             <div className="input-group " style={{ flex: "1" }}>
               <input
                 type="text"
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
                 placeholder="Search"
                 className="form-control search-input"
               />
-              <Button className="search-button" style={{ backgroundColor: " #ff9e4a" }}>
+              <Button
+                className="search-button"
+                onClick={onSearch}
+                style={{ backgroundColor: "#ff9e4a" }}
+                role="button"
+              >
                 <FaSearch />
               </Button>
             </div>
@@ -78,9 +92,7 @@ function NavigationBar2() {
                 align="end"
                 onClick={handleDropdownToggle}
               >
-                <NavDropdown.Item href="/Login">
-                  Home
-                </NavDropdown.Item>
+                <NavDropdown.Item href="/Login">Home</NavDropdown.Item>
                 <NavDropdown.Item href="/UserProfile">
                   My Profile
                 </NavDropdown.Item>
