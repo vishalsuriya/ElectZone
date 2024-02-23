@@ -34,7 +34,7 @@ function App() {
      <Route path="/CircleCard4" element ={<CircleCard4/>}/>
      <Route path="/CircleCard5" element ={<CircleCard5/>}/>
      <Route path="/BuyProducts" element ={<BuyProducts/>}/>
-     <Route path="/UserProfile" element ={<UserProfile/>}/>
+     <Route path="/UserProfile" element ={<UserProfile />}/>
     </Routes>
     </CartProvider>
     </>
