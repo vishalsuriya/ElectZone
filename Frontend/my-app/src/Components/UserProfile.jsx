@@ -1,8 +1,9 @@
 import React, { useState,useEffect } from 'react';
-import { Row, Col, Button, Form } from 'react-bootstrap';
+import { Row, Col, Form } from 'react-bootstrap';
 import "../Components/UserProfile.css";
 import axios from "axios";
 import img from "../assets/Userimage.png";
+import bcrypt from 'bcryptjs';  
 function UserProfile() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -30,18 +31,33 @@ function UserProfile() {
     });
   };
 
+  
   const handleSubmit = async (event) => {
+    const hashedPassword = await bcrypt.hash(password, 10);
     event.preventDefault();
+  
     try {
-      const response = await axios.post('http://localhost:8000/profile', {
-        name, email, password, phoneNumber, address, image
-      });
-      console.log('Response:', response);
+      // Check if the email exists in the backend
+      const emailExistsResponse = await axios.get(`http://localhost:8000/data?email=${email}`);
+      const emailExists = emailExistsResponse.data;
+  
+      if (emailExists) {
+        // If the email exists, update the user profile
+        const response = await axios.post('http://localhost:8000/profile', {
+          email,
+          phoneNumber,
+          address,
+          image,
+        });
+        console.log('Response:', response);
+      } else {
+        console.error('Email does not exist in the backend');
+        // Handle the case when the email doesn't exist (e.g., show an error message)
+      }
     } catch (error) {
       console.error('Error:', error);
     }
   };
-
   return (
     <div>
       <h1 className='heading'>EDIT PROFILE</h1>
@@ -53,7 +69,7 @@ function UserProfile() {
               <Form.Control
                id = "name"
                 type="text"
-                placeholder="Enter Name"
+                value={name}
                 aria-label="Name"
                 onChange={e => setName(e.target.value)}
               />

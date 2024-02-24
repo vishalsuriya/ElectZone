@@ -22,7 +22,7 @@ function UserSignup  () {
     e.preventDefault();
 
       await  axios.post('http://localhost:8000/register',{
-        name , email ,password
+      name , email ,password
       })
       .then(result =>console.log(result))
       navigate("/UserLogin");

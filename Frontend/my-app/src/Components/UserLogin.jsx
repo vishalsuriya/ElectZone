@@ -23,7 +23,8 @@ function UserLogin  ()  {
     try {
       const result = await axios.post('http://localhost:8000/login', { email, password });
       if (result.data.message === 'exists') {
-        navigate('/Login');
+        navigate('/Login'); 
+        
       } 
       else{
        setError("Invalid Email or Password");
