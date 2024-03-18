@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useCart } from "react-use-cart";
 import "../Components/CarditemsStyle.css";
-
+import axios  from "axios";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -15,24 +14,12 @@ import {
 } from "mdb-react-ui-kit";
 function Carditems2() {
   const navigate = useNavigate();
-  let data = []; 
-
+  const [data,setData] = useState([]);
   useEffect(() => {
-      fetchData();
+      axios.get('http://localhost:5000/api/cards')
+    .then((response)=>setData(response.data))
+    .catch((error)=>console.error(error))
   }, []);
-
-  async function fetchData() {
-      try {
-          const response = await fetch('http://localhost:5000/api/cards');
-          if (!response.ok) {
-              throw new Error('Network response was not ok');
-          }
-          data = await response.json();
-          console.log('Fetched Data:', data);
-      } catch (error) {
-          console.error('Error fetching data:', error);
-      }
-  }
 
   return (
     <div className="product-cards-container">

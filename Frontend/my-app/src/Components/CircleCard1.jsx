@@ -21,7 +21,7 @@ export default function CircleCard1() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/cards1");
+        const response = await fetch("http://localhost:5000/api/cards/CircleCards1");
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }

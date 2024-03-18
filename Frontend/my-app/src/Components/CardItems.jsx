@@ -10,27 +10,16 @@ import {
   MDBBtn,
   MDBRipple,
 } from "mdb-react-ui-kit";
+import axios from "axios";
 
 function CardItems() {
   const { addItem } = useCart();
-  let data = []; 
-
+  const [data,setData] = useState([]);
   useEffect(() => {
-      fetchData();
+      axios.get('http://localhost:5000/api/cards')
+    .then((response)=>setData(response.data))
+    .catch((error)=>console.error(error))
   }, []);
-
-  async function fetchData() {
-      try {
-          const response = await fetch('http://localhost:5000/api/cards');
-          if (!response.ok) {
-              throw new Error('Network response was not ok');
-          }
-          data = await response.json();
-          console.log('Fetched Data:', data); // Log fetched data
-      } catch (error) {
-          console.error('Error fetching data:', error);
-      }
-  }
   return (
     <div className="product-cards-container">
       {data.map((product, index) => (
@@ -40,6 +29,7 @@ function CardItems() {
           rippleTag="div"
           className="bg-image hover-overlay"
         >
+
           <MDBCard style={{ width: "300px" }} className="card-container">
             <MDBCardImage src={product.imgsrc} alt={product.title} />
             <MDBCardBody>
@@ -76,7 +66,8 @@ function CardItems() {
             </MDBCardBody>
           </MDBCard>
         </MDBRipple>
-      ))}
+      ))
+      }
     </div>
   );
 }

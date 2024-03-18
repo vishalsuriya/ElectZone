@@ -19,7 +19,7 @@ function CircleCard2() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/cards2");
+        const response = await fetch("http://localhost:5000/api/cards/CircleCards2");
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
