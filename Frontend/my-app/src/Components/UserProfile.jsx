@@ -1,134 +1,131 @@
-import React, { useState,useEffect } from 'react';
-import { Row, Col, Form } from 'react-bootstrap';
-import "../Components/UserProfile.css";
-import axios from "axios";
-import img from "../assets/Userimage.png";
-import bcrypt from 'bcryptjs';  
-function UserProfile() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [address, setAddress] = useState('');
-  const [image, setImage] = useState('');
+import React, { useState, useEffect } from "react";
+import { Form, Button, Row, Col } from "react-bootstrap";
+import ErrorMessage from "../Components/ErrorMessage";
+import Loading from "../Components/Loading";
+import { useDispatch, useSelector } from "react-redux";
+import { updateProfile } from "../actions/UserActions";
+const UserProfile = () => {
+  const [userInfo, setUserInfo] = useState(null);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [pic, setPic] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [picMessage, setPicMessage] = useState("");
+  const dispatch = useDispatch();
+  const userUpdate = useSelector((state) => state.userUpdate);
+  const { loading, error, success } = userUpdate;
 
-  const handleFileUpload = async (e) => {
-    const file = e.target.files[0];
-    const base64 = await convertToBase64(file);
-    setImage(base64);
-  };
+  useEffect(() => {
+    const storedUserInfo = localStorage.getItem("userInfo");
+    if (storedUserInfo) {
+      setUserInfo(JSON.parse(storedUserInfo));
+    }
+  }, []);
 
-  const convertToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
-  };
+  useEffect(() => {
+    if (userInfo) {
+      setName(userInfo.name);
+      setEmail(userInfo.email);
+      setPic(userInfo.pic);
+    }
+  }, [userInfo]);
 
-  
-  const handleSubmit = async (event) => {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    event.preventDefault();
-  
-    try {
-      // Check if the email exists in the backend
-      const emailExistsResponse = await axios.get(`http://localhost:8000/data?email=${email}`);
-      const emailExists = emailExistsResponse.data;
-  
-      if (emailExists) {
-        // If the email exists, update the user profile
-        const response = await axios.post('http://localhost:8000/profile', {
-          email,
-          phoneNumber,
-          address,
-          image,
+  const postDetails = (pics) => {
+    setPicMessage(null);
+    if (pics.type === "image/jpeg" || pics.type === "image/png") {
+      const data = new FormData();
+      data.append("file", pics);
+      data.append("upload_preset", "ElectZone");
+      data.append("cloud_name", "dy6n0qbpd");
+      fetch("https://api.cloudinary.com/v1_1/dy6n0qbpd/image/upload", {
+        method: "post",
+        body: data,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setPic(data.url.toString());
+        })
+        .catch((err) => {
+          console.log(err);
         });
-        console.log('Response:', response);
-      } else {
-        console.error('Email does not exist in the backend');
-        // Handle the case when the email doesn't exist (e.g., show an error message)
-      }
-    } catch (error) {
-      console.error('Error:', error);
+    } else {
+      setPicMessage("Please select an image");
     }
   };
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    const userData = {
+      name,
+      email,
+      pic,
+      password,
+    };
+    dispatch(updateProfile(userData));
+  };
+
   return (
     <div>
-      <h1 className='heading'>EDIT PROFILE</h1>
       <Row className="profileContainer">
         <Col md={6}>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group >
+        <Form onSubmit={submitHandler}>
+              {loading && <Loading />}
+              {success && (
+                <ErrorMessage variant="success">
+                  Updated Successfully
+                </ErrorMessage>
+              )}
+              {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
+            <Form.Group controlId="name">
               <Form.Label>Name</Form.Label>
               <Form.Control
-               id = "name"
                 type="text"
+                placeholder="Enter Name"
                 value={name}
-                aria-label="Name"
-                onChange={e => setName(e.target.value)}
+                onChange={(e) => setName(e.target.value)}
               />
             </Form.Group>
-            <Form.Group >
+            <Form.Group controlId="email">
               <Form.Label>Email Address</Form.Label>
               <Form.Control
-                id='email'
                 type="email"
                 placeholder="Enter Email"
-                aria-label="Email Address"
-                onChange={e => setEmail(e.target.value)}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
-            <Form.Group >
+            </Form.Group>
+            <Form.Group controlId="password">
               <Form.Label>Password</Form.Label>
               <Form.Control
-               id='password'
                 type="password"
                 placeholder="Enter Password"
-                aria-label="Password"
-                onChange={e => setPassword(e.target.value)}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </Form.Group>
-             <Form.Group >
-          <Form.Label>Phone number</Form.Label>
-            <Form.Control
-            id='Phone number'
-           type="tel"
-           placeholder="91+ Enter Phone Number"
-           aria-label="Phone number"
-           onChange={e => setPhoneNumber(e.target.value)}
-          />
-         </Form.Group>
-            <Form.Group >
-              <Form.Label> Address</Form.Label>
+            <Form.Group controlId="confirmPassword">
+              <Form.Label>Confirm Password</Form.Label>
               <Form.Control
-              id='address'
-                type="address"
-                placeholder="Enter Address"
-                aria-label=" Address"
-                onChange={e => setAddress(e.target.value)}
+                type="password"
+                placeholder="Confirm Password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+            </Form.Group>{" "}
+            {picMessage && (
+              <ErrorMessage variant="danger">{picMessage}</ErrorMessage>
+            )}
+            <Form.Group controlId="pic">
+              <Form.Label>Change Profile Picture</Form.Label>
+              <Form.Control
+                type="file"
+                onChange={(e) => postDetails(e.target.files[0])}
               />
             </Form.Group>
-            </Form.Group>
-            <Form.Group >
-     <Form.Label>Change Profile Picture</Form.Label>
-     <Form.Control 
-     name = "myfile"
-     type="file" 
-     id="file-upload" 
-     label="Upload Profile Picture"
-     accept='.jpeg,.png , .jpg'
-     onChange={(e)=> handleFileUpload(e)}
-     />
-          </Form.Group>
-
-         <button className='update' type='submit'>
-          Update
-         </button>
+            <Button type="submit" variant="primary">
+              Update
+            </Button>
           </Form>
         </Col>
         <Col
@@ -137,12 +134,12 @@ function UserProfile() {
             alignItems: "center",
             justifyContent: "center",
           }}
-          
         >
-         <img src={image || img} alt="Profile" className="profilePic" />
+          <img src={pic} alt={name} className="profilePic" />
         </Col>
       </Row>
     </div>
   );
-}
+};
+
 export default UserProfile;

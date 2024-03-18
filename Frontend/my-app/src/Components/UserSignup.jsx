@@ -1,75 +1,132 @@
-import React,{useState} from 'react'
-import axios from 'axios';
-import {
-    MDBBtn,
-    MDBContainer,
-    MDBRow,
-    MDBCol,
-    MDBCard,
-    MDBCardBody,
-    MDBCardImage,
-    MDBInput,
-    MDBIcon,
-  }
-  from 'mdb-react-ui-kit';
-import { useNavigate } from 'react-router-dom';
+import React,{useEffect, useState} from "react";
+import { Form, Button, Row, Col } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
+import ErrorMessage from "./ErrorMessage";
+import { register } from "../actions/UserActions";
+import{useDispatch,useSelector}from "react-redux";
+import Loading from "../Components/Loading";
 function UserSignup  () {
-  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
   const [name, setName] = useState("");
-  const[email,setEmail] = useState("");
-  const[password,setPassword] = useState("");
-  const handleSubmit = async(e)=>{
-    e.preventDefault();
-
-      await  axios.post('http://localhost:8000/register',{
-      name , email ,password
+  const [pic, setPic] = useState(
+    "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
+  );
+  const [password, setPassword] = useState("");
+  const [confirmpassword, setConfirmPassword] = useState("");
+  const [message, setMessage] = useState(null);
+  const [picMessage, setPicMessage] = useState(null);
+  const postDetails = (pics) => {
+    if (
+      pics ===
+      "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
+    ) {
+      return setPicMessage("Please Select an Image");
+    }
+    setPicMessage(null);
+    if (pics.type === "image/jpeg" || pics.type === "image/png") {
+      const data = new FormData();
+      data.append("file", pics);
+      data.append("upload_preset", "ElectZone");
+      data.append("cloud_name", "dy6n0qbpd");
+      fetch("https://api.cloudinary.com/v1_1/dy6n0qbpd/image/upload", {
+        method: "post",
+        body: data,
       })
-      .then(result =>console.log(result))
-      navigate("/UserLogin");
-  }
+        .then((res) => res.json())
+        .then((data) => {
+          setPic(data.url.toString());
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      return setPicMessage("Please Select an Image");
+    }
+  };
+  const dispatch = useDispatch();
+  const navigate= useNavigate();
+  const  userRegister = useSelector((state)=> state.userRegister);
+  const{loading,error,userInfo} = userRegister;
+  useEffect(()=>{
+    if(userInfo){
+      navigate("/Login");
+    }
+  },[navigate,userInfo]);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if(password != confirmpassword){
+      setMessage("Password does not match");
+    }
+    else{
+      dispatch(register(name,email,password,pic));
+       
+    }
+  };
+  
   return (
-    <div>
-  <MDBContainer fluid>
-<MDBCard className='text-black m-5' style={{borderRadius: '25px'}}>
-  <MDBCardBody>
-    <MDBRow>
-      <MDBCol md='10' lg='6' className='order-2 order-lg-1 d-flex flex-column align-items-center'>
+    <div className="loginContainer">
+      {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
+      {message && <ErrorMessage variant="danger">{message}</ErrorMessage>}
+      {loading && <Loading/>}
+      <Form onSubmit={handleSubmit} >
+          <Form.Group controlId="name">
+            <Form.Label>Name</Form.Label>
+            <Form.Control
+              type="name"
+              value={name}
+              placeholder="Enter name"
+              onChange={(e) => setName(e.target.value)}
+            />
+          </Form.Group>
 
-        <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
-        <div className="d-flex flex-row align-items-center mb-4 ">
-          <MDBIcon fas icon="user me-3" size='lg'/>
-          <MDBInput label='Your Name' id='form1' type='text' className='w-100'
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
+          <Form.Group controlId="formBasicEmail">
+            <Form.Label>Email address</Form.Label>
+            <Form.Control
+              type="email"
+             value={email}
+              placeholder="Enter email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </Form.Group>
 
-        <div className="d-flex flex-row align-items-center mb-4">
-          <MDBIcon fas icon="envelope me-3" size='lg'/>
-          <MDBInput label='Your Email' id='form2' type='email'
-         onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
+          <Form.Group controlId="formBasicPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+             value={password}
+              placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </Form.Group>
 
-        <div className="d-flex flex-row align-items-center mb-4">
-          <MDBIcon fas icon="lock me-3" size='lg'/>
-          <MDBInput label='Password' id='form3' type='password'
-           onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <MDBBtn className='mb-4' size='lg' onClick={handleSubmit}>Register</MDBBtn>
-      </MDBCol>
-
-      <MDBCol md='10' lg='6' className='order-1 order-lg-2 d-flex align-items-center'>
-        <MDBCardImage src='https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp' fluid/>
-      </MDBCol>
-
-    </MDBRow>
-  </MDBCardBody>
-</MDBCard>
-
-</MDBContainer>
-    </div>
-  )
+          <Form.Group controlId="confirmPassword">
+            <Form.Label>Confirm Password</Form.Label>
+            <Form.Control
+              type="password"
+            value={confirmpassword}
+              placeholder="Confirm Password"
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+          </Form.Group>
+          {picMessage && (
+            <ErrorMessage variant="danger">{picMessage}</ErrorMessage>
+          )}
+          <Form.Group controlId="pic" id="custom-file"
+              type="image/png" className="mb-3">
+        <Form.Label>Profile Picture</Form.Label>
+        <Form.Control type="file" onChange={(e) => postDetails(e.target.files[0])} />
+           </Form.Group>
+          <Button variant="primary" type="submit">
+            Register
+          </Button>
+        </Form>
+        <Row className="py-3">
+          <Col>
+            Have an Account ? <Link to="/UserLogin">Login</Link>
+          </Col>
+        </Row>
+  </div>
+  );
 }
 
 export default UserSignup;

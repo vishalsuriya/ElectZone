@@ -13,25 +13,24 @@ import {
 
 function CardItems() {
   const { addItem } = useCart();
-  const [data, setData] = useState([]);
+  let data = []; 
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://localhost:8000/");
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const jsonData = await response.json();
-        setData(jsonData);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
+      fetchData();
   }, []);
 
+  async function fetchData() {
+      try {
+          const response = await fetch('http://localhost:5000/api/cards');
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          data = await response.json();
+          console.log('Fetched Data:', data); // Log fetched data
+      } catch (error) {
+          console.error('Error fetching data:', error);
+      }
+  }
   return (
     <div className="product-cards-container">
       {data.map((product, index) => (
