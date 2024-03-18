@@ -55,7 +55,7 @@ function Cartslist() {
             <button className='btn btn-danger m-2'
             onClick={()=>emptyCart()}
             >Clear Cart</button>
-            <button className='btn btn-primary m-2'>Buy Now</button>
+          <a href='/Shipping'><button className='btn btn-primary m-2'>Buy Now</button></a> 
         </div>
       </div>
     </section>

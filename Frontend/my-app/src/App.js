@@ -14,8 +14,11 @@ import CircleCard3 from "./Components/CircleCard3";
 import CircleCard4 from "./Components/CircleCard4";
 import CircleCard5 from "./Components/CircleCard5";
 import { CartProvider } from "react-use-cart";
-import BuyProducts from "./Components/BuyProducts";
 import UserProfile from "./Components/UserProfile";
+import Shipping from "./Components/Shipping";
+import ConfirmOder from "./Components/ConfirmOrder";
+import Payment from "./Components/Payment";
+import BuyProducts from "./Components/CheckOut";
 function App() {
   return (
     <>
@@ -33,8 +36,11 @@ function App() {
      <Route path="/CircleCard3" element ={<CircleCard3/>}/>
      <Route path="/CircleCard4" element ={<CircleCard4/>}/>
      <Route path="/CircleCard5" element ={<CircleCard5/>}/>
-     <Route path="/BuyProducts" element ={<BuyProducts/>}/>
-     <Route path="/UserProfile" element ={<UserProfile />}/>
+     <Route path="/CheckOut" element ={<BuyProducts/>}/>
+     <Route path="/UserProfile" element ={<UserProfile  />}/>
+     <Route path="/Shipping" element ={<Shipping/>}/>
+     <Route path="/ConfirmOrder" element ={<ConfirmOder />}/>
+     <Route path="/Payment" element ={<Payment />}/>
     </Routes>
     </CartProvider>
     </>

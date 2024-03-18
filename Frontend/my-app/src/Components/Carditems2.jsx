@@ -15,25 +15,24 @@ import {
 } from "mdb-react-ui-kit";
 function Carditems2() {
   const navigate = useNavigate();
-  const { addItem } = useCart();
+  let data = []; 
 
-  const [data, setData] = useState([]);
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://localhost:8000/");
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const jsonData = await response.json();
-        setData(jsonData);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
+      fetchData();
   }, []);
+
+  async function fetchData() {
+      try {
+          const response = await fetch('http://localhost:5000/api/cards');
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          data = await response.json();
+          console.log('Fetched Data:', data);
+      } catch (error) {
+          console.error('Error fetching data:', error);
+      }
+  }
 
   return (
     <div className="product-cards-container">
