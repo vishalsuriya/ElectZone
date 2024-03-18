@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import Searchbar from "./Searchbar";
 import { FaShoppingCart, FaBars, FaSearch } from "react-icons/fa";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Button from "react-bootstrap/Button";
@@ -71,7 +72,7 @@ function NavigationBar2() {
         <Navbar.Collapse id="basic-navbar-nav" className="text-center">
           <Nav className="mx-auto" style={{ border: "1px solid #ff9e4a" }}>
             <div className="input-group " style={{ flex: "1" }}>
-              <input
+              {/* <input
                 type="text"
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
@@ -85,7 +86,8 @@ function NavigationBar2() {
                 role="button"
               >
                 <FaSearch />
-              </Button>
+              </Button> */}
+              <Searchbar/>
             </div>
           </Nav>
 
@@ -123,6 +125,7 @@ function NavigationBar2() {
         </Navbar.Collapse>
       </Container>
     </Navbar>
+    
   );
 }
 
