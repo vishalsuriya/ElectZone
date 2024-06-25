@@ -57,19 +57,6 @@ function CardItems() {
       Buy Now
     </MDBBtn>
 
-                  <MDBBtn
-                    className="btn-buy-now me-4"
-                    style={{
-                      fontSize: "0.8rem",
-                      padding: "0.2rem 0.5rem",
-                      backgroundColor: "#ffae5d",
-                    }}
-                    onClick={() => {
-                      navigate("/Shipping");
-                    }}
-                  >
-                    BuyNow
-                  </MDBBtn>
 
                   <MDBBtn
                     onClick={() => addItem(product)}
