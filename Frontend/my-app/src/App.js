@@ -43,6 +43,7 @@ function App() {
      <Route path="/Payment" element ={<Payment />}/>
     </Routes>
     </CartProvider>
+   
     </>
   );
 }

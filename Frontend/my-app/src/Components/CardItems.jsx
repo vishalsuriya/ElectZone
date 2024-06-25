@@ -27,7 +27,7 @@ function CardItems() {
           key={index}
           rippleColor="light"
           rippleTag="div"
-          className="bg-image hover-overlay"
+          className=""
         >
 
           <MDBCard style={{ width: "300px" }} className="card-container">
@@ -38,28 +38,30 @@ function CardItems() {
               <div className="product-details">
                 <span className="price">${product.price}</span>
                 <div className="button-container">
-                  <MDBBtn
-                    className="btn-buy-now me-4"
-                    style={{
-                      fontSize: "0.8rem",
-                      padding: "0.2rem 0.5rem",
-                      backgroundColor: "#ffae5d",
-                    }}
-                    onClick={() => {
-                      navigate("/BuyProducts");
-                    }}
-                  >
-                    BuyNow
-                  </MDBBtn>
+                <MDBBtn
+      className="btn-buy-now me-4"
+      style={{
+        fontSize: "0.8rem",
+        padding: "0.5rem 1.0rem",
+        backgroundColor: "transparent",
+        color:"black"
+      }}
+      onClick={() => {
+        navigate("/BuyProducts");
+      }}
+    >
+      Buy Now
+    </MDBBtn>
                   <MDBBtn
                     onClick={() => addItem(product)}
                     style={{
                       fontSize: "0.8rem",
-                      padding: "0.2rem 0.5rem",
-                      backgroundColor: "#ffae5d",
+                      padding: "0.5rem 1.0rem",
+                      backgroundColor: "transparent",
                     }}
                   >
-                    Addtocart
+                          <a href="#"><i class="fa fa-shopping-cart"></i></a>
+
                   </MDBBtn>
                 </div>
               </div>
