@@ -1,6 +1,6 @@
 import React from 'react'
 import {Link} from "react-router-dom";
- const BuyProducts = ({Shipping , ConfirmOrder,Payment}) => {
+ const CheckOut = ({Shipping , ConfirmOrder,Payment}) => {
   return (
     <div className="checkout-progress d-flex justify-content-center mt-5">
             {
@@ -23,7 +23,7 @@ import {Link} from "react-router-dom";
                 <div className="step active-step">Confirm Order</div>
                 <div className="triangle-active"></div>
             </Link>:
-             <Link to="/ConfirmOrder">
+             <Link to="/Shipping">
                 <div className="triangle2-incomplete"></div>
                 <div className="step incomplete">Confirm Order</div>
                 <div className="triangle-incomplete"></div>
@@ -37,14 +37,13 @@ import {Link} from "react-router-dom";
                 <div className="step active-step">Payment</div>
                 <div className="triangle-active"></div>
             </Link>:
-             <Link to="/Payment">
+             <Link to="/ConfirmOrder">
                 <div className="triangle2-incomplete"></div>
                 <div className="step incomplete">Payment</div>
                 <div className="triangle-incomplete"></div>
              </Link>
             }
-    
       </div>
   )
 }
-export default BuyProducts;
+export default CheckOut;

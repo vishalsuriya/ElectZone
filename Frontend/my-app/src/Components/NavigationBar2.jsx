@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import Searchbar from "./Searchbar";
 import { FaShoppingCart, FaBars, FaSearch } from "react-icons/fa";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Button from "react-bootstrap/Button";
@@ -42,14 +41,10 @@ function NavigationBar2() {
     };
   }, []);
 
-  const onSearch = () => {
-    // API call with value
-    console.log("search", value);
-  };
 
   return (
     <Navbar expand="lg" className="navbar">
-      <Container fluid>
+      <Container style={{ maxWidth: "100%" }}>
         <Navbar.Brand className="d-flex align-items-center justify-content-start ms-5">
           <img
             src={img}
@@ -61,36 +56,26 @@ function NavigationBar2() {
           ElectZone
         </Navbar.Brand>
 
-        <Navbar.Toggle
-          aria-controls="basic-navbar-nav"
-          onClick={handleDropdownToggle}
-          className="full-screen-margin"
-          role="button"
-        >
-          <FaBars />
-        </Navbar.Toggle>
-        <Navbar.Collapse id="basic-navbar-nav" className="text-center">
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mx-auto" style={{ border: "1px solid #ff9e4a" }}>
-            <div className="input-group " style={{ flex: "1" }}>
-              {/* <input
+            <div
+              className="input-group  border-end-0"
+              style={{
+                flex: "1",
+                borderRadius: "4px 0 0 4px",
+              }}
+            >
+              <input
                 type="text"
-                value={value}
-                onChange={(e) => setValue(e.target.value)}
                 placeholder="Search"
-                className="form-control search-input"
+                className="form-control"
               />
-              <Button
-                className="search-button"
-                onClick={onSearch}
-                style={{ backgroundColor: "#ff9e4a" }}
-                role="button"
-              >
+              <Button style={{ backgroundColor: " #ff9e4a" }}>
                 <FaSearch />
-              </Button> */}
-              <Searchbar/>
+              </Button>
             </div>
           </Nav>
-
           <Nav className="ml-auto ">
             <Nav.Link href="/Cartpage" className="shop-cart me-3">
               <FaShoppingCart size={22} />

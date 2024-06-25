@@ -1,10 +1,10 @@
 import React from 'react'
-import BuyProducts from './CheckOut'
+import CheckOut from './CheckOut'
 
 export default function Payment  () {
   return (
     <div>
-    <BuyProducts Shipping ConfirmOrder Payment />
+    <CheckOut Shipping ConfirmOrder Payment />
     <div className="row wrapper">
     <div className="col-10 col-lg-5">
         <form className="shadow-lg">
