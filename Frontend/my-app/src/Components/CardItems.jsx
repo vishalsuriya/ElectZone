@@ -41,7 +41,7 @@ function CardItems() {
               <div className="product-details">
                 <span className="price">${product.price}</span>
                 <div className="button-container">
-<<<<<<< HEAD
+
                 <MDBBtn
       className="btn-buy-now me-4"
       style={{
@@ -56,7 +56,7 @@ function CardItems() {
     >
       Buy Now
     </MDBBtn>
-=======
+
                   <MDBBtn
                     className="btn-buy-now me-4"
                     style={{
@@ -70,7 +70,7 @@ function CardItems() {
                   >
                     BuyNow
                   </MDBBtn>
->>>>>>> 7737e6121f5daf597f876e2e57453ca99775f3d5
+
                   <MDBBtn
                     onClick={() => addItem(product)}
                     style={{
