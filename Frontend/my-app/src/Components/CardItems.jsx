@@ -11,8 +11,11 @@ import {
   MDBRipple,
 } from "mdb-react-ui-kit";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Shipping from "./Shipping";
 
 function CardItems() {
+  const navigate = useNavigate();
   const { addItem } = useCart();
   const [data,setData] = useState([]);
   useEffect(() => {
@@ -46,7 +49,7 @@ function CardItems() {
                       backgroundColor: "#ffae5d",
                     }}
                     onClick={() => {
-                      navigate("/BuyProducts");
+                      navigate("/Shipping");
                     }}
                   >
                     BuyNow
