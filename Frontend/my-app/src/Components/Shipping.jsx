@@ -1,11 +1,12 @@
 import React,{useState} from 'react';
 import { Fragment } from "react";
 import { countries } from "countries-list";
-import BuyProducts from './CheckOut';
+import CheckOut from './CheckOut';
 import "../Components/CheckOutStyle.css";
 import { useNavigate } from 'react-router-dom';
 import "../Components/ShippingStyle.css";
 import 'react-toastify/dist/ReactToastify.css'
+import ConfirmOrder from './ConfirmOrder';
 function Shipping() {
   const CountryList = Object.values(countries);
   const [country, setCountry] = useState('');
@@ -15,7 +16,10 @@ function Shipping() {
   const [postalCode, setPostalCode] = useState('');
   const [state, setState] = useState('');
   const navigate = useNavigate();
-
+let data = {
+  phoneNo:phoneNo,
+  address:address
+}
   const handleSubmit = (e) => {
     e.preventDefault();
       navigate("/ConfirmOrder");
@@ -31,7 +35,7 @@ function Shipping() {
   };
   return (
     <div>
-        <BuyProducts Shipping/>
+        <CheckOut Shipping/>
       <Fragment>
         <div className="row wrapper">
           <div className="col-10 col-lg-5">

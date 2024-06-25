@@ -11,8 +11,11 @@ import {
   MDBRipple,
 } from "mdb-react-ui-kit";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Shipping from "./Shipping";
 
 function CardItems() {
+  const navigate = useNavigate();
   const { addItem } = useCart();
   const [data,setData] = useState([]);
   useEffect(() => {
@@ -38,6 +41,7 @@ function CardItems() {
               <div className="product-details">
                 <span className="price">${product.price}</span>
                 <div className="button-container">
+<<<<<<< HEAD
                 <MDBBtn
       className="btn-buy-now me-4"
       style={{
@@ -52,6 +56,21 @@ function CardItems() {
     >
       Buy Now
     </MDBBtn>
+=======
+                  <MDBBtn
+                    className="btn-buy-now me-4"
+                    style={{
+                      fontSize: "0.8rem",
+                      padding: "0.2rem 0.5rem",
+                      backgroundColor: "#ffae5d",
+                    }}
+                    onClick={() => {
+                      navigate("/Shipping");
+                    }}
+                  >
+                    BuyNow
+                  </MDBBtn>
+>>>>>>> 7737e6121f5daf597f876e2e57453ca99775f3d5
                   <MDBBtn
                     onClick={() => addItem(product)}
                     style={{

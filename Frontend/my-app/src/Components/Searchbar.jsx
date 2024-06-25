@@ -1,17 +1,30 @@
-import React from "react";
-import SearchIcon from '@mui/icons-material/Search';
-function Searchbar({placeholder, data})
-{
+import React,{useState} from "react";
+function Searchbar(){
+    const SearchHandler = (e)=>{
+        e.preventDefault();
+    }
+    const [Keyword,setKeyword] = useState("");
     return (
-        <div className="search">
-            <div className="searchinput"><input type="text" placeholder="Search here....."/>
-            <div className="searchicon"><SearchIcon/></div>
+        <form onSubmit={SearchHandler}>
+           <div
+              className="input-group  border-end-0"
+              style={{
+                flex: "1",
+                borderRadius: "4px 0 0 4px",
+              }}
+            >
+              <input
+                type="text"
+                placeholder="Search"
+                className="form-control"
+                onChange={(e)=>setKeyword(e.target.value)}
+              />
+              <Button style={{ backgroundColor: " #ff9e4a" }}>
+                <FaSearch />
+              </Button>
             </div>
-<div className="dataresult">
-     
-</div>
-        </div>
-    )
+            </form>
+    );
 }
 
-export default Searchbar
+export default Searchbar;
