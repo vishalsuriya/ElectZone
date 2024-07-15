@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useCart } from "react-use-cart";
-import "../Components/CarditemsStyle.css";
-import NavigationBar from "../Components/NavigationBar2";
-import Footer from "../Components/Footer";
-
+import "../Cards/CircleCardStyle.css";
+import NavigationBar from "../NavigationBar2";
+import Footer from "../Footer";
 import {
   MDBCard,
   MDBCardBody,
@@ -14,13 +13,13 @@ import {
   MDBRipple,
 } from "mdb-react-ui-kit";
 
-export default function CircleCard5() {
+function CircleCard4() {
   const { addItem } = useCart();
   const [data, setData] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/cards/CircleCards5");
+        const response = await fetch("http://localhost:5000/api/cards/CircleCards4");
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -37,7 +36,6 @@ export default function CircleCard5() {
   return (
     <div>
       <NavigationBar />
-
       <div className="product-cards-container">
         {data.map((product, index) => (
           <MDBRipple
@@ -85,3 +83,4 @@ export default function CircleCard5() {
     </div>
   );
 }
+export default CircleCard4;

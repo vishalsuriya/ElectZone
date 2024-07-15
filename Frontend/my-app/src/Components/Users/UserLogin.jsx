@@ -1,10 +1,10 @@
 import React, {useEffect, useState }  from 'react' 
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import ErrorMessage from "../Components/ErrorMessage";
-import Loading from "../Components/Loading";
+import Loading from '../Loading';
+import ErrorMessage from '../ErrorMessage';
 import {useDispatch, useSelector} from "react-redux";
-import { login } from '../actions/UserActions';
+import { login } from '../../actions/UserActions';
 function UserLogin  ()  {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
