@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useCart } from "react-use-cart";
-import NavigationBar from "../Components/NavigationBar2";
-import Footer from "../Components/Footer";
-import "../Components/CarditemsStyle.css";
+import NavigationBar from "../NavigationBar2";
+import Footer from "../Footer";
+import "../Cards/CircleCardStyle.css";
 
 import {
   MDBCard,

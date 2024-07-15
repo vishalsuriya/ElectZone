@@ -1,9 +1,9 @@
 import React from 'react';
 import NavigationBar2 from '../Components/NavigationBar2';
 import Footer from '../Components/Footer';
-import CircleCard from '../Components/CircleCard';
+import CircleCard from '../Components/Cards/CircleCard';
 import Slide from '../Components/Carousels';
-import CardItems  from '../Components/CardItems';
+import CardItems  from '../Components/Cards/CardItems';
 import {CartProvider } from 'react-use-cart';
 function Login() {
   return (

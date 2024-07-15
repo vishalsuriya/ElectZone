@@ -1,10 +1,10 @@
 import React,{useEffect, useState} from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import ErrorMessage from "./ErrorMessage";
-import { register } from "../actions/UserActions";
+import ErrorMessage from "../ErrorMessage";
+import { register } from "../../actions/UserActions";
 import{useDispatch,useSelector}from "react-redux";
-import Loading from "../Components/Loading";
+import Loading from "../Loading";
 function UserSignup  () {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");

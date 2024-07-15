@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
-import ErrorMessage from "../Components/ErrorMessage";
-import Loading from "../Components/Loading";
+import ErrorMessage from "../ErrorMessage";
+import Loading from "../Loading";
 import { useDispatch, useSelector } from "react-redux";
-import { updateProfile } from "../actions/UserActions";
+import { updateProfile } from "../../actions/UserActions";
 const UserProfile = () => {
   const [userInfo, setUserInfo] = useState(null);
   const [name, setName] = useState("");

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useCart } from "react-use-cart";
 import "./CarditemsStyle.css";
+import axios  from "axios";
+import { useNavigate } from "react-router-dom";
+
 import {
   MDBCard,
   MDBCardBody,
@@ -10,19 +12,15 @@ import {
   MDBBtn,
   MDBRipple,
 } from "mdb-react-ui-kit";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import Shipping from "./Shipping";
-
-function CardItems() {
+function Carditems2() {
   const navigate = useNavigate();
-  const { addItem } = useCart();
   const [data,setData] = useState([]);
   useEffect(() => {
       axios.get('http://localhost:5000/api/cards')
     .then((response)=>setData(response.data))
     .catch((error)=>console.error(error))
   }, []);
+
   return (
     <div className="product-cards-container">
       {data.map((product, index) => (
@@ -30,9 +28,8 @@ function CardItems() {
           key={index}
           rippleColor="light"
           rippleTag="div"
-          className=""
+          className="bg-image hover-overlay"
         >
-
           <MDBCard style={{ width: "300px" }} className="card-container">
             <MDBCardImage src={product.imgsrc} alt={product.title} />
             <MDBCardBody>
@@ -41,43 +38,38 @@ function CardItems() {
               <div className="product-details">
                 <span className="price">${product.price}</span>
                 <div className="button-container">
-
-                <MDBBtn
-      className="btn-buy-now me-4"
-      style={{
-        fontSize: "0.8rem",
-        padding: "0.5rem 1.0rem",
-        backgroundColor: "transparent",
-        color:"black"
-      }}
-      onClick={() => {
-        navigate("/BuyProducts");
-      }}
-    >
-      Buy Now
-    </MDBBtn>
-
-
                   <MDBBtn
-                    onClick={() => addItem(product)}
+                    className="btn-buy-now me-4"
                     style={{
                       fontSize: "0.8rem",
-                      padding: "0.5rem 1.0rem",
-                      backgroundColor: "transparent",
+                      padding: "0.2rem 0.5rem",
+                      backgroundColor: "#ffae5d",
+                    }}
+                    onClick={() => {
+                      navigate("/UserLogin");
                     }}
                   >
-                          <a href="#"><i class="fa fa-shopping-cart"></i></a>
-
+                    BuyNow
+                  </MDBBtn>
+                  <MDBBtn
+                    onClick={() => {
+                      navigate("/UserLogin");
+                    }}
+                    style={{
+                      fontSize: "0.8rem",
+                      padding: "0.2rem 0.5rem",
+                      backgroundColor: "#ffae5d",
+                    }}
+                  >
+                    Addtocart
                   </MDBBtn>
                 </div>
               </div>
             </MDBCardBody>
           </MDBCard>
         </MDBRipple>
-      ))
-      }
+      ))}
     </div>
   );
 }
-
-export default CardItems;
+export default Carditems2;
