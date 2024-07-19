@@ -17,23 +17,26 @@ import Shipping from "../Shipping";
 function CardItems() {
   const navigate = useNavigate();
   const { addItem } = useCart();
-  const [data,setData] = useState([]);
+  const [data, setData] = useState([]);
   useEffect(() => {
-      axios.get('http://localhost:5000/api/cards')
-    .then((response)=>setData(response.data))
-    .catch((error)=>console.error(error))
+    axios
+      .get("http://localhost:5000/api/cards")
+      .then((response) => setData(response.data))
+      .catch((error) => console.error(error));
   }, []);
+  console.log(data);
+  function handleClick(product) {
+    navigate("/ProductPage", { state: { productid: product } });
+  }
   return (
     <div className="product-cards-container">
       {data.map((product, index) => (
-        <MDBRipple
-          key={index}
-          rippleColor="light"
-          rippleTag="div"
-          className=""
-        >
-
-          <MDBCard style={{ width: "300px" }} className="card-container">
+        <MDBRipple key={index} rippleColor="light" rippleTag="div" className="">
+          <MDBCard
+            style={{ width: "300px" }}
+            className="card-container"
+            onClick={() => handleClick(product)}
+          >
             <MDBCardImage src={product.imgsrc} alt={product.title} />
             <MDBCardBody>
               <MDBCardTitle>{product.title}</MDBCardTitle>
@@ -41,22 +44,20 @@ function CardItems() {
               <div className="product-details">
                 <span className="price">${product.price}</span>
                 <div className="button-container">
-
-                <MDBBtn
-      className="btn-buy-now me-4"
-      style={{
-        fontSize: "0.8rem",
-        padding: "0.5rem 1.0rem",
-        backgroundColor: "transparent",
-        color:"black"
-      }}
-      onClick={() => {
-        navigate("/BuyProducts");
-      }}
-    >
-      Buy Now
-    </MDBBtn>
-
+                  <MDBBtn
+                    className="btn-buy-now me-4"
+                    style={{
+                      fontSize: "0.8rem",
+                      padding: "0.5rem 1.0rem",
+                      backgroundColor: "transparent",
+                      color: "black",
+                    }}
+                    onClick={() => {
+                      navigate("/BuyProducts");
+                    }}
+                  >
+                    Buy Now
+                  </MDBBtn>
 
                   <MDBBtn
                     onClick={() => addItem(product)}
@@ -66,16 +67,16 @@ function CardItems() {
                       backgroundColor: "transparent",
                     }}
                   >
-                          <a href="#"><i class="fa fa-shopping-cart"></i></a>
-
+                    <a href="#">
+                      <i class="fa fa-shopping-cart"></i>
+                    </a>
                   </MDBBtn>
                 </div>
               </div>
             </MDBCardBody>
           </MDBCard>
         </MDBRipple>
-      ))
-      }
+      ))}
     </div>
   );
 }

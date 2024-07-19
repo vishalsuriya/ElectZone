@@ -19,6 +19,7 @@ import Shipping from "./Components/Shipping";
 import ConfirmOder from "./Components/ConfirmOrder";
 import Payment from "./Components/Payment";
 import BuyProducts from "./Components/CheckOut";
+import ProductPage from "./Components/ProductPage/ProductPage";
 function App() {
   return (
     <>
@@ -26,7 +27,7 @@ function App() {
     <Routes>
      <Route path="/" element ={<Home />}/>
      <Route path="/Login" element ={<Login />}/>
-     <Route path="/About" element ={<About />}/>
+     <Route path="/ProductPage" element ={<ProductPage/>}/>
      <Route path="/Contact" element ={<Contact />}/>
      <Route path="/UserLogin" element ={<UserLogin />}/>
      <Route path="/UserSignup" element ={<UserSignup/>}/>
