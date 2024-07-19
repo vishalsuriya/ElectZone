@@ -5,9 +5,9 @@ import Nav from "react-bootstrap/Nav";
 import Button from "react-bootstrap/Button";
 import Navbar from "react-bootstrap/Navbar";
 import img from "../assets/ElectZone-logos_black.png";
-import { FaSearch } from "react-icons/fa";
 import { GrLogin } from "react-icons/gr";
 import SearchBar from "./Searchbar";
+import "./NavigationBarStyle.css";
 
 function NavigationBar() {
   const navigate = useNavigate();
@@ -18,48 +18,23 @@ function NavigationBar() {
           <img
             src={img}
             alt="Logo"
-            className="d-inline-block align-top me-1"
+            className="d-inline-block align-top me-2"
             width="40"
             height="40"
-          />{" "}
-          ElectZone
+          />
+          <span className="brand-name">ElectZone</span>
         </Navbar.Brand>
-
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          {/* <Nav className="mx-auto" style={{ border: "1px solid #ff9e4a" }}>
-            <div
-              className="input-group  border-end-0"
-              style={{
-                flex: "1",
-                borderRadius: "4px 0 0 4px",
-              }}
-            >
-              <input
-                type="text"
-                placeholder="Search"
-                className="form-control"
-              />
-              <Button style={{ backgroundColor: " #ff9e4a" }}>
-                <FaSearch />
-              </Button>
-            </div>
-          </Nav> */}
-<Nav className="mx-auto">
-            <SearchBar/>
+          <Nav className="mx-auto">
+            <SearchBar />
           </Nav>
           <Nav className="ml-auto">
             <Button
-              onClick={() => {
-                navigate("/UserLogin");
-              }}
-              style={{
-                padding: "0.4rem 0.5rem",
-                fontSize: "0.9rem",
-                backgroundColor: " #ff9e4a",
-              }}
+              onClick={() => navigate("/UserLogin")}
+              className="login-button"
             >
-              <GrLogin /> Login
+              <GrLogin className="me-1" /> Login
             </Button>
           </Nav>
         </Navbar.Collapse>

@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useCart } from "react-use-cart";
 import "./CarditemsStyle.css";
-import axios  from "axios";
-import { useNavigate } from "react-router-dom";
-
 import {
   MDBCard,
   MDBCardBody,
@@ -12,14 +10,35 @@ import {
   MDBBtn,
   MDBRipple,
 } from "mdb-react-ui-kit";
-function Carditems2() {
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
+function CardItems2() {
   const navigate = useNavigate();
-  const [data,setData] = useState([]);
+  const { addItem } = useCart();
+  const [data, setData] = useState([]);
+  const [addedItem, setAddedItem] = useState(null);
+  const [loginPrompt, setLoginPrompt] = useState(false);
+
   useEffect(() => {
-      axios.get('http://localhost:5000/api/cards')
-    .then((response)=>setData(response.data))
-    .catch((error)=>console.error(error))
+    axios
+      .get("http://localhost:5000/api/cards")
+      .then((response) => setData(response.data))
+      .catch((error) => console.error(error));
   }, []);
+
+  const handleAddItem = (e, product) => {
+    e.stopPropagation();
+    if (!localStorage.getItem("userLoggedIn")) {
+      setLoginPrompt(true);
+      setTimeout(() => {
+        navigate("/UserLogin");
+      }, 2000); // Redirect after 2 seconds to let the user see the prompt
+    } else {
+      addItem(product);
+      setAddedItem(product);
+    }
+  };
 
   return (
     <div className="product-cards-container">
@@ -30,38 +49,29 @@ function Carditems2() {
           rippleTag="div"
           className="bg-image hover-overlay"
         >
-          <MDBCard style={{ width: "300px" }} className="card-container">
+          <MDBCard
+            style={{ width: "275px" }}
+            className="card-container"
+          >
             <MDBCardImage src={product.imgsrc} alt={product.title} />
             <MDBCardBody>
-              <MDBCardTitle>{product.title}</MDBCardTitle>
-              <MDBCardText>{product.content}</MDBCardText>
+              <MDBCardText>{product.title}</MDBCardText>
               <div className="product-details">
-                <span className="price">${product.price}</span>
+                <span className="price">
+                  <MDBCardTitle>₹{product.price}</MDBCardTitle>
+                </span>
                 <div className="button-container">
                   <MDBBtn
-                    className="btn-buy-now me-4"
+                    onClick={(e) => handleAddItem(e, product)}
                     style={{
                       fontSize: "0.8rem",
-                      padding: "0.2rem 0.5rem",
-                      backgroundColor: "#ffae5d",
+                      padding: "0.5rem 1.0rem",
+                      backgroundColor: "black",
+                      color: "white",
                     }}
-                    onClick={() => {
-                      navigate("/UserLogin");
-                    }}
+                    aria-label={`Add ${product.title} to cart`}
                   >
-                    BuyNow
-                  </MDBBtn>
-                  <MDBBtn
-                    onClick={() => {
-                      navigate("/UserLogin");
-                    }}
-                    style={{
-                      fontSize: "0.8rem",
-                      padding: "0.2rem 0.5rem",
-                      backgroundColor: "#ffae5d",
-                    }}
-                  >
-                    Addtocart
+                    Cart
                   </MDBBtn>
                 </div>
               </div>
@@ -69,7 +79,18 @@ function Carditems2() {
           </MDBCard>
         </MDBRipple>
       ))}
+      {addedItem && (
+        <div className="confirmation-message">
+          {addedItem.title} has been added to the cart!
+        </div>
+      )}
+      {loginPrompt && (
+        <div className="login-prompt">
+          Please log in to add items to the cart.
+        </div>
+      )}
     </div>
   );
 }
-export default Carditems2;
+
+export default CardItems2;

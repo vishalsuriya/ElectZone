@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useCart } from "react-use-cart";
-import NavigationBar from "../NavigationBar2";
-import Footer from "../Footer";
 import "../Cards/CircleCardStyle.css";
 import { useNavigate } from "react-router-dom";
 
@@ -14,12 +12,15 @@ import {
   MDBBtn,
   MDBRipple,
 } from "mdb-react-ui-kit";
+import NavigationBar from "../NavigationBar2";
+import Footer from "../Footer";
 
-export default function CircleCard1() {
-  const { addItem } = useCart();
+function CircleCard3() {
   const navigate = useNavigate();
-
+  const { addItem } = useCart();
   const [data, setData] = useState([]);
+  const [addedItem, setAddedItem] = useState(null);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -38,12 +39,22 @@ export default function CircleCard1() {
 
     fetchData();
   }, []);
+
   function handleClick(product) {
     navigate("/ProductPage", { state: { productid: product } });
   }
+
+  const handleAddItem = (e, product) => {
+    e.stopPropagation();
+    addItem(product);
+    setAddedItem(product);
+    setTimeout(() => setAddedItem(null), 2000); // Hide message after 2 seconds
+  };
+
   return (
     <div>
       <NavigationBar />
+
       <div className="product-cards-container">
         {data.map((product, index) => (
           <MDBRipple
@@ -53,43 +64,28 @@ export default function CircleCard1() {
             className="bg-image hover-overlay"
           >
             <MDBCard
-              style={{ width: "300px" }}
+              style={{ width: "275px" }}
               className="card-container"
               onClick={() => handleClick(product)}
             >
               <MDBCardImage src={product.imgsrc} alt={product.title} />
               <MDBCardBody>
-                <MDBCardTitle>{product.title}</MDBCardTitle>
-                <MDBCardText>{product.content}</MDBCardText>
+                <MDBCardText>{product.title}</MDBCardText>
                 <div className="product-details">
-                  <span className="price">₹{product.price}</span>
+                  <span className="price">
+                    <MDBCardTitle>₹{product.price}</MDBCardTitle>
+                  </span>
                   <div className="button-container">
                     <MDBBtn
-                      className="btn-buy-now me-4"
+                      onClick={(e) => handleAddItem(e, product)}
                       style={{
                         fontSize: "0.8rem",
                         padding: "0.5rem 1.0rem",
-                        backgroundColor: "transparent",
-                        color: "black",
+                        backgroundColor: "black",
                       }}
-                      onClick={() => {
-                        navigate("/BuyProducts");
-                      }}
+                      aria-label={`Add ${product.title} to cart`}
                     >
-                      Buy Now
-                    </MDBBtn>
-
-                    <MDBBtn
-                      onClick={() => addItem(product)}
-                      style={{
-                        fontSize: "0.8rem",
-                        padding: "0.5rem 1.0rem",
-                        backgroundColor: "transparent",
-                      }}
-                    >
-                      <a href="#">
-                        <i class="fa fa-shopping-cart"></i>
-                      </a>
+                      Cart
                     </MDBBtn>
                   </div>
                 </div>
@@ -97,8 +93,16 @@ export default function CircleCard1() {
             </MDBCard>
           </MDBRipple>
         ))}
+        {addedItem && (
+          <div className="confirmation-message">
+            {addedItem.title} has been added to the cart!
+          </div>
+        )}
       </div>
+
       <Footer />
     </div>
   );
 }
+
+export default CircleCard3;

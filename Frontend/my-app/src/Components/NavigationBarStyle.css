@@ -1,22 +1,43 @@
 @import url("https://fonts.googleapis.com/css2?family=PT+Serif:ital@0;1&display=swap");
+
+.navbar {
+  background-color: #cc7121;
+  padding: 0.8rem 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar .navbar-brand .brand-name {
+  font-family: 'PT Serif', serif;
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+.navbar .navbar-toggler {
+  border: none;
+}
+
+.navbar .navbar-toggler:focus {
+  box-shadow: none;
+}
+
+.navbar .navbar-collapse {
+  justify-content: space-between;
+}
+
 .navbar-nav .nav-link.dropdown-toggle::after {
   display: none;
 }
 
-/* NavigationBar2.css */
-
-/* Add styles for the dropdown */
 #basic-nav-dropdown {
-  border: 1px solid transparent; /* Set a default transparent border */
+  border: 1px solid transparent;
 }
 
 #basic-nav-dropdown:hover {
-  border-color: #ced4da; /* Change border color on hover */
+  border-color: #ced4da;
 }
 
-/* Move the dropdown slightly at the end of the header */
 #basic-nav-dropdown {
-  margin-right: 10px; /* Adjust the margin as needed */
+  margin-right: 10px;
 }
 
 @media (min-width: 992px) {
@@ -25,6 +46,25 @@
   }
 }
 
-.navbar {
-  background-color: #cc7121;
+.login-button {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.9rem;
+  background-color: #ff9e4a;
+  border: none;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #e68a00;
+}
+
+.login-button .me-1 {
+  margin-right: 0.5rem;
+}
+
+.navbar-brand img {
+  margin-right: 0.5rem;
 }

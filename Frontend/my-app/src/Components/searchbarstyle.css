@@ -1,0 +1,32 @@
+.search-bar .form-control {
+    border-radius: 0.25rem;
+    border: 1px solid #ced4da;
+    padding: 0.5rem 1rem;
+  }
+  
+  .search-bar .btn-icon-content {
+    background-color: #ff9e4a;
+    border: none;
+    padding: 0.5rem 1rem;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .search-bar .btn-icon-content:hover {
+    background-color: #e68a00;
+  }
+  
+  .search-bar .dropdown-menu {
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  
+  .search-bar .dropdown-item {
+    cursor: pointer;
+  }
+  
+  .search-bar .dropdown-item:hover {
+    background-color: #f1f1f1;
+  }
+  
