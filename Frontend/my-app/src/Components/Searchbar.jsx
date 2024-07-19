@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Form, FormControl, Button, Dropdown, DropdownButton, Modal } from 'react-bootstrap';
 import { FaSearch } from 'react-icons/fa';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './searchbarstyle.css'; // Assuming you have a CSS file for custom styles
 
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -16,7 +17,6 @@ const SearchBar = () => {
         const response = await fetch(`http://localhost:5000/api/allcards`);
         const data = await response.json();
 
-        // Combine all card arrays into one
         const combinedSuggestions = [
           ...data.homecards,
           ...data.cards1,
@@ -54,7 +54,6 @@ const SearchBar = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Optionally handle the search submission, if needed
   };
 
   const handleCloseModal = () => {
@@ -63,8 +62,8 @@ const SearchBar = () => {
   };
 
   return (
-    <div>
-      <Form className="d-flex" onSubmit={handleSubmit} style={{ backgroundColor: 'transparent' }}>
+    <div className="search-bar">
+      <Form className="d-flex" onSubmit={handleSubmit} >
         <FormControl
           type="text"
           placeholder="Search..."
@@ -77,7 +76,7 @@ const SearchBar = () => {
           <FaSearch />
         </Button>
       </Form>
-      
+
       {filteredSuggestions.length > 0 && searchTerm.trim() !== "" && (
         <DropdownButton
           id="dropdown-basic-button"

@@ -1,0 +1,77 @@
+/* ProductPage.module.css */
+.sharedStyle {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    color: rgb(33, 33, 33);
+  }
+  
+  .spec_pro_head {
+    margin-top: 20px;
+  }
+  
+  .img_cont img {
+    border-radius: 8px;
+  }
+  
+  .buttons .btn {
+    margin-right: 10px;
+  }
+  
+  .col_two .card {
+    border: none;
+  }
+  
+  .product_name {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .product_desc {
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  .price_cont {
+    margin-top: 20px;
+    font-weight: bold;
+  }
+  
+  .product_cost {
+    display: flex;
+    align-items: baseline;
+  }
+  
+  .product_cost h3 {
+    margin-right: 10px;
+    color: #ff5722;
+  }
+  
+  .product_cost .dicount {
+    text-decoration: line-through;
+    color: #aaa;
+    margin-left: 10px;
+  }
+  
+  .product_cost .discount_offer {
+    margin-left: 10px;
+    color: green;
+  }
+  
+  .avail_offer {
+    margin-top: 10px;
+    font-weight: bold;
+  }
+  
+  .spcl_offer {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+  }
+  
+  .spcl_offer .fa-tag {
+    margin-right: 10px;
+  }
+  
+ 
+  
