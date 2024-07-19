@@ -7,6 +7,7 @@ import Navbar from "react-bootstrap/Navbar";
 import img from "../assets/ElectZone-logos_black.png";
 import { FaSearch } from "react-icons/fa";
 import { GrLogin } from "react-icons/gr";
+import SearchBar from "./Searchbar";
 
 function NavigationBar() {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ function NavigationBar() {
 
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="mx-auto" style={{ border: "1px solid #ff9e4a" }}>
+          {/* <Nav className="mx-auto" style={{ border: "1px solid #ff9e4a" }}>
             <div
               className="input-group  border-end-0"
               style={{
@@ -43,8 +44,10 @@ function NavigationBar() {
                 <FaSearch />
               </Button>
             </div>
+          </Nav> */}
+<Nav className="mx-auto">
+            <SearchBar/>
           </Nav>
-
           <Nav className="ml-auto">
             <Button
               onClick={() => {

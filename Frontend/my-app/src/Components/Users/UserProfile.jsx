@@ -67,7 +67,7 @@ const UserProfile = () => {
 
   return (
     <div>
-      <Row className="profileContainer">
+      <Row className="">
         <Col md={6}>
         <Form onSubmit={submitHandler}>
               {loading && <Loading />}

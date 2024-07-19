@@ -3,6 +3,7 @@ import { useCart } from "react-use-cart";
 import NavigationBar from "../NavigationBar2";
 import Footer from "../Footer";
 import "../Cards/CircleCardStyle.css";
+import { useNavigate } from "react-router-dom";
 
 import {
   MDBCard,
@@ -16,12 +17,15 @@ import {
 
 export default function CircleCard1() {
   const { addItem } = useCart();
+  const navigate = useNavigate();
 
   const [data, setData] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/cards/CircleCards1");
+        const response = await fetch(
+          "http://localhost:5000/api/cards/CircleCards1"
+        );
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -34,7 +38,9 @@ export default function CircleCard1() {
 
     fetchData();
   }, []);
-
+  function handleClick(product) {
+    navigate("/ProductPage", { state: { productid: product } });
+  }
   return (
     <div>
       <NavigationBar />
@@ -46,7 +52,11 @@ export default function CircleCard1() {
             rippleTag="div"
             className="bg-image hover-overlay"
           >
-            <MDBCard style={{ width: "300px" }} className="card-container">
+            <MDBCard
+              style={{ width: "300px" }}
+              className="card-container"
+              onClick={() => handleClick(product)}
+            >
               <MDBCardImage src={product.imgsrc} alt={product.title} />
               <MDBCardBody>
                 <MDBCardTitle>{product.title}</MDBCardTitle>
@@ -58,21 +68,28 @@ export default function CircleCard1() {
                       className="btn-buy-now me-4"
                       style={{
                         fontSize: "0.8rem",
-                        padding: "0.2rem 0.5rem",
-                        backgroundColor: "#ffae5d",
+                        padding: "0.5rem 1.0rem",
+                        backgroundColor: "transparent",
+                        color: "black",
+                      }}
+                      onClick={() => {
+                        navigate("/BuyProducts");
                       }}
                     >
-                      BuyNow
+                      Buy Now
                     </MDBBtn>
+
                     <MDBBtn
                       onClick={() => addItem(product)}
                       style={{
                         fontSize: "0.8rem",
-                        padding: "0.2rem 0.5rem",
-                        backgroundColor: "#ffae5d",
+                        padding: "0.5rem 1.0rem",
+                        backgroundColor: "transparent",
                       }}
                     >
-                      Addtocart
+                      <a href="#">
+                        <i class="fa fa-shopping-cart"></i>
+                      </a>
                     </MDBBtn>
                   </div>
                 </div>
