@@ -42,8 +42,11 @@ app.get("/api/allcards", async (req, res) => {
 
     // Normalize and combine all cards into one flat array
     const normalizeCard = (card) => ({
+      id: card._id,
       title: card.title || "No Title",
       imgsrc:card.imgsrc || "No Image",
+      content:card.content,
+      price: card.price
 
       // Add other properties you need to normalize
     });
