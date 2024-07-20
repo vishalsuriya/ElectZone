@@ -20,9 +20,12 @@ import ConfirmOder from "./Components/ConfirmOrder";
 import Payment from "./Components/Payment";
 import BuyProducts from "./Components/CheckOut";
 import ProductPage from "./Components/ProductPage/ProductPage";
+import { Provider } from "react-redux";
+import store from "../src/store";
 function App() {
   return (
     <>
+    <Provider store = {store}>
     <CartProvider>
     <Routes>
      <Route path="/" element ={<Home />}/>
@@ -44,7 +47,7 @@ function App() {
      <Route path="/Payment" element ={<Payment />}/>
     </Routes>
     </CartProvider>
-   
+    </Provider>
     </>
   );
 }
