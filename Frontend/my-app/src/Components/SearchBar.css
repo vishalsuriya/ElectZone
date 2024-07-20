@@ -1,0 +1,37 @@
+.search-bar {
+  position: relative;
+}
+
+.search-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 345px;
+  z-index: 1;
+
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Optional for better visibility */
+}
+
+.search-dropdown .dropdown-item {
+  display: block;
+  width: 345px;
+  text-align: left;
+  border: none;
+  background: none;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  box-sizing: border-box; /* Ensure padding does not affect width */
+}
+
+.search-dropdown .dropdown-item:hover {
+  background-color: #f8f9fa;
+}
+
+.form-control {
+  padding: 10px;
+  border-radius: 4px;
+}

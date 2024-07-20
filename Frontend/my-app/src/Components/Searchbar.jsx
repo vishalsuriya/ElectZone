@@ -1,119 +1,95 @@
-import React, { useState, useEffect } from 'react';
-import { Form, FormControl, Button, Dropdown, DropdownButton, Modal } from 'react-bootstrap';
-import { FaSearch } from 'react-icons/fa';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './searchbarstyle.css'; // Assuming you have a CSS file for custom styles
-
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Container, Row, Col, Button } from 'react-bootstrap';
+import _ from "lodash";
+import './SearchBar.css'; // Import the CSS file
+import {useNavigate} from 'react-router-dom'
 const SearchBar = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
-  const [filteredSuggestions, setFilteredSuggestions] = useState([]);
-  const [selectedItemDetails, setSelectedItemDetails] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
-  useEffect(() => {
-    const fetchSuggestions = async () => {
-      try {
-        const response = await fetch(`http://localhost:5000/api/allcards`);
-        const data = await response.json();
-
-        const combinedSuggestions = [
-          ...data.homecards,
-          ...data.cards1,
-          ...data.cards2,
-          ...data.cards3,
-          ...data.cards4,
-          ...data.cards5
-        ];
-
-        setSuggestions(Array.isArray(combinedSuggestions) ? combinedSuggestions : []);
-      } catch (error) {
-        console.error("Error fetching suggestions:", error);
-        setSuggestions([]);
-      }
-    };
-
-    fetchSuggestions();
-  }, []);
-
-  useEffect(() => {
-    if (searchTerm.trim() !== "") {
-      const filtered = suggestions.filter((suggestion) =>
-        suggestion.name && suggestion.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setFilteredSuggestions(filtered);
-    } else {
-      setFilteredSuggestions([]);
+  const navigate = useNavigate();
+  // Function to fetch data from the backend
+  const fetchData = async (searchQuery) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/api/allcards?q=${searchQuery}`);
+      setResults(response.data);
+      setShowSuggestions(true);
+    } catch (error) {
+      console.error("Error fetching data:", error.message);
+      setResults([]);
+      setShowSuggestions(false);
+      alert("An error occurred while fetching data. Please try again.");
     }
-  }, [searchTerm, suggestions]);
-
-  const handleSuggestionClick = (suggestion) => {
-    setSelectedItemDetails(suggestion);
-    setIsModalOpen(true);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  // Debounced fetch function
+  const debouncedFetch = _.debounce((searchQuery) => {
+    if (searchQuery) {
+      fetchData(searchQuery);
+    } else {
+      setResults([]);
+      setShowSuggestions(false);
+    }
+  }, 300);
+
+  // Handle input change
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setQuery(value);
+    debouncedFetch(value);
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setSelectedItemDetails(null);
+  // Handle click outside to close suggestions
+  const handleClickOutside = (e) => {
+    if (!e.target.closest(".search-dropdown")) {
+      setShowSuggestions(false);
+    }
   };
-
+  function handleClick(result){
+    navigate("/ProductPage", { state: { product: result } });
+  }
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+console.log(results);
   return (
-    <div className="search-bar">
-      <Form className="d-flex" onSubmit={handleSubmit} >
-        <FormControl
-          type="text"
-          placeholder="Search..."
-          className="input me-2"
-          aria-label="Search"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <Button className="btn-icon-content" type="submit" style={{ backgroundColor: 'transparent' }}>
-          <FaSearch />
-        </Button>
-      </Form>
-
-      {filteredSuggestions.length > 0 && searchTerm.trim() !== "" && (
-        <DropdownButton
-          id="dropdown-basic-button"
-          title="Select an item"
-          className="mt-2"
-        >
-          {filteredSuggestions.map((suggestion) => (
-            <Dropdown.Item
-              key={suggestion._id}
-              onClick={() => handleSuggestionClick(suggestion)}
-            >
-              {suggestion.name}
-            </Dropdown.Item>
-          ))}
-        </DropdownButton>
-      )}
-
-      <Modal show={isModalOpen} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Item Details</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {selectedItemDetails && (
-            <div>
-              <h4>{selectedItemDetails.name}</h4>
-              <p>{selectedItemDetails.description}</p>
-              {/* Add more details as needed */}
-            </div>
-          )}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </div>
+    <Container fluid className="search-bar">
+      <Row>
+        <Col xs={12} sm={12} md={12} lg={12} style={{  width: '369px'}}>
+          <div style={{ position: 'relative'}}>
+            <input
+              type="text"
+              value={query}
+              onChange={handleInputChange}
+              placeholder="Search cards..."
+              className="form-control"
+            />
+            {showSuggestions && results.length > 0 && (
+              <div className="search-dropdown">
+                {results.map((result, index) => (
+                  <Button
+                    key={index}
+                    className="dropdown-item"
+                    onClick={() => handleClick(result)}
+                    
+                  >
+                    
+                    {result.title}
+                  </Button>
+                  
+                ))}
+            
+              </div>
+            )}
+          </div>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

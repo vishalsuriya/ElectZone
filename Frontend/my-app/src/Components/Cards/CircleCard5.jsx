@@ -41,7 +41,7 @@ function CircleCard3() {
   }, []);
 
   function handleClick(product) {
-    navigate("/ProductPage", { state: { productid: product } });
+    navigate("/ProductPage", { state: { product: product } });
   }
 
   const handleAddItem = (e, product) => {
