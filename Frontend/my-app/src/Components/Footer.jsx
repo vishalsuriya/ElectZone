@@ -8,6 +8,7 @@ import {
   MDBBtn,
   MDBInput,
 } from "mdb-react-ui-kit";
+import './FooterStyle.css'; // Make sure to create and link this CSS file
 
 function Footer() {
   return (
@@ -19,11 +20,11 @@ function Footer() {
         <MDBContainer className="text-center text-md-start mt-5">
           <MDBRow className="mt-3">
             <MDBCol md="4" lg="3" xl="3" className="mx-auto mb-4">
-              <h6 className="text-uppercase fw-bold mb-4">
+              <h6 className="text-uppercase fw-bold mb-4 text-white">
                 <MDBIcon icon="gem" className="me-3" />
                 Company name
               </h6>
-              <p>
+              <p className="text-white">
                 Here you can use rows and columns to organize your footer
                 content. Lorem ipsum dolor sit amet, consectetur adipisicing
                 elit.
@@ -31,19 +32,19 @@ function Footer() {
             </MDBCol>
 
             <MDBCol md="4" lg="3" xl="3" className="mx-auto mb-4">
-              <h6 className="text-uppercase fw-bold mb-4">Contact</h6>
-              <p>
+              <h6 className="text-uppercase fw-bold mb-4 text-white">Contact</h6>
+              <p className="text-white">
                 <MDBIcon icon="home" className="me-2" />
                 New York, NY 10012, US
               </p>
-              <p>
+              <p className="text-white">
                 <MDBIcon icon="envelope" className="me-3" />
                 info@example.com
               </p>
-              <p>
+              <p className="text-white">
                 <MDBIcon icon="phone" className="me-3" /> + 01 234 567 88
               </p>
-              <p>
+              <p className="text-white">
                 <MDBIcon icon="print" className="me-3" /> + 01 234 567 89
               </p>
             </MDBCol>
@@ -73,7 +74,7 @@ function Footer() {
       <section className="text-center mb-6">
         <MDBBtn
           outline
-          color="dark"
+          color="light"
           floating
           className="m-1"
           href="#!"
@@ -84,7 +85,7 @@ function Footer() {
 
         <MDBBtn
           outline
-          color="dark"
+          color="light"
           floating
           className="m-1"
           href="#!"
@@ -95,7 +96,7 @@ function Footer() {
 
         <MDBBtn
           outline
-          color="dark"
+          color="light"
           floating
           className="m-1"
           href="#!"
@@ -106,7 +107,7 @@ function Footer() {
 
         <MDBBtn
           outline
-          color="dark"
+          color="light"
           floating
           className="m-1"
           href="#!"
@@ -117,7 +118,7 @@ function Footer() {
 
         <MDBBtn
           outline
-          color="dark"
+          color="light"
           floating
           className="m-1 "
           href="#!"
@@ -128,7 +129,7 @@ function Footer() {
 
         <MDBBtn
           outline
-          color="dark"
+          color="light"
           floating
           className="m-1"
           href="#!"
