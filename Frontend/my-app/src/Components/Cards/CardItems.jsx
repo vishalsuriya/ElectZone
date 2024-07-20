@@ -12,7 +12,6 @@ import {
 } from "mdb-react-ui-kit";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Shipping from "../Shipping";
 
 function CardItems() {
   const navigate = useNavigate();
@@ -24,9 +23,8 @@ function CardItems() {
       .then((response) => setData(response.data))
       .catch((error) => console.error(error));
   }, []);
-  console.log(data);
   function handleClick(product) {
-    navigate("/ProductPage", { state: { productid: product } });
+    navigate("/ProductPage", { state: { product: product } });
   }
   return (
     <div className="product-cards-container">
@@ -44,21 +42,6 @@ function CardItems() {
               <div className="product-details">
                 <span className="price">${product.price}</span>
                 <div className="button-container">
-                  <MDBBtn
-                    className="btn-buy-now me-4"
-                    style={{
-                      fontSize: "0.8rem",
-                      padding: "0.5rem 1.0rem",
-                      backgroundColor: "transparent",
-                      color: "black",
-                    }}
-                    onClick={() => {
-                      navigate("/BuyProducts");
-                    }}
-                  >
-                    Buy Now
-                  </MDBBtn>
-
                   <MDBBtn
                     onClick={() => addItem(product)}
                     style={{
