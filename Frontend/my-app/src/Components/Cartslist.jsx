@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useCart } from 'react-use-cart';
-import { useNavigate } from 'react-router-dom';
-
+import { useSelector } from 'react-redux';
+import axios from 'axios';
+import {useNavigate} from "react-router-dom";
 function Cartslist() {
+  const navigate = useNavigate();
+  const userInfo = useSelector((state) => state.userLogin.userInfo);
+  const userName = userInfo ? userInfo.name : '';
   const {
     isEmpty,
     totalUniqueItems,
@@ -13,9 +17,24 @@ function Cartslist() {
     removeItem,
     emptyCart,
   } = useCart();
-  const navigate = useNavigate();
-  if (isEmpty) return <h1 className='text-center'>Your cart is empty</h1>;
 
+  const [cartData, setCartData] = useState({ userName: '', items: [] });
+
+  useEffect(() => {
+    setCartData({ userName, items });
+
+    const uploadCartData = async () => {
+      try {
+        await axios.post('http://localhost:5000/api/users/usercart', cartData); 
+      } catch (error) {
+        console.error('Error uploading cart data:', error);
+      }
+    };
+
+    uploadCartData();
+  }, [items, userName]);
+
+  if (isEmpty) return <h1 className='text-center'>Your cart is empty</h1>;
   return (
     <section className='py-4 container'>
       <div className='row justify-content-center'>

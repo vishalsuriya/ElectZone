@@ -12,7 +12,6 @@ export default function ConfirmOrder() {
     ...items,
     ...(product && Object.keys(product).length ? [product] : [])
   ];
-
   const calculateTotalPrice = (items) => {
     return items.reduce((total, item) => {
       const price = parseFloat(item.price) || 0;
@@ -77,7 +76,7 @@ export default function ConfirmOrder() {
             <button
               id="checkout_btn"
               className="btn btn-primary btn-block"
-              onClick={() => navigate("/Payment")}
+              onClick={() => navigate("/Payment",{state:{Data : allItems}})}
             >
               Proceed to Payment
             </button>

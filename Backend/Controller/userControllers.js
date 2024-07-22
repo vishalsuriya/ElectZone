@@ -1,6 +1,8 @@
 const asyncHandler = require("express-async-handler");
 const Users = require("../model/UserModel.js");
+const UserCart = require("../model/UserCart.js");
 const  generateToken  = require( "../utils/generateToken.js");
+const stripe = require("stripe")("sk_test_51Pez84Glv44VgkWUlFo88RHr7mzu3JCJPNTdbJwIBg5DSC8eEF8TaRrd1dXsYU47fzJkaJvLqClBoX0KBcMZH9xg00qzHVkawL");
 const registerUser = asyncHandler(async(req,res)=>{
     const {name,email,password,pic} = req.body;
     const userExists = await Users.findOne({email});
@@ -75,4 +77,59 @@ const authUser = asyncHandler(async (req, res) => {
       throw new Error("User Not Found");
     }
   });
-module.exports = {registerUser,authUser,updateUserProfile};
+  const usercart = asyncHandler(async (req, res) => {
+    try {
+      const cartData = req.body;
+      await UserCart.findOneAndUpdate(
+        { userName: cartData.userName }, 
+        cartData,
+        { upsert: true } 
+      );
+      res.status(200).json({ message: 'Cart data received and saved successfully!' });
+    } catch (err) {
+      res.status(500).json({ message: 'Error saving cart data', error: err });
+    }
+  });
+  const userPayment = asyncHandler(async (req, res) => {
+    try {
+      const paymentData = req.body.products; // Ensure you're using the correct property
+  
+      // Log the incoming payment data to debug
+      console.log('Payment Data:', paymentData);
+  
+      const lineItems = paymentData.map((data, index) => {
+        // Log each data item to ensure correct structure
+        console.log(`Item ${index}:`, data);
+  
+        return {
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: data.title,
+              images: [data.imgsrc],
+            },
+            unit_amount: Math.round(data.price * 100), // Amount in cents
+          },
+          quantity: data.quantity || 1, // Ensure the quantity field is present, defaulting to 1 if not provided
+        };
+      });
+  
+      // Log the constructed lineItems array
+      console.log('Line Items:', lineItems);
+  
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items: lineItems,
+        mode: 'payment',
+        success_url: 'http://localhost:3000/success', // Update with your success URL
+        cancel_url: 'http://localhost:3000/cancel',   // Update with your cancel URL
+      });
+  
+      res.json({ id: session.id });
+    } catch (error) {
+      console.error('Error creating Stripe session:', error);
+      res.status(500).json({ error: 'Internal Server Error', message: error.message });
+    }
+  });
+  
+  module.exports = { registerUser, authUser, updateUserProfile, usercart, userPayment };

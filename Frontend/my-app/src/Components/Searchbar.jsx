@@ -13,7 +13,7 @@ const SearchBar = () => {
   // Function to fetch data from the backend
   const fetchData = async (searchQuery) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/allcards?q=${searchQuery}`);
+      const response = await axios.get(`http://localhost:5000/api/cards/allcards?q=${searchQuery}`);
       setResults(response.data);
       setShowSuggestions(true);
     } catch (error) {
@@ -23,6 +23,7 @@ const SearchBar = () => {
       alert("An error occurred while fetching data. Please try again.");
     }
   };
+  
 
   // Debounced fetch function
   const debouncedFetch = _.debounce((searchQuery) => {

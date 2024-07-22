@@ -22,13 +22,20 @@ USER_UPDATE_REQUEST,USER_UPDATE_SUCCESS
       dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
   
       localStorage.setItem("userInfo", JSON.stringify(data));
+      if (data.token) {
+        localStorage.setItem("userInfo", JSON.stringify(data));
+      } else {
+        dispatch({
+          type: USER_LOGIN_FAIL,
+          payload: 'Authentication failed: no token received',
+        });
+      }
     } catch (error) {
       dispatch({
         type: USER_LOGIN_FAIL,
-        payload:
-          error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message,
+        payload: error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
       });
     }
   };
@@ -72,12 +79,16 @@ USER_UPDATE_REQUEST,USER_UPDATE_SUCCESS
       try {
         dispatch({ type: USER_UPDATE_REQUEST });
     
-        const userInfo = localStorage.getItem("userInfo")
+        const storedUserInfo = localStorage.getItem("userInfo");
+        if (!storedUserInfo) {
+          throw new Error('User info not found in local storage');
+        }
+        
+        const userInfo = JSON.parse(storedUserInfo);
         if (!userInfo || !userInfo.token) {
           throw new Error('User token is missing');
         }
-        console.log('userInfo:', userInfo);
-
+    
         const config = {
           headers: {
             'Content-Type': 'application/json',
@@ -92,7 +103,7 @@ USER_UPDATE_REQUEST,USER_UPDATE_SUCCESS
         localStorage.setItem('userInfo', JSON.stringify(data));
       } catch (error) {
         dispatch({
-          type:USER_UPDATE_FAIL ,
+          type: USER_UPDATE_FAIL,
           payload: error.response && error.response.data.message
             ? error.response.data.message
             : error.message,

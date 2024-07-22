@@ -6,8 +6,15 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import { loadStripe } from '@stripe/stripe-js';
+import { useLocation } from 'react-router-dom';
+
+// Initialize Stripe
+const stripePromise = loadStripe("pk_test_51Pez84Glv44VgkWUycmbDjCxdByoFchGmuMVBNdVPIQozAh7pkufsnQSRd3VXmdZ2ScohxRPcdzPmbkHv1XuJSM900NpTxkMBw");
 
 export default function Payment() {
+  const location = useLocation();
+  const { Data } = location.state;
   const [cardName, setCardName] = useState('');
   const [cardNumber, setCardNumber] = useState('');
   const [expDate, setExpDate] = useState('');
@@ -16,7 +23,7 @@ export default function Payment() {
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!cardName || !cardNumber || !expDate || !cvv) {
       setSnackbarMessage('Please fill all fields');
@@ -25,20 +32,34 @@ export default function Payment() {
       return;
     }
 
-    if (cardNumber.length < 16) {
+    if (cardNumber.length < 3) {
       setSnackbarMessage('Invalid card number');
       setSnackbarSeverity('error');
       setSnackbarOpen(true);
       return;
     }
-    setSnackbarMessage('Payment successful!');
-    setSnackbarSeverity('success');
-    setSnackbarOpen(true);
+
+    try {
+      const stripe = await stripePromise;
+      const response = await fetch("http://localhost:5000/api/users/payment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ products: Data }),
+      });
+      const session = await response.json();
+      const result = await stripe.redirectToCheckout({ sessionId: session.id });
+      if (result.error) {
+        console.error(result.error.message);
+      }
+    } catch (error) {
+      console.error("Error during payment:", error);
+      setSnackbarMessage('Payment failed');
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
+    }
   };
 
-  const handleSnackbarClose = () => {
-    setSnackbarOpen(false);
-  };
+  const handleSnackbarClose = () => setSnackbarOpen(false);
 
   return (
     <div>

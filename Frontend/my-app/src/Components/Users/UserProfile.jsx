@@ -41,16 +41,24 @@ const UserProfile = () => {
       data.append("file", pics);
       data.append("upload_preset", "ElectZone");
       data.append("cloud_name", "dy6n0qbpd");
+
+      console.log("Uploading file:", pics); // Debugging line
+
       fetch("https://api.cloudinary.com/v1_1/dy6n0qbpd/image/upload", {
         method: "post",
         body: data,
       })
-        .then((res) => res.json())
+        .then((res) => {
+          console.log("Response:", res); // Debugging line
+          return res.json();
+        })
         .then((data) => {
+          console.log("Data:", data); // Debugging line
           setPic(data.url.toString());
         })
         .catch((err) => {
-          console.log(err);
+          console.error("Upload failed:", err); // Debugging line
+          setPicMessage("Failed to upload image. Please try again.");
         });
     } else {
       setPicMessage("Please select an image");
@@ -75,6 +83,16 @@ const UserProfile = () => {
   return (
     <Container fluid className="d-flex flex-column justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
       <Row className="align-items-center g-lg-4">
+      <Col md={12} lg={6} className="d-flex justify-content-center">
+          <Image
+            src={pic || 'https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg'}
+            alt={name || 'Profile Picture'}
+            className="profilePic"
+            fluid
+            width={300}
+            height={300}
+          />
+        </Col>
         <Col md={12} lg={6} className="d-flex justify-content-center">
           <div className="profile-container p-4 p-md-5">
             {loading && <Loading />}
@@ -83,6 +101,7 @@ const UserProfile = () => {
             )}
             {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
             {formError && <ErrorMessage variant="danger">{formError}</ErrorMessage>} {/* Display form errors */}
+            {picMessage && <ErrorMessage variant="danger">{picMessage}</ErrorMessage>} {/* Display pic upload errors */}
             <Form onSubmit={submitHandler} className="w-100">
               <Form.Group controlId="name" className="mb-3">
                 <Form.Label>Name</Form.Label>
@@ -120,7 +139,6 @@ const UserProfile = () => {
                   onChange={(e) => setConfirmPassword(e.target.value)}
                 />
               </Form.Group>
-              {picMessage && <ErrorMessage variant="danger">{picMessage}</ErrorMessage>}
               <Form.Group controlId="pic" className="mb-3">
                 <Form.Label>Change Profile Picture</Form.Label>
                 <Form.Control
@@ -133,17 +151,6 @@ const UserProfile = () => {
               </Button>
             </Form>
           </div>
-        </Col>
-        <Col md={12} lg={6} className="d-flex justify-content-center">
-          <Image
-            src={pic || 'https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg'}
-            alt={name || 'Profile Picture'}
-            className="profilePic"
-            fluid
-            width={300}
-            height={300}
-            style={{borderRadius:'50%', objectFit:'cover'}}
-          />
         </Col>
       </Row>
     </Container>
