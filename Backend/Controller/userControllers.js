@@ -77,30 +77,11 @@ const authUser = asyncHandler(async (req, res) => {
       throw new Error("User Not Found");
     }
   });
-  const usercart = asyncHandler(async (req, res) => {
-    try {
-      const cartData = req.body;
-      await UserCart.findOneAndUpdate(
-        { userName: cartData.userName }, 
-        cartData,
-        { upsert: true } 
-      );
-      res.status(200).json({ message: 'Cart data received and saved successfully!' });
-    } catch (err) {
-      res.status(500).json({ message: 'Error saving cart data', error: err });
-    }
-  });
+  
   const userPayment = asyncHandler(async (req, res) => {
     try {
       const paymentData = req.body.products; // Ensure you're using the correct property
-  
-      // Log the incoming payment data to debug
-      console.log('Payment Data:', paymentData);
-  
       const lineItems = paymentData.map((data, index) => {
-        // Log each data item to ensure correct structure
-        console.log(`Item ${index}:`, data);
-  
         return {
           price_data: {
             currency: 'usd',
@@ -115,21 +96,21 @@ const authUser = asyncHandler(async (req, res) => {
       });
   
       // Log the constructed lineItems array
-      console.log('Line Items:', lineItems);
+      // console.log('Line Items:', lineItems);
   
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         line_items: lineItems,
         mode: 'payment',
-        success_url: 'http://localhost:3000/success', // Update with your success URL
-        cancel_url: 'http://localhost:3000/cancel',   // Update with your cancel URL
+        success_url: 'http://localhost:3000/Login', // Update with your success URL
       });
-  
-      res.json({ id: session.id });
+      console.log(session)
+      if(session.id!=undefined || session.id!=null)
+      res.status(200).json({ id: session.id,session });
     } catch (error) {
       console.error('Error creating Stripe session:', error);
       res.status(500).json({ error: 'Internal Server Error', message: error.message });
     }
   });
   
-  module.exports = { registerUser, authUser, updateUserProfile, usercart, userPayment };
+  module.exports = { registerUser, authUser, updateUserProfile, userPayment };

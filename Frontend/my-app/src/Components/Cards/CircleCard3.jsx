@@ -12,8 +12,8 @@ import {
   MDBBtn,
   MDBRipple,
 } from "mdb-react-ui-kit";
-import NavigationBar from "../NavigationBar2";
-import Footer from "../Footer";
+import Footer from "../Footer/Footer";
+import NavigationBar from "../Header/NavigationBar";
 
 function CircleCard3() {
   const navigate = useNavigate();

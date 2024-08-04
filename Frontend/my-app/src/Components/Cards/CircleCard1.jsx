@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useCart } from "react-use-cart";
 import "../Cards/CircleCardStyle.css";
 import { useNavigate } from "react-router-dom";
-
+import NavigationBar from "../Header/NavigationBar";
 import {
   MDBCard,
   MDBCardBody,
@@ -12,8 +12,8 @@ import {
   MDBBtn,
   MDBRipple,
 } from "mdb-react-ui-kit";
-import NavigationBar from "../NavigationBar2";
-import Footer from "../Footer";
+
+import Footer from "../Footer/Footer";
 
 function CircleCard3() {
   const navigate = useNavigate();

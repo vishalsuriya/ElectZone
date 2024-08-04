@@ -7,7 +7,7 @@ import About from "./Routes/About";
 import Contact from "./Routes/Contact";
 import UserLogin from "./Components/Users/UserLogin";
 import UserSignup from "./Components/Users/UserSignup";
-import Cartpage from "./Components/Cartpage";
+import Cartpage from "./Components/UserCart/Cartpage";
 import CircleCard1 from "./Components/Cards/CircleCard1";
 import CircleCard2 from "./Components/Cards/CircleCard2";
 import CircleCard3 from "./Components/Cards/CircleCard3";
@@ -15,10 +15,9 @@ import CircleCard4 from "./Components/Cards/CircleCard4";
 import CircleCard5 from "./Components/Cards/CircleCard5";
 import { CartProvider } from "react-use-cart";
 import UserProfile from "./Components/Users/UserProfile";
-import Shipping from "./Components/Shipping";
-import ConfirmOder from "./Components/ConfirmOrder";
-import Payment from "./Components/Payment";
-import BuyProducts from "./Components/CheckOut";
+import Shipping from "./Components/BuyProducts/Shipping";
+import ConfirmOder from "./Components/BuyProducts/ConfirmOrder";
+import CheckOut from "./Components/BuyProducts/CheckOut";
 import ProductPage from "./Components/ProductPage/ProductPage";
 import { Provider } from "react-redux";
 import store from "../src/store";
@@ -40,11 +39,10 @@ function App() {
      <Route path="/CircleCard3" element ={<CircleCard3/>}/>
      <Route path="/CircleCard4" element ={<CircleCard4/>}/>
      <Route path="/CircleCard5" element ={<CircleCard5/>}/>
-     <Route path="/CheckOut" element ={<BuyProducts/>}/>
+     <Route path="/CheckOut" element ={<CheckOut/>}/>
      <Route path="/UserProfile" element ={<UserProfile  />}/>
      <Route path="/Shipping" element ={<Shipping/>}/>
      <Route path="/ConfirmOrder" element ={<ConfirmOder />}/>
-     <Route path="/Payment" element ={<Payment />}/>
     </Routes>
     </CartProvider>
     </Provider>

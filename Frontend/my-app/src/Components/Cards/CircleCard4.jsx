@@ -12,8 +12,7 @@ import {
   MDBBtn,
   MDBRipple,
 } from "mdb-react-ui-kit";
-import NavigationBar from "../NavigationBar2";
-import Footer from "../Footer";
+import Footer from "../Footer/Footer";
 
 function CircleCard3() {
   const navigate = useNavigate();
@@ -53,8 +52,7 @@ function CircleCard3() {
 
   return (
     <div>
-      <NavigationBar />
-
+    
       <div className="product-cards-container">
         {data.map((product, index) => (
           <MDBRipple
