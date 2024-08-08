@@ -8,7 +8,7 @@ const stripe = require("stripe")("sk_test_51Pez84Glv44VgkWUlFo88RHr7mzu3JCJPNTdb
 // Custom modules
 const connectDB = require("../Backend/Database/connection");
 const userRoutes = require("./routes/userRoutes.js");
-const cardsRoutes = require("./routes/CardsRoutes.js");
+const cardsRoutes = require("./routes/cardsRoutes.js");
 const { notFound, errorHandler } = require("../Backend/middleware/ErrorMiddleware.js");
 
 // Models (not used in this file, consider removing if unnecessary)
