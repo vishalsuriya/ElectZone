@@ -1,0 +1,66 @@
+/* Basic styles for the order confirmation page */
+.order-confirm {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-left: 20px; /* Add left margin */
+  }
+  
+  /* Style for cart items */
+  .cart-item {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .cart-item img {
+    border-radius: 4px;
+  }
+  
+  /* Style for the order summary */
+  .order-summary-values {
+    font-weight: bold;
+  }
+  
+  #order_summary {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-left: 20px; /* Add left margin */
+  }
+  
+  /* Style for the checkout button */
+  #checkout_btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    font-size: 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  #checkout_btn:hover {
+    background-color: #0056b3;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Responsive design adjustments */
+  @media (max-width: 768px) {
+    .order-confirm,
+    #order_summary {
+      padding: 15px;
+      margin-left: 10px; /* Adjust margin for smaller screens */
+    }
+  
+    #checkout_btn {
+      font-size: 16px;
+      padding: 10px 15px;
+    }
+  }
+  

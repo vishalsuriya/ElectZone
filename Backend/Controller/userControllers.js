@@ -80,11 +80,13 @@ const authUser = asyncHandler(async (req, res) => {
   
   const userPayment = asyncHandler(async (req, res) => {
     try {
-      const paymentData = req.body.products; // Ensure you're using the correct property
+      const paymentData = req.body.products; 
+      const userEmail = req.body.userEmail
       const lineItems = paymentData.map((data, index) => {
         return {
           price_data: {
             currency: 'usd',
+            
             product_data: {
               name: data.title,
               images: [data.imgsrc],
@@ -99,10 +101,13 @@ const authUser = asyncHandler(async (req, res) => {
       // console.log('Line Items:', lineItems);
   
       const session = await stripe.checkout.sessions.create({
+        
         payment_method_types: ['card'],
         line_items: lineItems,
+      customer_email :userEmail,
         mode: 'payment',
-        success_url: 'http://localhost:3000/Login', // Update with your success URL
+        success_url: 'http://localhost:3000/Login',
+        
       });
       console.log(session)
       if(session.id!=undefined || session.id!=null)
@@ -112,5 +117,7 @@ const authUser = asyncHandler(async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error', message: error.message });
     }
   });
+  
+  
   
   module.exports = { registerUser, authUser, updateUserProfile, userPayment };

@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const nodeMailer = require("nodemailer");
+const stripe = require("stripe")("sk_test_51Pez84Glv44VgkWUlFo88RHr7mzu3JCJPNTdbJwIBg5DSC8eEF8TaRrd1dXsYU47fzJkaJvLqClBoX0KBcMZH9xg00qzHVkawL");
 // Custom modules
 const connectDB = require("../Backend/Database/connection");
 const userRoutes = require("./routes/userRoutes.js");
@@ -36,7 +37,7 @@ connectDB();
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/api/cards", cardsRoutes);
-const endpointSecret = 'whsec_34db7d1d6ff5a27466284dd6e1d0df66e2bfabdad238a14807852f8f6bc2847f'; // Replace with your Stripe webhook secret
+
 
 // Webhook endpoint for handling Stripe events
 const transporter = nodeMailer.createTransport({
@@ -46,31 +47,34 @@ const transporter = nodeMailer.createTransport({
     pass: 'xznl manu vwwt zvbf'    // Replace with your email password or an app-specific password
   }
 });
-
 app.use(bodyParser.raw({ type: 'application/json' }));
-
-app.post('/Electzone/api/stripe/webhook', async (req, res) => {
+app.post("/webhook", async (req, res) => {
+  const signingSecret = "whsec_34db7d1d6ff5a27466284dd6e1d0df66e2bfabdad238a14807852f8f6bc2847f";
+  const payload = req.body;
   const sig = req.headers['stripe-signature'];
-  let event;
 
   try {
-    event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
-  } catch (err) {
-    console.error(`Webhook Error: ${err.message}`);
-    return res.status(400).send(`Webhook Error: ${err.message}`);
-  }
+    const event = stripe.webhooks.constructEvent(payload, sig, signingSecret);
 
-  if (event.type === 'checkout.session.completed') {
-    const session = event.data.object;
-    console.log('Checkout session completed:', session);
-    const userEmail = session.customer_email;
-    // Send confirmation email
-    await sendConfirmationEmail(session);
-  }
+    // Handle the event
+    switch (event.type) {
+      case 'checkout.session.completed':
+        const session = event.data.object;
+        console.log('Checkout Session Completed:', session);
+        await sendConfirmationEmail(session.customer_email, session);
+        // Then define and call a method to handle the event checkout.session.completed
+        break;
+      // Add other event types here as needed
+      default:
+        console.log(`Unhandled event type ${event.type}`);
+    }
 
-  res.json({ received: true });
+    res.status(200).json({ received: true });
+  } catch (error) {
+    console.error('Webhook Error:', error);
+    res.status(400).json({ error: 'Webhook Error', message: error.message });
+  }
 });
-
 const sendConfirmationEmail = async (userEmail ,session) => {
   const mailOptions = {
     from: 'vishalsuriya2003@gmail.com', // Replace with your email address

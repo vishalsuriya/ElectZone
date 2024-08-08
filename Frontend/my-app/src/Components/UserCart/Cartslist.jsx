@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 function Cartslist() {
   const navigate = useNavigate();
   const userInfo = useSelector((state) => state.userLogin.userInfo);
-  const userName = userInfo ? userInfo.name : '';
 
   const {
     isEmpty,
@@ -20,23 +19,6 @@ function Cartslist() {
     emptyCart,
     setItems,
   } = useCart();
-
-  // Load cart items from localStorage when the component mounts
-  useEffect(() => {
-    if (userName) {
-      const savedItems = localStorage.getItem(`cartItems_${userName}`);
-      if (savedItems) {
-        setItems(JSON.parse(savedItems));
-      }
-    }
-  }, [setItems, userName]);
-
-  // Save cart items to localStorage whenever they change
-  useEffect(() => {
-    if (userName) {
-      localStorage.setItem(`cartItems_${userName}`, JSON.stringify(items));
-    }
-  }, [items, userName]);
 
   if (isEmpty) return <h1 className='text-center'>Your cart is empty</h1>;
 

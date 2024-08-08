@@ -4,7 +4,7 @@ import CheckOut from './CheckOut';
 import "../BuyProducts/CheckOutStyle.css";
 import { useSelector } from 'react-redux';
 import { loadStripe } from '@stripe/stripe-js';
-
+import "../BuyProducts/ConfirmOrderStyle.css";
 
 const stripePromise = loadStripe("pk_test_51Pez84Glv44VgkWUycmbDjCxdByoFchGmuMVBNdVPIQozAh7pkufsnQSRd3VXmdZ2ScohxRPcdzPmbkHv1XuJSM900NpTxkMBw");
 
@@ -39,7 +39,7 @@ export default function ConfirmOrder() {
       const response = await fetch("http://localhost:5000/api/users/payment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ products: allItems }), // Ensure this data is what your backend expects
+        body: JSON.stringify({ products: allItems,userEmail : userInfo.email }), // Ensure this data is what your backend expects
       });
       
       const session = await response.json();
