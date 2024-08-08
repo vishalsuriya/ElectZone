@@ -25,7 +25,7 @@ function CircleCard3() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/cards/CircleCards2"
+          "https://electzone-ecommerce.onrender.com/api/cards/CircleCards2"
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");

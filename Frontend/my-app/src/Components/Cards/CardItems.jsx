@@ -19,7 +19,7 @@ function CardItems() {
   const [data, setData] = useState([]);
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/cards")
+      .get("https://electzone-ecommerce.onrender.com/api/cards")
       .then((response) => setData(response.data))
       .catch((error) => console.error(error));
   }, []);
