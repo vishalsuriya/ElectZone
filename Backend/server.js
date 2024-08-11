@@ -29,17 +29,6 @@ app.use("/api/users", userRoutes);
 app.use("/api/cards", cardsRoutes);
 
 
-app.get('/api/orders/:sessionId', (req, res) => {
-  const { sessionId } = req.params;
-
-  if (orderStore[sessionId]) {
-    res.json(orderStore[sessionId]);
-  } else {
-    res.status(404).json({ error: 'Order not found' });
-  }
-});
-
-
 
 // Error handling middleware
 app.use(notFound);

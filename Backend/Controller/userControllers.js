@@ -79,7 +79,7 @@ const authUser = asyncHandler(async (req, res) => {
     }
   });
   
-  const orderStore = {}; // In-memory store for demonstration
+  const orderStore = {}; 
 
   const userPayment = asyncHandler(async (req, res) => {
     try {
@@ -120,20 +120,20 @@ const authUser = asyncHandler(async (req, res) => {
         sessionId: session.id,
         date: new Date(),
       };
-  
+      console.log('OrderStore:', orderStore);
       // Create transporter for sending emails
       const transporter = nodeMailer.createTransport({
         service: 'gmail',
         auth: {
-          user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASS,
+          user:"vishalsuriya2003@gmail.com",
+          pass:"iuaf dmzi jgsq vkzk",
         },
       });
   
       // Function to send confirmation email
       const sendConfirmationEmail = async (userEmail, session) => {
         const mailOptions = {
-          from: process.env.EMAIL_USER,
+          from: "vishalsuriya2003@gmail.com",
           to: userEmail,
           subject: 'Order Confirmation',
           text: `Thank you for your purchase! Your session ID is ${session.id}.`,
@@ -147,11 +147,7 @@ const authUser = asyncHandler(async (req, res) => {
           console.error('Error sending email:', error);
         }
       };
-  
-      // Send confirmation email
       await sendConfirmationEmail(userEmail, session);
-  
-      // Respond with the session ID
       if (session.id) {
         res.status(200).json({ id: session.id, session });
       } else {
@@ -162,7 +158,17 @@ const authUser = asyncHandler(async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error', message: error.message });
     }
   });
+  const orderdetails = asyncHandler(async(req,res)=>{
+    const { sessionId } = req.params;
+    console.log('Received sessionId:', sessionId);
   
-
+    if (orderStore[sessionId]) {
+      console.log('Order found:', orderStore[sessionId]);
+      res.json(orderStore[sessionId]);
+    } else {
+      console.log('Order not found in store');
+      res.status(404).json({ error: 'Order not found' });
+    }
+   })
   
-  module.exports = { registerUser, authUser, updateUserProfile, userPayment };
+  module.exports = { registerUser, authUser, updateUserProfile, userPayment,orderdetails };
