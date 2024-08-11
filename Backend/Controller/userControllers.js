@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const Users = require("../model/UserModel.js");
+const nodeMailer = require("nodemailer");
 const UserCart = require("../model/UserCart.js");
 const  generateToken  = require( "../utils/generateToken.js");
 const stripe = require("stripe")("sk_test_51Pez84Glv44VgkWUlFo88RHr7mzu3JCJPNTdbJwIBg5DSC8eEF8TaRrd1dXsYU47fzJkaJvLqClBoX0KBcMZH9xg00qzHVkawL");
@@ -78,46 +79,90 @@ const authUser = asyncHandler(async (req, res) => {
     }
   });
   
+  const orderStore = {}; // In-memory store for demonstration
+
   const userPayment = asyncHandler(async (req, res) => {
     try {
-      const paymentData = req.body.products; 
-      const userEmail = req.body.userEmail
-      const lineItems = paymentData.map((data, index) => {
-        return {
-          price_data: {
-            currency: 'usd',
-            
-            product_data: {
-              name: data.title,
-              images: [data.imgsrc],
-            },
-            unit_amount: Math.round(data.price * 100), // Amount in cents
+      const { products, userEmail } = req.body;
+      if (!products || !userEmail) {
+        return res.status(400).json({ error: 'Missing required fields' });
+      }
+  
+      console.log('Payment Data:', products);
+      console.log('User Email:', userEmail);
+  
+      // Prepare line items for Stripe checkout session
+      const lineItems = products.map((data) => ({
+        price_data: {
+          currency: 'usd',
+          product_data: {
+            name: data.title,
+            images: [data.imgsrc],
           },
-          quantity: data.quantity || 1, // Ensure the quantity field is present, defaulting to 1 if not provided
-        };
-      });
+          unit_amount: Math.round(data.price * 100), // Amount in cents
+        },
+        quantity: data.quantity || 1, // Default to 1 if quantity is not provided
+      }));
   
-      // Log the constructed lineItems array
-      // console.log('Line Items:', lineItems);
-  
+      // Create a Stripe checkout session
       const session = await stripe.checkout.sessions.create({
-        
         payment_method_types: ['card'],
         line_items: lineItems,
-      customer_email :userEmail,
+        customer_email: userEmail,
         mode: 'payment',
-        success_url: 'http://localhost:3000/Login',
-        
+        success_url: `http://localhost:3000/Orders?session_id={CHECKOUT_SESSION_ID}`
       });
-      console.log(session)
-      if(session.id!=undefined || session.id!=null)
-      res.status(200).json({ id: session.id,session });
+  
+      // Store the session details
+      orderStore[session.id] = {
+        products,
+        userEmail,
+        sessionId: session.id,
+        date: new Date(),
+      };
+  
+      // Create transporter for sending emails
+      const transporter = nodeMailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS,
+        },
+      });
+  
+      // Function to send confirmation email
+      const sendConfirmationEmail = async (userEmail, session) => {
+        const mailOptions = {
+          from: process.env.EMAIL_USER,
+          to: userEmail,
+          subject: 'Order Confirmation',
+          text: `Thank you for your purchase! Your session ID is ${session.id}.`,
+          html: `<p>Thank you for your purchase! Your session ID is <strong>${session.id}</strong>.</p>`,
+        };
+  
+        try {
+          await transporter.sendMail(mailOptions);
+          console.log('Email sent successfully');
+        } catch (error) {
+          console.error('Error sending email:', error);
+        }
+      };
+  
+      // Send confirmation email
+      await sendConfirmationEmail(userEmail, session);
+  
+      // Respond with the session ID
+      if (session.id) {
+        res.status(200).json({ id: session.id, session });
+      } else {
+        res.status(500).json({ error: 'Failed to create Stripe session' });
+      }
     } catch (error) {
       console.error('Error creating Stripe session:', error);
       res.status(500).json({ error: 'Internal Server Error', message: error.message });
     }
   });
   
-  
+
   
   module.exports = { registerUser, authUser, updateUserProfile, userPayment };

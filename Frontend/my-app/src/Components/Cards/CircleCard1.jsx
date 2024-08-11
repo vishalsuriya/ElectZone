@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useCart } from "react-use-cart";
 import "../Cards/CircleCardStyle.css";
 import { useNavigate } from "react-router-dom";
-import NavigationBar from "../Header/NavigationBar";
+import NavigationBar2 from "../Header/NavigationBar2";
 import {
   MDBCard,
   MDBCardBody,
@@ -20,7 +20,7 @@ function CircleCard3() {
   const { addItem } = useCart();
   const [data, setData] = useState([]);
   const [addedItem, setAddedItem] = useState(null);
-
+  const [loginPrompt, setLoginPrompt] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -46,14 +46,20 @@ function CircleCard3() {
 
   const handleAddItem = (e, product) => {
     e.stopPropagation();
-    addItem(product);
-    setAddedItem(product);
-    setTimeout(() => setAddedItem(null), 2000); // Hide message after 2 seconds
+    if (!localStorage.getItem("userInfo")) {
+      setLoginPrompt(true);
+      setTimeout(() => {
+        navigate("/UserLogin");
+      }, 2000); 
+    } else {
+      addItem(product);
+      setAddedItem(product);
+    }
   };
 
   return (
     <div>
-      <NavigationBar />
+      <NavigationBar2 />
 
       <div className="product-cards-container">
         {data.map((product, index) => (
@@ -85,7 +91,7 @@ function CircleCard3() {
                       }}
                       aria-label={`Add ${product.title} to cart`}
                     >
-                      Cart
+                     Add to Cart
                     </MDBBtn>
                   </div>
                 </div>
@@ -98,6 +104,11 @@ function CircleCard3() {
             {addedItem.title} has been added to the cart!
           </div>
         )}
+        {loginPrompt && (
+        <div className="login-prompt">
+          Please log in to add items to the cart.
+        </div>
+         )}
       </div>
 
       <Footer />

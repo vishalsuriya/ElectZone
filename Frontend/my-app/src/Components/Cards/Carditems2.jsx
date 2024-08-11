@@ -26,14 +26,16 @@ function CardItems2() {
       .then((response) => setData(response.data))
       .catch((error) => console.error(error));
   }, []);
-
+  function handleClick(product) {
+    navigate("/ProductPage", { state: { product: product } });
+  }
   const handleAddItem = (e, product) => {
     e.stopPropagation();
-    if (!localStorage.getItem("userLoggedIn")) {
+    if (!localStorage.getItem("userInfo")) {
       setLoginPrompt(true);
       setTimeout(() => {
         navigate("/UserLogin");
-      }, 2000); // Redirect after 2 seconds to let the user see the prompt
+      }, 2000); 
     } else {
       addItem(product);
       setAddedItem(product);
@@ -48,6 +50,7 @@ function CardItems2() {
           rippleColor="light"
           rippleTag="div"
           className="bg-image hover-overlay"
+          onClick={() => handleClick(product)} 
         >
           <MDBCard
             style={{ width: "275px" }}
@@ -71,7 +74,7 @@ function CardItems2() {
                     }}
                     aria-label={`Add ${product.title} to cart`}
                   >
-                    Cart
+                    Add to Cart
                   </MDBBtn>
                 </div>
               </div>

@@ -3,7 +3,7 @@ import Home from "./Routes/Home";
 import { Route ,Routes } from "react-router-dom";
 import '../src/index.css';
 import Login from "./Routes/Login";
-import About from "./Routes/About";
+
 import Contact from "./Routes/Contact";
 import UserLogin from "./Components/Users/UserLogin";
 import UserSignup from "./Components/Users/UserSignup";
@@ -21,6 +21,7 @@ import CheckOut from "./Components/BuyProducts/CheckOut";
 import ProductPage from "./Components/ProductPage/ProductPage";
 import { Provider } from "react-redux";
 import store from "../src/store";
+import Orders from "./Components/UserOrders/Orders";
 function App() {
   return (
     <>
@@ -43,6 +44,7 @@ function App() {
      <Route path="/UserProfile" element ={<UserProfile  />}/>
      <Route path="/Shipping" element ={<Shipping/>}/>
      <Route path="/ConfirmOrder" element ={<ConfirmOder />}/>
+     <Route path="/Orders" element ={<Orders />}/>
     </Routes>
     </CartProvider>
     </Provider>

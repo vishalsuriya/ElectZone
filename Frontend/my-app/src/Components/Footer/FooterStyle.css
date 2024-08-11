@@ -1,0 +1,19 @@
+
+
+#sub-btn {
+  background-color: #ffffff;
+  color: #cc7121;
+  border: 1px solid #cc7121;
+  margin-top: 10px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  font-family: 'Arial', sans-serif; 
+}
+
+
+#sub-btn:focus {
+  outline: none;
+}

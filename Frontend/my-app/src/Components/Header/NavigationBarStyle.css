@@ -6,12 +6,14 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* Navbar Brand and Brand Name */
 .navbar .navbar-brand .brand-name {
   font-family: 'PT Serif', serif;
   font-size: 1.5rem;
   color: #fff;
 }
 
+/* Navbar Toggle Button */
 .navbar .navbar-toggler {
   border: none;
 }
@@ -20,10 +22,12 @@
   box-shadow: none;
 }
 
+/* Navbar Collapse */
 .navbar .navbar-collapse {
   justify-content: space-between;
 }
 
+/* Dropdown Styles */
 .navbar-nav .nav-link.dropdown-toggle::after {
   display: none;
 }
@@ -36,16 +40,7 @@
   border-color: #ced4da;
 }
 
-#basic-nav-dropdown {
-  margin-right: 10px;
-}
-
-@media (min-width: 992px) {
-  .full-screen-margin {
-    margin-right: 2px;
-  }
-}
-
+/* Login Button Styles */
 .login-button {
   padding: 0.4rem 0.8rem;
   font-size: 0.9rem;
@@ -65,6 +60,62 @@
   margin-right: 0.5rem;
 }
 
+/* Navbar Brand Image */
 .navbar-brand img {
   margin-right: 0.5rem;
 }
+
+/* Responsive Adjustments */
+@media (max-width: 991px) {
+  .navbar .navbar-collapse {
+    flex-direction:column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .navbar .navbar-nav {
+    width: 100%;
+  }
+
+  .navbar .nav-link {
+    padding: 0.5rem 1rem;
+  }
+
+  .navbar .navbar-toggler {
+    font-size: 1.25rem;
+  }
+
+  .navbar .search-bar {
+    margin: 1rem 0;
+    width: 80%; /* Adjust width as needed */
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar .brand-name {
+    font-size: 1.25rem;
+  }
+
+  .navbar .nav-link {
+    font-size: 0.875rem;
+  }
+
+  .navbar .navbar-toggler {
+    font-size: 1.5rem;
+  }
+.search-bar input {
+  width: 100%; /* Full width of the parent container */
+  box-sizing: border-box;
+}
+
+.search-bar {
+  display: flex;
+  justify-content: center; /* Center-align the search bar */
+}
+  .navbar .search-bar {
+    margin: 0.5rem 0;
+    width: 90%; /* Adjust width as needed */
+  }
+}
+
+

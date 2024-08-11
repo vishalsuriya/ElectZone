@@ -57,7 +57,6 @@ const SearchBar = () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-console.log(results);
   return (
     <Container fluid className="search-bar">
       <Row>
@@ -67,7 +66,7 @@ console.log(results);
               type="text"
               value={query}
               onChange={handleInputChange}
-              placeholder="Search cards..."
+              placeholder="Search Items..."
               className="form-control"
             />
             {showSuggestions && results.length > 0 && (

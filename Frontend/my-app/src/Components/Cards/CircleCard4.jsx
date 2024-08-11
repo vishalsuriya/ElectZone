@@ -13,13 +13,13 @@ import {
   MDBRipple,
 } from "mdb-react-ui-kit";
 import Footer from "../Footer/Footer";
-
+import NavigationBar2 from "../Header/NavigationBar2";
 function CircleCard3() {
   const navigate = useNavigate();
   const { addItem } = useCart();
   const [data, setData] = useState([]);
   const [addedItem, setAddedItem] = useState(null);
-
+  const [loginPrompt, setLoginPrompt] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -42,17 +42,21 @@ function CircleCard3() {
   function handleClick(product) {
     navigate("/ProductPage", { state: { product: product } });
   }
-
   const handleAddItem = (e, product) => {
     e.stopPropagation();
-    addItem(product);
-    setAddedItem(product);
-    setTimeout(() => setAddedItem(null), 2000); // Hide message after 2 seconds
+    if (!localStorage.getItem("userInfo")) {
+      setLoginPrompt(true);
+      setTimeout(() => {
+        navigate("/UserLogin");
+      }, 2000); 
+    } else {
+      addItem(product);
+      setAddedItem(product);
+    }
   };
-
   return (
     <div>
-    
+     <NavigationBar2 />
       <div className="product-cards-container">
         {data.map((product, index) => (
           <MDBRipple
@@ -83,7 +87,7 @@ function CircleCard3() {
                       }}
                       aria-label={`Add ${product.title} to cart`}
                     >
-                      Cart
+                    ADD TO Cart
                     </MDBBtn>
                   </div>
                 </div>
@@ -96,6 +100,11 @@ function CircleCard3() {
             {addedItem.title} has been added to the cart!
           </div>
         )}
+        {loginPrompt && (
+        <div className="login-prompt">
+          Please log in to add items to the cart.
+        </div>
+         )}
       </div>
 
       <Footer />
