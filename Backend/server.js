@@ -19,7 +19,12 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
+const corsOptions = {
+  origin: 'https://electzone-ecommerce.vercel.app', // Replace with your client application's URL
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true
+};
+app.use(cors(corsOptions));
 
 // Database connection
 connectDB();
