@@ -110,7 +110,7 @@ const authUser = asyncHandler(async (req, res) => {
         line_items: lineItems,
         customer_email: userEmail,
         mode: 'payment',
-        success_url: `http://localhost:3000/Orders?session_id={CHECKOUT_SESSION_ID}`
+        success_url: `https://electzone-ecommerce.vercel.app/Orders?session_id={CHECKOUT_SESSION_ID}`
       });
   
       // Store the session details
@@ -121,16 +121,6 @@ const authUser = asyncHandler(async (req, res) => {
         date: new Date(),
       };
       console.log('OrderStore:', orderStore);
-      // Create transporter for sending emails
-      const transporter = nodeMailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user:"vishalsuriya2003@gmail.com",
-          pass:"iuaf dmzi jgsq vkzk",
-        },
-      });
-  
-      // Function to send confirmation email
     } catch (error) {
       console.error('Error creating Stripe session:', error);
       res.status(500).json({ error: 'Internal Server Error', message: error.message });
