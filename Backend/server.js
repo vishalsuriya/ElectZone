@@ -28,8 +28,58 @@ connectDB();
 app.use("/api/users", userRoutes);
 app.use("/api/cards", cardsRoutes);
 
+const endpointSecret = "whsec_yBK3s5jrCH7OTLQ7WFx046khqPn5mzV1";
 
+app.post('/webhook', express.raw({type: 'application/json'}), async (request, response) => {
+  const sig = request.headers['stripe-signature'];
 
+  let event;
+
+  try {
+    event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
+  } catch (err) {
+    response.status(400).send(`Webhook Error: ${err.message}`);
+    return;
+  }
+
+  // Handle the event
+  switch (event.type) {
+    case 'checkout.session.completed':
+      const checkoutSessionCompleted = event.data.object;
+      const userEmail = checkoutSessionCompleted.customer_email; // Adjust this based on your payload
+
+      // Ensure `userEmail` and `checkoutSessionCompleted.id` are available
+      if (userEmail && checkoutSessionCompleted.id) {
+        await sendConfirmationEmail(userEmail, checkoutSessionCompleted);
+        response.status(200).send('Event handled and email sent');
+      } else {
+        response.status(400).send('Required data missing');
+      }
+      break;
+    // ... handle other event types
+    default:
+      console.log(`Unhandled event type ${event.type}`);
+  }
+
+  // Return a 200 response to acknowledge receipt of the event
+  response.send();
+});
+const sendConfirmationEmail = async (userEmail, session) => {
+  const mailOptions = {
+    from: "vishalsuriya2003@gmail.com",
+    to: userEmail,
+    subject: 'Order Confirmation',
+    text: `Thank you for your purchase! Your session ID is ${session.id}.`,
+    html: `<p>Thank you for your purchase! Your session ID is <strong>${session.id}</strong>.</p>`,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log('Email sent successfully');
+  } catch (error) {
+    console.error('Error sending email:', error);
+  }
+};
 // Error handling middleware
 app.use(notFound);
 app.use(errorHandler);

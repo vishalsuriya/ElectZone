@@ -131,28 +131,6 @@ const authUser = asyncHandler(async (req, res) => {
       });
   
       // Function to send confirmation email
-      const sendConfirmationEmail = async (userEmail, session) => {
-        const mailOptions = {
-          from: "vishalsuriya2003@gmail.com",
-          to: userEmail,
-          subject: 'Order Confirmation',
-          text: `Thank you for your purchase! Your session ID is ${session.id}.`,
-          html: `<p>Thank you for your purchase! Your session ID is <strong>${session.id}</strong>.</p>`,
-        };
-  
-        try {
-          await transporter.sendMail(mailOptions);
-          console.log('Email sent successfully');
-        } catch (error) {
-          console.error('Error sending email:', error);
-        }
-      };
-      await sendConfirmationEmail(userEmail, session);
-      if (session.id) {
-        res.status(200).json({ id: session.id, session });
-      } else {
-        res.status(500).json({ error: 'Failed to create Stripe session' });
-      }
     } catch (error) {
       console.error('Error creating Stripe session:', error);
       res.status(500).json({ error: 'Internal Server Error', message: error.message });
