@@ -14,7 +14,7 @@ const Orders = () => {
       const sessionId = queryParams.get('session_id');
       if (sessionId) {
         try {
-          const response = await axios.get(`https://electzone-ecommerce.onrender.com/api/users/orders/${sessionId}`);
+          const response = await axios.get(`http://localhost:5000/api/users/orders/${sessionId}`);
           setOrderDetails(response.data);
           setOrderStatus([
             { step: 'Ordered', completed: true },

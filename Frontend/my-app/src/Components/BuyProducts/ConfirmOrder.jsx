@@ -31,36 +31,39 @@ export default function ConfirmOrder() {
   const taxCost = 1.00;
   const totalCost = (cartTotal + shippingCost + taxCost).toFixed(2);
   const isCartEmpty = allItems.length === 0;
-
   const handlePayment = async () => {
     setLoading(true);
     try {
       const stripe = await stripePromise;
-      const response = await fetch("https://electzone-ecommerce.onrender.com/api/users/payment", {
+      const response = await fetch("http://localhost:5000/api/users/payment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ products: allItems,userEmail : userInfo.email }), // Ensure this data is what your backend expects
+        body: JSON.stringify({ products: allItems, userEmail: userInfo.email }),
       });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
       
       const session = await response.json();
       console.log("Session data:", session); // Debug log
   
-      if (!session.id) {
+      if (!session.sessionId) {
         throw new Error("Session ID not found");
       }
-      const result = await stripe.redirectToCheckout({ sessionId: session.id });
+      
+      const result = await stripe.redirectToCheckout({ sessionId: session.sessionId });
       if (result.error) {
         console.error(result.error.message);
-        alert(result.error.message); 
-      } 
+        alert(result.error.message);
+      }
     } catch (error) {
       console.error("Error during payment:", error);
-      alert("An error occurred during payment. Please try again."); // Show error to user
+      alert("An error occurred during payment. Please try again.");
     } finally {
       setLoading(false);
     }
   };
-  
   return (
     <Fragment>
       <CheckOut Shipping ConfirmOrder />

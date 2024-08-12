@@ -14,7 +14,7 @@ USER_UPDATE_REQUEST,USER_UPDATE_SUCCESS
       };
   
       const { data } = await axios.post(
-        "https://electzone-ecommerce.onrender.com/api/users/login",
+        "http://localhost:5000/api/users/login",
         { email, password },
         config
       );
@@ -54,7 +54,7 @@ USER_UPDATE_REQUEST,USER_UPDATE_SUCCESS
         };
     
         const { data } = await axios.post(
-          "https://electzone-ecommerce.onrender.com/api/users",
+          "http://localhost:5000/api/users",
           { name, pic, email, password },
           config
         );
@@ -96,7 +96,7 @@ USER_UPDATE_REQUEST,USER_UPDATE_SUCCESS
           },
         };
     
-        const { data } = await axios.post('https://electzone-ecommerce.onrender.com/api/users/profile', userData, config);
+        const { data } = await axios.post('http://localhost:5000/api/users/profile', userData, config);
     
         dispatch({ type: USER_UPDATE_SUCCESS, payload: data });
     
