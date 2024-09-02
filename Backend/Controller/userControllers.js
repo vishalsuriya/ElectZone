@@ -110,7 +110,7 @@ const authUser = asyncHandler(async (req, res) => {
             line_items: lineItems,
             customer_email: userEmail,
             mode: 'payment',
-            success_url: `http://localhost:3000/Orders?session_id={CHECKOUT_SESSION_ID}`
+            success_url: `http://localhost:3000/PaymentSucess`
         });
         console.log("Session Response:", session);
 

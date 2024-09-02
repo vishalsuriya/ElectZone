@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
-import './Order.css'; // Add this line to import custom styles
+import './Order.css'; 
 
 const Orders = () => {
   const [orderDetails, setOrderDetails] = useState(null);

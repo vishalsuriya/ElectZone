@@ -22,6 +22,7 @@ import ProductPage from "./Components/ProductPage/ProductPage";
 import { Provider } from "react-redux";
 import store from "../src/store";
 import Orders from "./Components/UserOrders/Orders";
+import PaymentSucess from "./Components/BuyProducts/PaymentSucess";
 function App() {
   return (
     <>
@@ -45,6 +46,7 @@ function App() {
      <Route path="/Shipping" element ={<Shipping/>}/>
      <Route path="/ConfirmOrder" element ={<ConfirmOder />}/>
      <Route path="/Orders" element ={<Orders />}/>
+     <Route path="/PaymentSucess" element = {<PaymentSucess />} />
     </Routes>
     </CartProvider>
     </Provider>
