@@ -22,7 +22,7 @@ function CardItems() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/cards")
+      .get("https://electzone-1.onrender.com/api/cards")
       .then((response) => setData(response.data))
       .catch((error) => console.error(error));
   }, []);

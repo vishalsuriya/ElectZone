@@ -13,7 +13,7 @@ const SearchBar = () => {
   // Function to fetch data from the backend
   const fetchData = async (searchQuery) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/cards/allcards?q=${searchQuery}`);
+      const response = await axios.get(`https://electzone-1.onrender.com/api/cards/allcards?q=${searchQuery}`);
       setResults(response.data);
       setShowSuggestions(true);
     } catch (error) {
