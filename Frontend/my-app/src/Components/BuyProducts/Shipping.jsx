@@ -4,7 +4,6 @@ import { countries } from "countries-list";
 import CheckOut from './CheckOut';
 import { useNavigate, useLocation } from 'react-router-dom';
 import "../BuyProducts/ShippingStyle.css";
-import 'react-toastify/dist/ReactToastify.css';
 
 function Shipping() {
   const CountryList = Object.values(countries);

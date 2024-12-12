@@ -11,7 +11,6 @@ const { notFound, errorHandler } = require("../Backend/middleware/ErrorMiddlewar
 // Load environment variables
 dotenv.config();
 
-// Initialize Express app
 const app = express();
 
 // Middleware

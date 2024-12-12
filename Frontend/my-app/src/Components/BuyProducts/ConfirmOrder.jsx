@@ -46,7 +46,7 @@ export default function ConfirmOrder() {
       }
       
       const session = await response.json();
-      console.log("Session data:", session); // Debug log
+      console.log("Session data:", session);
   
       if (!session.sessionId) {
         throw new Error("Session ID not found");
@@ -58,7 +58,6 @@ export default function ConfirmOrder() {
         alert(result.error.message);
       }
     } catch (error) {
-      console.error("Error during payment:", error);
       alert("An error occurred during payment. Please try again.");
     } finally {
       setLoading(false);
@@ -115,7 +114,7 @@ export default function ConfirmOrder() {
               id="checkout_btn"
               className="btn btn-primary btn-block"
               onClick={handlePayment}
-              disabled={loading} // Disable button while loading
+              disabled={loading}
             >
               {loading ? 'Processing...' : 'Proceed to Payment'}
             </button>

@@ -87,11 +87,6 @@ const authUser = asyncHandler(async (req, res) => {
         if (!products || !userEmail) {
             return res.status(400).json({ error: 'Missing required fields' });
         }
-
-        console.log('Payment Data:', products);
-        console.log('User Email:', userEmail);
-
-        // Prepare line items for Stripe checkout session
         const lineItems = products.map((data) => ({
             price_data: {
                 currency: 'usd',
@@ -99,12 +94,10 @@ const authUser = asyncHandler(async (req, res) => {
                     name: data.title,
                     images: [data.imgsrc],
                 },
-                unit_amount: Math.round(data.price * 100), // Amount in cents
+                unit_amount: Math.round(data.price * 100), 
             },
-            quantity: data.quantity || 1, // Default to 1 if quantity is not provided
+            quantity: data.quantity || 1, 
         }));
-
-        // Create a Stripe checkout session
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             line_items: lineItems,
@@ -112,20 +105,13 @@ const authUser = asyncHandler(async (req, res) => {
             mode: 'payment',
             success_url: `http://localhost:3000/PaymentSucess`
         });
-        console.log("Session Response:", session);
-
-        // Store the session details
         orderStore[session.id] = {
             products,
             userEmail,
             sessionId: session.id,
             date: new Date(),
         };
-        console.log('OrderStore:', orderStore);
-
-   
         await sendConfirmationEmail(userEmail, session);
-
         res.status(200).json({ sessionId: session.id });
 
     } catch (error) {
@@ -159,17 +145,6 @@ const sendConfirmationEmail = async (userEmail, session) => {
   }
 };
 
-  const orderdetails = asyncHandler(async(req,res)=>{
-    const { sessionId } = req.params;
-    console.log('Received sessionId:', sessionId);
+
   
-    if (orderStore[sessionId]) {
-      console.log('Order found:', orderStore[sessionId]);
-      res.json(orderStore[sessionId]);
-    } else {
-      console.log('Order not found in store');
-      res.status(404).json({ error: 'Order not found' });
-    }
-   })
-  
-  module.exports = { registerUser, authUser, updateUserProfile, userPayment,orderdetails };
+  module.exports = { registerUser, authUser, updateUserProfile, userPayment};

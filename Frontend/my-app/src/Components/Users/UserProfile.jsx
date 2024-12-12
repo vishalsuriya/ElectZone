@@ -13,7 +13,7 @@ const UserProfile = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [picMessage, setPicMessage] = useState("");
-  const [formError, setFormError] = useState(""); // Added state for form errors
+  const [formError, setFormError] = useState(""); 
 
   const dispatch = useDispatch();
   const userUpdate = useSelector((state) => state.userUpdate);
@@ -42,22 +42,17 @@ const UserProfile = () => {
       data.append("upload_preset", "ElectZone");
       data.append("cloud_name", "dy6n0qbpd");
 
-      console.log("Uploading file:", pics); // Debugging line
-
       fetch("https://api.cloudinary.com/v1_1/dy6n0qbpd/image/upload", {
         method: "post",
         body: data,
       })
         .then((res) => {
-          console.log("Response:", res); // Debugging line
           return res.json();
         })
         .then((data) => {
-          console.log("Data:", data); // Debugging line
           setPic(data.url.toString());
         })
         .catch((err) => {
-          console.error("Upload failed:", err); // Debugging line
           setPicMessage("Failed to upload image. Please try again.");
         });
     } else {

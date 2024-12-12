@@ -75,7 +75,7 @@ USER_UPDATE_REQUEST,USER_UPDATE_SUCCESS
       }
     };
     
-    export const updateProfile = (userData) => async (dispatch, getState) => {
+    export const updateProfile = (userData) => async (dispatch) => {
       try {
         dispatch({ type: USER_UPDATE_REQUEST });
     

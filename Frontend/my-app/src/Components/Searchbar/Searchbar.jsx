@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import _ from "lodash";
-import './SearchBar.css'; // Import the CSS file
+import './SearchBar.css'; 
 import {useNavigate} from 'react-router-dom'
 const SearchBar = () => {
   const [query, setQuery] = useState("");
@@ -10,7 +10,6 @@ const SearchBar = () => {
   const [showSuggestions, setShowSuggestions] = useState(false);
 
   const navigate = useNavigate();
-  // Function to fetch data from the backend
   const fetchData = async (searchQuery) => {
     try {
       const response = await axios.get(`https://electzone-1.onrender.com/api/cards/allcards?q=${searchQuery}`);
@@ -24,8 +23,6 @@ const SearchBar = () => {
     }
   };
   
-
-  // Debounced fetch function
   const debouncedFetch = _.debounce((searchQuery) => {
     if (searchQuery) {
       fetchData(searchQuery);
@@ -34,15 +31,13 @@ const SearchBar = () => {
       setShowSuggestions(false);
     }
   }, 300);
-
-  // Handle input change
   const handleInputChange = (e) => {
     const value = e.target.value;
     setQuery(value);
     debouncedFetch(value);
   };
 
-  // Handle click outside to close suggestions
+
   const handleClickOutside = (e) => {
     if (!e.target.closest(".search-dropdown")) {
       setShowSuggestions(false);

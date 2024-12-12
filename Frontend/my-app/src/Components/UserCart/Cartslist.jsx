@@ -1,12 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useCart } from 'react-use-cart';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 function Cartslist() {
   const navigate = useNavigate();
-  const userInfo = useSelector((state) => state.userLogin.userInfo);
-
   const {
     isEmpty,
     totalUniqueItems,
