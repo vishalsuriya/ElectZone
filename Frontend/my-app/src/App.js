@@ -3,8 +3,6 @@ import Home from "./Routes/Home";
 import { Route ,Routes } from "react-router-dom";
 import '../src/index.css';
 import Login from "./Routes/Login";
-
-import Contact from "./Routes/Contact";
 import UserLogin from "./Components/Users/UserLogin";
 import UserSignup from "./Components/Users/UserSignup";
 import Cartpage from "./Components/UserCart/Cartpage";
@@ -13,25 +11,19 @@ import CircleCard2 from "./Components/Cards/CircleCard2";
 import CircleCard3 from "./Components/Cards/CircleCard3";
 import CircleCard4 from "./Components/Cards/CircleCard4";
 import CircleCard5 from "./Components/Cards/CircleCard5";
-import { CartProvider } from "react-use-cart";
 import UserProfile from "./Components/Users/UserProfile";
 import Shipping from "./Components/BuyProducts/Shipping";
 import ConfirmOder from "./Components/BuyProducts/ConfirmOrder";
 import CheckOut from "./Components/BuyProducts/CheckOut";
 import ProductPage from "./Components/ProductPage/ProductPage";
-import { Provider } from "react-redux";
-import store from "../src/store";
 import PaymentSucess from "./Components/BuyProducts/PaymentSucess";
 function App() {
   return (
     <>
-    <Provider store = {store}>
-    <CartProvider>
     <Routes>
      <Route path="/" element ={<Home />}/>
      <Route path="/Login" element ={<Login />}/>
      <Route path="/ProductPage" element ={<ProductPage/>}/>
-     <Route path="/Contact" element ={<Contact />}/>
      <Route path="/UserLogin" element ={<UserLogin />}/>
      <Route path="/UserSignup" element ={<UserSignup/>}/>
      <Route path="/Cartpage" element ={<Cartpage/>}/>
@@ -46,8 +38,6 @@ function App() {
      <Route path="/ConfirmOrder" element ={<ConfirmOder />}/>
      <Route path="/PaymentSucess" element = {<PaymentSucess />} />
     </Routes>
-    </CartProvider>
-    </Provider>
     </>
   );
 }

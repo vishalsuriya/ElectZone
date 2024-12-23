@@ -2,7 +2,6 @@ import React, { Fragment, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import CheckOut from './CheckOut';
 import "../BuyProducts/CheckOutStyle.css";
-import { useSelector } from 'react-redux';
 import { loadStripe } from '@stripe/stripe-js';
 import "../BuyProducts/ConfirmOrderStyle.css";
 
@@ -10,14 +9,13 @@ const stripePromise = loadStripe("pk_test_51Pez84Glv44VgkWUycmbDjCxdByoFchGmuMVB
 
 export default function ConfirmOrder() {
   const [loading, setLoading] = useState(false);
-  const userInfo = useSelector((state) => state.userLogin.userInfo);
+  const user = JSON.parse(localStorage.getItem("user"));
   const location = useLocation();
-  const { shippingDetails = {}, items = [], product = {} } = location.state || {};
+  const { shippingDetails = {},  product = {},data=[] } = location.state || {};
   const allItems = [
-    ...items,
-    ...(product && Object.keys(product).length ? [product] : [])
+    ...data,
+    ...(Object.keys(product).length ? [product] : [])
   ];
-  
   const calculateTotalPrice = (items) => {
     return items.reduce((total, item) => {
       const price = parseFloat(item.price) || 0;
@@ -38,7 +36,7 @@ export default function ConfirmOrder() {
       const response = await fetch("https://electzone-1.onrender.com/api/users/payment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ products: allItems, userEmail: userInfo.email }),
+        body: JSON.stringify({ products: allItems, userEmail: user.data.email ,userName : user.data.name}),
       });
       
       if (!response.ok) {
@@ -46,19 +44,17 @@ export default function ConfirmOrder() {
       }
       
       const session = await response.json();
-      console.log("Session data:", session);
   
       if (!session.sessionId) {
         throw new Error("Session ID not found");
       }
-      
       const result = await stripe.redirectToCheckout({ sessionId: session.sessionId });
-      if (result.error) {
-        console.error(result.error.message);
-        alert(result.error.message);
+      if (result) {
+        console.log(result)
       }
     } catch (error) {
       alert("An error occurred during payment. Please try again.");
+      console.log(error)
     } finally {
       setLoading(false);
     }
@@ -69,7 +65,7 @@ export default function ConfirmOrder() {
       <div className="row d-flex justify-content-between">
         <div className="col-12 col-lg-8 mt-5 order-confirm">
           <h4 className="mb-3">Shipping Info</h4>
-          <p><b>UserName:</b> {userInfo ? userInfo.name : 'N/A'}</p>
+          <p><b>UserName:</b> { user.data.name || 'N/A'}</p>
           <p><b>Address:</b> {shippingDetails.address || 'N/A'}</p>
           <p><b>City:</b> {shippingDetails.city || 'N/A'}</p>
           <p><b>Phone:</b> {shippingDetails.phoneNo || 'N/A'}</p>

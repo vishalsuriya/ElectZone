@@ -1,55 +1,111 @@
-import React from 'react';
-import { useCart } from 'react-use-cart';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 
 function Cartslist() {
+  const [data, setData] = useState([]);
   const navigate = useNavigate();
-  const {
-    isEmpty,
-    totalUniqueItems,
-    items,
-    totalItems,
-    cartTotal,
-    addItem,
-    updateItemQuantity,
-    removeItem,
-    emptyCart,
-    setItems,
-  } = useCart();
+  useEffect(() => {
+    const fetchCartData = async () => {
+      try {
+        const user = JSON.parse(localStorage.getItem("user"));
+        const userId = user?.data?._id;
+        if (userId) {
+          const response = await axios.get(`https://electzone-1.onrender.com/api/users/userDetails/${userId}`);
+          setData(response.data.cart);
+        }
+      } catch (error) {
+        console.error("Error fetching cart data:", error);
+      }
+    };
 
-  if (isEmpty) return <h1 className='text-center'>Your cart is empty</h1>;
+    fetchCartData();
+  }, []);
 
+  const handleRemoveItem = async (productId) => {
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      const userId = user?.data?._id;
+      const response = await axios.delete(
+        `https://electzone-1.onrender.com/${userId}/removeItem/${productId}`
+      );
+      if (response.data.message === "Item removed") {
+        setData(response.data.cart); 
+      }
+      setData(data.filter((item) => item.productId !== productId));
+    } catch (error) {
+      console.error("Error removing item:", error);
+    }
+  };
+  
+  const handleClearCart = async () => {
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      const userId = user?.data?._id;
+      await axios.delete(`https://electzone-1.onrender.com/api/users/clearCart/${userId}`);
+      setData([]);
+    } catch (error) {
+      console.error("Error clearing cart:", error);
+    }
+  };
+ const handleQuantityIncrease = async(productId)=>{
+  try{
+    const user = JSON.parse(localStorage.getItem("user"));
+    const userId = user?.data?._id;
+    const response = await axios.patch(`https://electzone-1.onrender.com/api/users/${userId}/increaseQuantity/${productId}`)
+   if(response.data.message === "Quantity increased successfully"){
+    setData(response.data.cart)
+   }
+  }catch(error){
+    console.error("Error increasing quantity:",error)
+  }
+ }
+
+ const handleQuantitydecrease = async(productId)=>{
+  try{
+    const user = JSON.parse(localStorage.getItem("user"));
+    const userId = user?.data?._id;
+    const response = await axios.patch(`https://electzone-1.onrender.com/api/users/${userId}/decreaseQuantity/${productId}`)
+   if(response.data.message === "Quantity decreased successfully"){
+    setData(response.data.cart)
+   }
+  }catch(error){
+    console.error("Error increasing quantity:",error)
+  }
+ }
   return (
-    <section className='py-4 container'>
-      <div className='row justify-content-center'>
-        <div className='col-12'>
-          <h5>Cart ({totalUniqueItems}) total Items: ({totalItems})</h5>
-          <table className='table table-light table-hover m-0'>
+    <section className="py-4 container">
+      <div className="row justify-content-center">
+        <div className="col-12">
+          <h5>Cart total Items: {data.length}</h5>
+          <table className="table table-light table-hover m-0">
             <tbody>
-              {items.map((item, index) => (
+              {data.map((product, index) => (
                 <tr key={index}>
                   <td>
-                    <img src={item.imgsrc} style={{ height: '6rem' }} alt={item.title} />
+                    <img src={product.imgsrc} alt={product.productName} style={{ height: '6rem' }} />
                   </td>
-                  <td>{item.title}</td>
-                  <td>{item.price}</td>
-                  <td>Quantity: {item.quantity}</td>
+                  <td>{product.productName}</td>
+                  <td>₹{product.price}</td>
+                  <td>Quantity: {product.quantity}</td>
                   <td>
                     <button
-                      className='btn btn-info ms-2'
-                      onClick={() => updateItemQuantity(item.id, item.quantity - 1)}
+                      className="btn btn-info ms-2"
+                      onClick={() => handleQuantitydecrease(product.productId)}
                     >
                       -
                     </button>
                     <button
-                      className='btn btn-info ms-2'
-                      onClick={() => updateItemQuantity(item.id, item.quantity + 1)}
+                      className="btn btn-info ms-2"
+                      onClick={() => handleQuantityIncrease(product.productId)}
                     >
                       +
                     </button>
+                  </td>
+                  <td>
                     <button
-                      className='btn btn-danger ms-2'
-                      onClick={() => removeItem(item.id)}
+                      className="btn btn-danger ms-2"
+                      onClick={() => handleRemoveItem(product.productId)}
                     >
                       Remove Item
                     </button>
@@ -59,16 +115,16 @@ function Cartslist() {
             </tbody>
           </table>
         </div>
-        <div className='col-auto ms-auto'>
-          <h2>Total Price: ${cartTotal.toFixed(2)}</h2>
+        <div className="col-auto ms-auto">
+          <h2>Total Price: ₹{data.reduce((acc, item) => acc + item.price * item.quantity, 0)}</h2>
         </div>
-        <div className='col-auto'>
-          <button className='btn btn-danger m-2' onClick={() => emptyCart()}>
+        <div className="col-auto">
+          <button className="btn btn-danger m-2" onClick={handleClearCart}>
             Clear Cart
           </button>
           <button
-            className='btn btn-primary m-2'
-            onClick={() => navigate('/Shipping', { state: { items } })}
+            className="btn btn-primary m-2"
+            onClick={() => navigate("/Shipping", { state: { data } })}
           >
             Buy Now
           </button>

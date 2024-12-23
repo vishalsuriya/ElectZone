@@ -15,8 +15,8 @@ function Shipping() {
   const [state, setState] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
-  const { items, product } = location.state || {};
-
+  const { product } = location.state || {};
+  const {data} = location.state
   const handleSubmit = (e) => {
     e.preventDefault();
     const shippingDetails = {
@@ -27,7 +27,7 @@ function Shipping() {
       state,
       country,
     };
-    navigate("/ConfirmOrder", { state: { shippingDetails, items, product } });
+    navigate("/ConfirmOrder", { state: { shippingDetails, product,data } });
   };
 
   return (
@@ -72,6 +72,8 @@ function Shipping() {
                   className="form-control"
                   required
                   value={phoneNo}
+                  pattern="[0-9]{10}"
+                  title="Enter a valid 10-digit phone number"
                   onChange={(e) => setPhoneNo(e.target.value)}
                   aria-describedby="phoneHelp"
                 />
@@ -84,6 +86,7 @@ function Shipping() {
                   id="postal_code_field"
                   className="form-control"
                   required
+                  pattern="[0-9]{5,6}"
                   value={postalCode}
                   onChange={(e) => setPostalCode(e.target.value)}
                   aria-describedby="postalHelp"

@@ -5,7 +5,7 @@ const Card2 = require("../model/Card2Model");
 const Card3 = require("../model/Card3Model");
 const Card4 = require("../model/Card4Model");
 const Card5 = require("../model/Card5Model");
-
+const Users = require("../model/UserModel")
 const card = asyncHandler(async (req, res) => {
   try {
     const cards = await Cards.find();
@@ -59,12 +59,39 @@ const CircleCard5 = asyncHandler(async (req, res) => {
     handleError(res, error, "Failed to fetch CircleCard5");
   }
 });
+const addToCart = asyncHandler(async (req, res) => {
+  const { product, email } = req.body;
+  const quantity  = 1;
+  if (!product ||  !email) {
+    return res.status(400).json({ message: "Product details and email are required" });
+  }
+  const user = await Users.findOne({ email });
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+  const productId = product._id;
+  const existingCartItem = user.userCart.find((item) => item.productId.equals(productId));
+
+  if (existingCartItem) {
+    existingCartItem.quantity += quantity;
+  } else {
+    user.userCart.push({
+      productId, 
+      productName: product.title,
+      price: parseFloat(product.price), 
+      quantity,
+      imgsrc: product.imgsrc,
+      content: product.content, 
+    });
+  }
+  await user.save();
+  res.status(200).json({ message: "Product added to cart", cart: user.userCart });
+});
 
 const allCards = asyncHandler(async (req, res) => {
   const searchQuery = req.query.q ? req.query.q.toLowerCase() : "";
 
   try {
-    // Fetch data from all collections and ensure data is plain JavaScript objects
     const [homecards, cards1Data, cards2Data, cards3Data, cards4Data, cards5Data] = await Promise.all([
       Cards.find().lean(),
       Card1.find().lean(),
@@ -73,16 +100,12 @@ const allCards = asyncHandler(async (req, res) => {
       Card4.find().lean(),
       Card5.find().lean()
     ]);
-
-    // Normalize and combine all cards into one flat array
     const normalizeCard = (card) => ({
       id: card._id,
       title: card.title || "No Title",
       imgsrc:card.imgsrc || "No Image",
       content:card.content,
       price: card.price
-
-      // Add other properties you need to normalize
     });
 
     let allCards = [
@@ -93,8 +116,6 @@ const allCards = asyncHandler(async (req, res) => {
       ...cards4Data.map(normalizeCard),
       ...cards5Data.map(normalizeCard)
     ];
-
-    // Use a Set to keep track of unique titles
     const seenTitles = new Set();
     allCards = allCards.filter(card => {
       if (seenTitles.has(card.title)) {
@@ -104,15 +125,11 @@ const allCards = asyncHandler(async (req, res) => {
         return true;
       }
     });
-
-    // Filter cards based on search query
     if (searchQuery) {
       allCards = allCards.filter(card =>
         card.title.toLowerCase().includes(searchQuery)
       );
     }
-
-    // Send the combined array of all cards as JSON response
     res.status(200).json(allCards);
   } catch (err) {
     console.error('Error fetching cards:', err);
@@ -128,5 +145,6 @@ module.exports = {
   CircleCard3,
   CircleCard4,
   CircleCard5,
-  allCards
+  allCards,
+  addToCart
 };

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useCart } from "react-use-cart";
 import "./CarditemsStyle.css";
 import {
   MDBCard,
@@ -15,10 +14,9 @@ import { useNavigate } from "react-router-dom";
 
 function CardItems() {
   const navigate = useNavigate();
-  const { addItem } = useCart();
   const [data, setData] = useState([]);
-  const [addedItem, setAddedItem] = useState(null); // State for confirmation message
-  const [loginPrompt, setLoginPrompt] = useState(false); // State for login prompt
+  const [addedItem, setAddedItem] = useState(null); 
+  const [loginPrompt, setLoginPrompt] = useState(false);
 
   useEffect(() => {
     axios
@@ -27,24 +25,41 @@ function CardItems() {
       .catch((error) => console.error(error));
   }, []);
 
-  function handleClick(product) {
-    navigate("/ProductPage", { state: { product: product } });
-  }
+  useEffect(() => {
+    if (addedItem) {
+      const timer = setTimeout(() => setAddedItem(null), 3000); 
+      return () => clearTimeout(timer);
+    }
+  }, [addedItem]);
 
-  const handleAddItem = (e, product) => {
+  const handleAddItem = async(e, product) => {
     e.stopPropagation();
-    if (!localStorage.getItem("userInfo")) {
+    if (!localStorage.getItem("user")) {
       setLoginPrompt(true);
       setTimeout(() => {
         navigate("/UserLogin");
-      }, 2000); // Redirect after 2 seconds
-    } else {
-      addItem(product);
-      setAddedItem(product);
-      setTimeout(() => setAddedItem(null), 3000); // Hide confirmation message after 3 seconds
+      }, 2000); 
+    }
+    setAddedItem(product);
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      const email = user.data.email;
+      const response = await fetch("https://electzone-1.onrender.com/api/cards/userCart", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ product ,email}),
+      });
+      await response.json();
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+    } finally {
+      setLoginPrompt(false);
     }
   };
 
+  function handleClick(product) {
+    navigate("/ProductPage", { state: { product: product } });
+  }
   return (
     <div className="product-cards-container">
       {data.map((product, index) => (
@@ -53,7 +68,7 @@ function CardItems() {
           rippleColor="light"
           rippleTag="div"
           className="bg-image hover-overlay"
-          onClick={() => handleClick(product)} // Ensure product page navigation is handled
+          onClick={() => handleClick(product)}
         >
           <MDBCard
             style={{ width: "275px" }}
@@ -68,7 +83,7 @@ function CardItems() {
                 </span>
                 <div className="button-container">
                   <MDBBtn
-                    onClick={(e) => handleAddItem(e, product)} // Pass event to prevent propagation
+                    onClick={(e)=>handleAddItem(e,product)}
                     style={{
                       fontSize: "0.8rem",
                       padding: "0.5rem 1.0rem",
@@ -92,7 +107,7 @@ function CardItems() {
       )}
       {loginPrompt && (
         <div className="login-prompt">
-          You need to be logged in to add items to the cart. Redirecting to login page...
+          You need to be login to add items to the cart. Redirecting to login page...
         </div>
       )}
     </div>

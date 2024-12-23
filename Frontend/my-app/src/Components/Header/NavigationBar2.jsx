@@ -7,28 +7,20 @@ import { FaShoppingCart, FaBars } from "react-icons/fa";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import "./NavigationBarStyle.css";
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../actions/UserActions";
 import SearchBar from "../Searchbar/Searchbar";
 
 function NavigationBar2() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
-
-  const logouthandler = () => {
-    dispatch(logout());
-    navigate("/");
-  };
-
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
 
   const handleDropdownToggle = () => {
     setShowDropdown(!showDropdown);
   };
-
+ const handlelogout = () =>{
+  navigate("/");
+  localStorage.removeItem("user");
+ }
   const handleDocumentClick = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setShowDropdown(false);
@@ -86,7 +78,7 @@ function NavigationBar2() {
                   My orders
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item onClick={logouthandler}>
+                <NavDropdown.Item onClick={handlelogout}>
                   Logout
                 </NavDropdown.Item>
               </NavDropdown>

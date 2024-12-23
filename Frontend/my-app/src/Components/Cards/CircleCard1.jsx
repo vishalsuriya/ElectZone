@@ -17,7 +17,6 @@ import Footer from "../Footer/Footer";
 
 function CircleCard3() {
   const navigate = useNavigate();
-  const { addItem } = useCart();
   const [data, setData] = useState([]);
   const [addedItem, setAddedItem] = useState(null);
   const [loginPrompt, setLoginPrompt] = useState(false);
@@ -39,21 +38,40 @@ function CircleCard3() {
 
     fetchData();
   }, []);
-
+  useEffect(() => {
+    if (addedItem) {
+      const timer = setTimeout(() => setAddedItem(null), 3000); 
+      return () => clearTimeout(timer);
+    }
+  }, [addedItem]);
+  
   function handleClick(product) {
     navigate("/ProductPage", { state: { product: product } });
   }
 
-  const handleAddItem = (e, product) => {
+  const handleAddItem = async(e, product) => {
     e.stopPropagation();
-    if (!localStorage.getItem("userInfo")) {
+    if (!localStorage.getItem("user")) {
+      setAddedItem(null)
       setLoginPrompt(true);
       setTimeout(() => {
         navigate("/UserLogin");
       }, 2000); 
-    } else {
-      addItem(product);
+    }
+    try {
       setAddedItem(product);
+      const user = JSON.parse(localStorage.getItem("user"));
+      const email = user.data.email;
+      const response = await fetch("https://electzone-1.onrender.com/api/cards/userCart", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ product ,email}),
+      });
+      await response.json();
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+    } finally {
+      setLoginPrompt(false);
     }
   };
 
