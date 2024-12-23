@@ -80,7 +80,7 @@ function UserSignup() {
 
     setLoading(true);
     try {
-      const response = await fetch("https://electzone-1.onrender.com/api/users/register", {
+      const response = await fetch("https://electzone-server.onrender.comapi/users/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password, pic }),

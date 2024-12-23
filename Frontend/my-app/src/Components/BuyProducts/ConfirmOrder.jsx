@@ -33,7 +33,7 @@ export default function ConfirmOrder() {
     setLoading(true);
     try {
       const stripe = await stripePromise;
-      const response = await fetch("https://electzone-1.onrender.com/api/users/payment", {
+      const response = await fetch("https://electzone-server.onrender.comapi/users/payment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ products: allItems, userEmail: user.data.email ,userName : user.data.name}),

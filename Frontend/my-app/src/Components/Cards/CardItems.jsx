@@ -20,7 +20,7 @@ function CardItems() {
 
   useEffect(() => {
     axios
-      .get("https://electzone-1.onrender.com/api/cards")
+      .get("https://electzone-server.onrender.comapi/cards")
       .then((response) => setData(response.data))
       .catch((error) => console.error(error));
   }, []);
@@ -44,7 +44,7 @@ function CardItems() {
     try {
       const user = JSON.parse(localStorage.getItem("user"));
       const email = user.data.email;
-      const response = await fetch("https://electzone-1.onrender.com/api/cards/userCart", {
+      const response = await fetch("https://electzone-server.onrender.comapi/cards/userCart", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ product ,email}),

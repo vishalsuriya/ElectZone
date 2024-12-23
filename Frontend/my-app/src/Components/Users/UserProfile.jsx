@@ -93,7 +93,7 @@ const UserProfile = () => {
     try {
       const user = JSON.parse(localStorage.getItem("user"));
       const userId = user?.data?._id;
-      const response = await fetch(`https://electzone-1.onrender.com/api/users/profile/${userId}`, {
+      const response = await fetch(`https://electzone-server.onrender.comapi/users/profile/${userId}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" ,
         "Authorization": `Bearer ${user?.data?.token}`

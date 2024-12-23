@@ -24,7 +24,7 @@ function CircleCard2() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://electzone-1.onrender.com/api/cards/CircleCards2"
+          "https://electzone-server.onrender.comapi/cards/CircleCards2"
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -62,7 +62,7 @@ function CircleCard2() {
     try {
       const user = JSON.parse(localStorage.getItem("user"));
       const email = user.data.email;
-      const response = await fetch("https://electzone-1.onrender.com/api/cards/userCart", {
+      const response = await fetch("https://electzone-server.onrender.comapi/cards/userCart", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ product ,email}),
