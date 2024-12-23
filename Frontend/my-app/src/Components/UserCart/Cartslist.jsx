@@ -27,9 +27,9 @@ function Cartslist() {
       const user = JSON.parse(localStorage.getItem("user"));
       const userId = user?.data?._id;
       const response = await axios.delete(
-        `https://electzone-server.onrender.com/${userId}/removeItem/${productId}`
+        `https://electzone-server.onrender.com/api/users/${userId}/removeItem/${productId}`
       );
-      if (response.data.message === "Item removed") {
+      if (response.data.message === "Item removed successfully") {
         setData(response.data.cart); 
       }
       setData(data.filter((item) => item.productId !== productId));
