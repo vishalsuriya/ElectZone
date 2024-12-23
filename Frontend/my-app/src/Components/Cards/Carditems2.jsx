@@ -19,7 +19,7 @@ function CardItems2() {
 
   useEffect(() => {
     axios
-      .get("https://electzone-server.onrender.comapi/cards")
+      .get("https://electzone-server.onrender.com/api/cards")
       .then((response) => setData(response.data))
       .catch((error) => console.error(error));
   }, []);

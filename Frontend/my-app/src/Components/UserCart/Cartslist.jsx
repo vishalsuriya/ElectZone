@@ -11,7 +11,7 @@ function Cartslist() {
         const user = JSON.parse(localStorage.getItem("user"));
         const userId = user?.data?._id;
         if (userId) {
-          const response = await axios.get(`https://electzone-server.onrender.comapi/users/userDetails/${userId}`);
+          const response = await axios.get(`https://electzone-server.onrender.com/api/users/userDetails/${userId}`);
           setData(response.data.cart);
         }
       } catch (error) {
@@ -27,7 +27,7 @@ function Cartslist() {
       const user = JSON.parse(localStorage.getItem("user"));
       const userId = user?.data?._id;
       const response = await axios.delete(
-        `https://electzone-server.onrender.com${userId}/removeItem/${productId}`
+        `https://electzone-server.onrender.com/${userId}/removeItem/${productId}`
       );
       if (response.data.message === "Item removed") {
         setData(response.data.cart); 
@@ -42,7 +42,7 @@ function Cartslist() {
     try {
       const user = JSON.parse(localStorage.getItem("user"));
       const userId = user?.data?._id;
-      await axios.delete(`https://electzone-server.onrender.comapi/users/clearCart/${userId}`);
+      await axios.delete(`https://electzone-server.onrender.com/api/users/clearCart/${userId}`);
       setData([]);
     } catch (error) {
       console.error("Error clearing cart:", error);
@@ -52,7 +52,7 @@ function Cartslist() {
   try{
     const user = JSON.parse(localStorage.getItem("user"));
     const userId = user?.data?._id;
-    const response = await axios.patch(`https://electzone-server.onrender.comapi/users/${userId}/increaseQuantity/${productId}`)
+    const response = await axios.patch(`https://electzone-server.onrender.com/api/users/${userId}/increaseQuantity/${productId}`)
    if(response.data.message === "Quantity increased successfully"){
     setData(response.data.cart)
    }
@@ -65,7 +65,7 @@ function Cartslist() {
   try{
     const user = JSON.parse(localStorage.getItem("user"));
     const userId = user?.data?._id;
-    const response = await axios.patch(`https://electzone-server.onrender.comapi/users/${userId}/decreaseQuantity/${productId}`)
+    const response = await axios.patch(`https://electzone-server.onrender.com/api/users/${userId}/decreaseQuantity/${productId}`)
    if(response.data.message === "Quantity decreased successfully"){
     setData(response.data.cart)
    }
