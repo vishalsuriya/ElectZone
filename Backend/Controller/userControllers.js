@@ -40,32 +40,32 @@ const registerUser = asyncHandler(async(req,res)=>{
 
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
-
   if (!email || !password) {
     res.status(400);
     throw new Error("Please provide both email and password");
   }
-
   const user = await Users.findOne({ email });
-  if (user) {
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (isMatch) {
-      res.status(200).json({
-        status: "success",
-        data: {
-          _id: user._id,
-          name: user.name,
-          email: user.email,
-          isAdmin: user.isAdmin,
-          pic: user.pic,
-          token: generateToken(user._id),
-        },
-      });
-    } 
-  } else {
-    res.status(401);
-    throw new Error("Invalid credentials");
+  if (!user) {
+    return res.status(401).json({ status: "error", message: "Invalid credentials" });
   }
+  const isMatch = await bcrypt.compare(password, user.password);
+  
+  if (!isMatch) {
+    return res.status(401).json({ status: "error", message: "Invalid credentials" });
+  }
+  if(isMatch){
+  res.status(200).json({
+    status: "success",
+    data: {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      pic: user.pic,
+      token: generateToken(user._id),
+    },
+  });
+}
 });
 
 const updateUserProfile = asyncHandler(async (req, res) => {
@@ -207,39 +207,77 @@ const decreaseQuantity = async (req, res) => {
     return res.status(500).json({ message: "Internal server error", error: error.message });
   }
 };
-
-  const userPayment = asyncHandler(async (req, res) => {
+ 
+   const userPayment = asyncHandler(async (req, res) => {
     try {
-        const { products, userEmail,userName } = req.body;
+        const { products, userEmail, userName } = req.body;
         if (!products || !userEmail) {
             return res.status(400).json({ error: 'Missing required fields' });
         }
+
         const lineItems = products.map((data) => ({
-            price_data: {
-                currency: 'usd',
-                product_data: {
-                    name: data.title || data.productName,
-                    images: [data.imgsrc],
-                },
-                unit_amount: Math.round(data.price * 100), 
-            },
-            quantity: data.quantity|| 1, 
+            productId: data.productId|| data._id,
+            productName: data.title || data.productName,
+            price:  Math.round(data.price * 100), 
+            quantity: data.quantity || 1,
+            imgsrc: data.imgsrc || "",
         }));
+
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
-            line_items: lineItems,
+            line_items: lineItems.map((item) => ({
+                price_data: {
+                    currency: 'usd',
+                    product_data: {
+                        name: item.productName,
+                        images: item.imgsrc ? [item.imgsrc] : [],
+                    },
+                    unit_amount: item.price,
+                },
+                quantity: item.quantity,
+            })),
             customer_email: userEmail,
             mode: 'payment',
-            success_url: `https://elect-zone-ecommerce.vercel.app/PaymentSucess`
+            success_url: `http://localhost:3000/PaymentSucess`
         });
-        await sendConfirmationEmail(userEmail, session,products,userName);
-        res.status(200).json({ sessionId: session.id });
-
+        
     } catch (error) {
         console.error('Error creating Stripe session:', error);
         res.status(500).json({ error: 'Internal Server Error', message: error.message });
     }
 });
+const stripeWebhook = asyncHandler(async (req, res) => {
+  let event;
+  try {
+      const sig = req.headers['stripe-signature'];
+      event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
+  } catch (err) {
+      console.error("Webhook Error:", err.message);
+      return res.status(400).json({ error: `Webhook error: ${err.message}` });
+  }
+  if (event.type === 'checkout.session.completed') {
+      const session = event.data.object;
+      const userEmail = session.customer_email;
+      const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
+
+      const user = await Users.findOne({ email: userEmail });
+      if (user) {
+          user.userOrders.push({
+              orderId: session.id,
+              products: lineItems.data.map((item) => ({
+                  productName: item.description,
+                  price: item.amount_total / 100,
+                  quantity: item.quantity,
+              })),
+          });
+          await user.save();
+      }
+      await sendConfirmationEmail(userEmail, session, lineItems.data);
+  }
+
+  res.status(200).json({ received: true });
+});
+
 const transporter = nodeMailer.createTransport({
   service : 'gmail',
   host: 'smtp.gmail.com',
@@ -255,10 +293,10 @@ const sendConfirmationEmail = async (userEmail, session, products, userName) => 
     from: process.env.EMAIL_USER,
     to: userEmail,
     subject: 'Order Confirmation',
-    text: `Thank you for your purchase! Your session ID is ${session.id}.`,
+    text: `Thank you for your purchase! Your Order ID is ${session.id}.`,
     html: `
       <p>Thank you for your purchase, <strong>${userName}</strong>!</p>
-      <p>Your session ID is <strong>${session.id}</strong>.</p>
+      <p>Your Order ID is <strong>${session.id}</strong>.</p>
       <h3>Order Summary:</h3>
       <ul>
         ${products
@@ -288,5 +326,5 @@ const sendConfirmationEmail = async (userEmail, session, products, userName) => 
 
   
   module.exports = { registerUser, loginUser, updateUserProfile, userPayment,getUser
-    ,clearUserCart,removeUserItem,increaseQuantity,decreaseQuantity
+    ,clearUserCart,removeUserItem,increaseQuantity,decreaseQuantity,stripeWebhook
   };

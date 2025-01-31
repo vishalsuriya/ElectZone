@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
-
 const userSchema = mongoose.Schema(
   {
     name: {
@@ -54,6 +52,43 @@ const userSchema = mongoose.Schema(
         content: {
           type: String,
           required: true, 
+        },
+      },
+    ],
+    userOrders: [
+      {
+        orderId: {
+          type: String, 
+          required: true,
+        },
+        products: [
+          {
+            productId: {
+              type: mongoose.Schema.Types.ObjectId,
+              ref: "Product",
+              required: true,
+            },
+            productName: {
+              type: String,
+              required: true,
+            },
+            price: {
+              type: Number,
+              required: true,
+            },
+            quantity: {
+              type: Number,
+              required: true,
+            },
+            imgsrc: {
+              type: String,
+              required: true,
+            },
+          },
+        ],
+        orderDate: {
+          type: Date,
+          default: Date.now,
         },
       },
     ],
