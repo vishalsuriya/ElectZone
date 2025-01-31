@@ -1,4 +1,5 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 const {protect} = require("../middleware/AuthMiddleware");
 const router = express.Router();
 const {registerUser,loginUser,updateUserProfile,userPayment,getUser,clearUserCart,
@@ -12,5 +13,5 @@ router.route("/clearCart/:id").delete(clearUserCart)
 router.route("/:userId/removeItem/:productId").delete(removeUserItem);
 router.route("/:userId/increaseQuantity/:productId").patch(increaseQuantity)
 router.route("/:userId/decreaseQuantity/:productId").patch(decreaseQuantity)
-router.route("/webhook").post(stripeWebhook)
+router.route("/webhook").post(bodyParser.raw({ type: 'application/json' }), stripeWebhook)
 module.exports = router;
