@@ -42,16 +42,14 @@ export default function ConfirmOrder() {
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      
       const session = await response.json();
-  
       if (!session.sessionId) {
         throw new Error("Session ID not found");
       }
-      const result = await stripe.redirectToCheckout({ sessionId: session.sessionId });
-      if (result) {
-        console.log(result)
-      }
+    const result = await stripe.redirectToCheckout({ sessionId: session.sessionId });
+    if(result.error){
+      console.log(result.error.message);
+    }
     } catch (error) {
       alert("An error occurred during payment. Please try again.");
       console.log(error)
@@ -87,7 +85,7 @@ export default function ConfirmOrder() {
                     <p>{item.title}</p>
                   </div>
                   <div className="col-4 col-lg-4 mt-4 mt-lg-0">
-                    <p>${(parseFloat(item.price) || 0).toFixed(2)}</p>
+                    <p>₹{(parseFloat(item.price) || 0).toFixed(2)}</p>
                   </div>
                 </div>
               </div>
@@ -100,11 +98,11 @@ export default function ConfirmOrder() {
           <div id="order_summary">
             <h4>Order Summary</h4>
             <hr />
-            <p>Subtotal: <span className="order-summary-values">${cartTotal.toFixed(2)}</span></p>
-            <p>Shipping: <span className="order-summary-values">${shippingCost.toFixed(2)}</span></p>
-            <p>Tax: <span className="order-summary-values">${taxCost.toFixed(2)}</span></p>
+            <p>Subtotal: <span className="order-summary-values">₹{cartTotal.toFixed(2)}</span></p>
+            <p>Shipping: <span className="order-summary-values">₹{shippingCost.toFixed(2)}</span></p>
+            <p>Tax: <span className="order-summary-values">₹{taxCost.toFixed(2)}</span></p>
             <hr />
-            <p>Total: <span className="order-summary-values">${totalCost}</span></p>
+            <p>Total: <span className="order-summary-values">₹{totalCost}</span></p>
             <hr />
             <button
               id="checkout_btn"
