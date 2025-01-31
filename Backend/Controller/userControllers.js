@@ -238,7 +238,7 @@ const decreaseQuantity = async (req, res) => {
             })),
             customer_email: userEmail,
             mode: 'payment',
-            success_url: `http://localhost:3000/PaymentSucess`
+            success_url: `https://elect-zone-ecommerce.vercel.app/PaymentSucess`
         });
         res.status(200).json({ sessionId: session.id });
         

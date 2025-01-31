@@ -12,5 +12,5 @@ router.route("/clearCart/:id").delete(clearUserCart)
 router.route("/:userId/removeItem/:productId").delete(removeUserItem);
 router.route("/:userId/increaseQuantity/:productId").patch(increaseQuantity)
 router.route("/:userId/decreaseQuantity/:productId").patch(decreaseQuantity)
-// router.route("/webhook").post(stripeWebhook)
+router.route("/webhook").post(stripeWebhook)
 module.exports = router;
