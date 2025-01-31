@@ -240,6 +240,7 @@ const decreaseQuantity = async (req, res) => {
             mode: 'payment',
             success_url: `http://localhost:3000/PaymentSucess`
         });
+        res.status(200).json({ sessionId: session.id });
         
     } catch (error) {
         console.error('Error creating Stripe session:', error);
