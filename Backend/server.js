@@ -28,9 +28,6 @@ app.use(
 // Connect to database
 connectDB();
 
-// Middleware
-app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
 // Stripe Webhook
 app.post(
@@ -131,7 +128,9 @@ const sendConfirmationEmail = async (userEmail, session, products, userName) => 
     console.error("🚨 Error sending email:", error);
   }
 };
-
+// Middleware
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/api/cards", cardsRoutes);
