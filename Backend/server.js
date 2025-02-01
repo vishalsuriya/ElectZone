@@ -15,9 +15,6 @@ dotenv.config();
 const app = express();
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
-// Middleware
-app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cors({
     origin: "https://elect-zone-ecommerce.vercel.app",
@@ -123,6 +120,9 @@ const sendConfirmationEmail = async (userEmail, session, products, userName) => 
     console.error("🚨 Error sending email:", error);
   }
 };
+// Middleware
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/api/cards", cardsRoutes);
