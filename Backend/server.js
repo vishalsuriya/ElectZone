@@ -4,7 +4,6 @@ const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const nodeMailer = require("nodemailer");
 const cors = require("cors");
-const nodeMailer = require("nodemailer");
 const asyncHandler = require("express-async-handler");
 const Users = require("./model/UserModel.js")
 const connectDB = require("./Database/connection");
