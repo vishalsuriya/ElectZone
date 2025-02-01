@@ -1,12 +1,15 @@
 // Required dependencies
 const express = require("express");
-const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
-const asyncHandler = require("express-async-handler");
+const dotenv = require("dotenv");
 const nodeMailer = require("nodemailer");
-const Users = require("./model/UserModel.js");
+const cors = require("cors");
+const asyncHandler = require("express-async-handler");
+const Users = require("./model/UserModel.js")
 const connectDB = require("./Database/connection");
-
+const userRoutes = require("./routes/userRoutes.js");
+const cardsRoutes = require("./routes/cardsRoutes.js");
+const { notFound, errorHandler } = require("./middleware/ErrorMiddleware.js");
 // Load environment variables
 dotenv.config();
 const app = express();
@@ -120,7 +123,13 @@ const sendConfirmationEmail = async (userEmail, session, products, userName) => 
     console.error("🚨 Error sending email:", error);
   }
 };
+// Routes
+app.use("/api/users", userRoutes);
+app.use("/api/cards", cardsRoutes);
 
+// Error handling middleware
+app.use(notFound);
+app.use(errorHandler);
 // Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
