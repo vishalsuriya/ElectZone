@@ -43,7 +43,7 @@ app.post(
 
     if (event.type === "checkout.session.completed") {
       console.log(`✅ Checkout session completed: ${event.data.object.id}`);
-      await handleCheckoutSessionCompleted(event.data.object);
+      await handleCheckoutSessionCompleted(event);
     }
 
     res.json({ received: true });
@@ -54,7 +54,7 @@ app.post(
 const handleCheckoutSessionCompleted = async (session) => {
   try {
     const userEmail = session.customer_email;
-    const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
+    const lineItems = await stripe.checkout.sessions.listLineItems(session.data.object.id);
     const user = await Users.findOne({ email: userEmail });
 
     if (user) {
