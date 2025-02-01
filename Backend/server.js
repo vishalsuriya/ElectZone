@@ -52,7 +52,7 @@ app.post(
       return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 
-    if (event.type === "checkout.session.async_payment_succeeded") {
+    if (event.type === "checkout.session.completed") {
       console.log(`✅ Checkout session completed: ${event.data.object.id}`);
       await handleCheckoutSessionCompleted(event.data.object);
     }
