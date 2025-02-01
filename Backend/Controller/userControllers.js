@@ -1,10 +1,9 @@
 const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcryptjs");
 const Users = require("../model/UserModel.js");
-const nodeMailer = require("nodemailer");
 const mongoose = require("mongoose");
 require('dotenv').config();
-const stripe = require('stripe')('sk_test_51Pez84Glv44VgkWUlFo88RHr7mzu3JCJPNTdbJwIBg5DSC8eEF8TaRrd1dXsYU47fzJkaJvLqClBoX0KBcMZH9xg00qzHVkawL');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const  generateToken  = require( "../utils/generateToken.js");
 const registerUser = asyncHandler(async(req,res)=>{
     const {name,email,password,pic} = req.body;
@@ -247,85 +246,7 @@ const decreaseQuantity = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error', message: error.message });
     }
 });
-const stripeWebhook = asyncHandler(async (req, res) => {
-  let event;
-  try {
-      const sig = req.headers['stripe-signature'];
-      event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
-  } catch (err) {
-      console.error("Webhook Error:", err.message);
-      return res.status(400).json({ error: `Webhook error: ${err.message}` });
-  }
-  if (event.type === 'checkout.session.completed') {
-      const session = event.data.object;
-      const userEmail = session.customer_email;
-      const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
 
-      const user = await Users.findOne({ email: userEmail });
-      if (user) {
-          user.userOrders.push({
-              orderId: session.id,
-              products: lineItems.data.map((item) => ({
-                  productName: item.description,
-                  price: item.amount_total / 100,
-                  quantity: item.quantity,
-              })),
-          });
-          await user.save();
-      }
-      await sendConfirmationEmail(userEmail, session, lineItems.data);
-  }
-
-  res.status(200).json({ received: true });
-});
-
-const transporter = nodeMailer.createTransport({
-  service : 'gmail',
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
-  auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-  }
-});
-const sendConfirmationEmail = async (userEmail, session, products, userName) => {
-  const mailOptions = {
-    from: process.env.EMAIL_USER,
-    to: userEmail,
-    subject: 'Order Confirmation',
-    text: `Thank you for your purchase! Your Order ID is ${session.id}.`,
-    html: `
-      <p>Thank you for your purchase, <strong>${userName}</strong>!</p>
-      <p>Your Order ID is <strong>${session.id}</strong>.</p>
-      <h3>Order Summary:</h3>
-      <ul>
-        ${products
-          .map(
-            (p) => `
-              <li>
-                <strong>${p.title || p.productName}</strong> (x${p.quantity || 1}): $${p.price}
-                <br />
-                <img src="${p.imgsrc}" alt="${p.title || p.productName}" style="max-width:100px; margin-top:5px;" />
-              </li>
-            `
-          )
-          .join('')}
-      </ul>
-      <p>We appreciate your business and hope you enjoy your purchase!</p>
-    `,
-  };
-
-  try {
-    await transporter.sendMail(mailOptions);
-    console.log('Email sent successfully');
-  } catch (error) {
-    console.error('Error sending email:', error);
-  }
-};
-
-
-  
   module.exports = { registerUser, loginUser, updateUserProfile, userPayment,getUser
-    ,clearUserCart,removeUserItem,increaseQuantity,decreaseQuantity,stripeWebhook
+    ,clearUserCart,removeUserItem,increaseQuantity,decreaseQuantity
   };
