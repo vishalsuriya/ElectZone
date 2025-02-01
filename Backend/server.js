@@ -29,6 +29,7 @@ app.use(
 connectDB();
 
 
+
 // Stripe Webhook
 app.post(
   "/webhook",
@@ -62,16 +63,20 @@ app.post(
 const handleCheckoutSessionCompleted = async (session) => {
   try {
     const userEmail = session.customer_email;
+    console.log(userEmail);
     const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
+    console.log(lineItems.data);
     const user = await Users.findOne({ email: userEmail });
 
     if (user) {
       user.userOrders.push({
         orderId: session.id,
         products: lineItems.data.map((item) => ({
-          productName: item.description,
-          price: item.amount_total / 100,
-          quantity: item.quantity,
+          productId : item.productId|| item._id,
+          productName: item.title || item.productName,
+          price: item.price / 100,
+          quantity: item.quantity || 1,
+          imgsrc : item.imgsrc
         })),
       });
       await user.save();
