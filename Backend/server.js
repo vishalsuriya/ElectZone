@@ -15,7 +15,13 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 // Middleware
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use(
+  cors({
+    origin: "https://elect-zone-ecommerce.vercel.app",
+    methods: ["GET", "POST", "DELETE", "PUT"],
+    credentials: true,
+  })
+);
 // Database connection
 connectDB();
 
