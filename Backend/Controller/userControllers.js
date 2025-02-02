@@ -214,12 +214,9 @@ const userPayment = asyncHandler(async (req, res) => {
       if (!products || !userEmail) {
           return res.status(400).json({ error: 'Missing required fields' });
       }
-
-      // Format product details for metadata
       const productMetadata = products.map((product) => ({
           productId: product.productId || product._id,
-          productName: product.title || product.productName,
-          quantity: product.quantity || 1,
+          imgsrc : product.imgsrc ? [product.imgsrc] : [],
       }));
 
       const session = await stripe.checkout.sessions.create({
@@ -239,7 +236,7 @@ const userPayment = asyncHandler(async (req, res) => {
           mode: 'payment',
           success_url: `https://elect-zone-ecommerce.vercel.app/PaymentSucess`,
           metadata: {
-              products: JSON.stringify(productMetadata), // ✅ Pass product data in session metadata
+              products: JSON.stringify(productMetadata), 
           },
       });
 

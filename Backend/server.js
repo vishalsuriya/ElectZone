@@ -77,11 +77,11 @@ const handleCheckoutSessionCompleted = async (session) => {
       user.userOrders.push({
         orderId: session.id,
         products: lineItems.data.map((item) => ({
-          productId: item.productId || item._id,
+          productId: session.metadata.products.productId,
           productName: item.description,
           price: item.amount_total,
           quantity: item.quantity || 1,
-          imgsrc: item.imgsrc
+          imgsrc: session.metadata.products.imgsrc
         })),
       });
       await user.save();
