@@ -207,46 +207,48 @@ const decreaseQuantity = async (req, res) => {
   }
 };
  
-   const userPayment = asyncHandler(async (req, res) => {
-    try {
-        const { products, userEmail, userName } = req.body;
-        if (!products || !userEmail) {
-            return res.status(400).json({ error: 'Missing required fields' });
-        }
+const userPayment = asyncHandler(async (req, res) => {
+  try {
+      const { products, userEmail } = req.body;
+      if (!products || !userEmail) {
+          return res.status(400).json({ error: 'Missing required fields' });
+      }
 
-        const lineItems = products.map((data) => ({
-            productId: data.productId|| data._id,
-            productName: data.title || data.productName,
-            price:  Math.round(data.price * 100), 
-            quantity: data.quantity || 1,
-            imgsrc: data.imgsrc || "",
-        }));
+      const lineItems = products.map((data) => ({
+          productId: data.productId || data._id, // ✅ Store productId in metadata
+          productName: data.title || data.productName,
+          price: Math.round(data.price * 100), 
+          quantity: data.quantity || 1,
+          imgsrc: data.imgsrc || "",
+      }));
 
-        const session = await stripe.checkout.sessions.create({
-            payment_method_types: ['card'],
-            line_items: lineItems.map((item) => ({
-                price_data: {
-                    currency: 'usd',
-                    product_data: {
-                        id : item.productId,
-                        name: item.productName,
-                        images: item.imgsrc ? [item.imgsrc] : [],
-                    },
-                    unit_amount: item.price,
-                },
-                quantity: item.quantity,
-            })),
-            customer_email: userEmail,
-            mode: 'payment',
-            success_url: `https://elect-zone-ecommerce.vercel.app/PaymentSucess`
-        });
-        res.status(200).json({ sessionId: session.id });
-        
-    } catch (error) {
-        console.error('Error creating Stripe session:', error);
-        res.status(500).json({ error: 'Internal Server Error', message: error.message });
-    }
+      const session = await stripe.checkout.sessions.create({
+          payment_method_types: ['card'],
+          line_items: lineItems.map((item) => ({
+              price_data: {
+                  currency: 'usd',
+                  product_data: {
+                      name: item.productName, 
+                      images: item.imgsrc ? [item.imgsrc] : [],
+                  },
+                  unit_amount: item.price,
+              },
+              quantity: item.quantity,
+              metadata: { productId: item.productId }
+          })),
+          customer_email: userEmail,
+          mode: 'payment',
+          success_url: `https://elect-zone-ecommerce.vercel.app/PaymentSucess`
+      });
+
+      res.status(200).json({ sessionId: session.id });
+
+  } catch (error) {
+      console.error('Error creating Stripe session:', error);
+      res.status(500).json({ error: 'Internal Server Error', message: error.message });
+  }
 });
+
 
   module.exports = { registerUser, loginUser, updateUserProfile, userPayment,getUser
     ,clearUserCart,removeUserItem,increaseQuantity,decreaseQuantity
