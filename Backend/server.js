@@ -118,7 +118,7 @@ const sendConfirmationEmail = async (userEmail, session, data, userName) => {
           .map(
             (p, index) => `
               <li>
-                <img src="${products[index]?.image || ''}" alt="${p.productName || 'Product'}" style="width:100px; height:auto; border-radius: 5px;">
+                <img src="${products[index]?.imgsrc || ''}" alt="${p.productName || 'Product'}" style="width:100px; height:auto; border-radius: 5px;">
                 <br>
                 <strong>${p.description || p.productName}</strong> (x${p.quantity || 1}): ₹${((p.amount_total || p.price) / 100).toFixed(2)}
               </li>
