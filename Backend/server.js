@@ -66,10 +66,7 @@ const handleCheckoutSessionCompleted = async (session) => {
     
     // Parse metadata products
     const products = JSON.parse(session.metadata.products || "[]");
-    
     const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
-    console.log("Line Items:", lineItems.data);
-
     const user = await Users.findOne({ email: userEmail });
 
     if (user) {
@@ -78,7 +75,7 @@ const handleCheckoutSessionCompleted = async (session) => {
         products: products.map((product, index) => ({
           productId: product.productId,
           productName: lineItems.data[index]?.description || "Unknown Product",
-          price: lineItems.data[index]?.amount_total || 0,
+          price:(lineItems.data[index]?.amount_total || 0) / 100,
           quantity: lineItems.data[index]?.quantity || 1,
           imgsrc: Array.isArray(product.imgsrc) ? product.imgsrc[0] : product.imgsrc
         })),
