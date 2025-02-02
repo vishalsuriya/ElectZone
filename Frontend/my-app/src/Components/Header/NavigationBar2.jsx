@@ -74,7 +74,7 @@ function NavigationBar2() {
                   Contact us
                 </NavDropdown.Item>
                 <NavDropdown.Item href="/Cartpage">My Cart</NavDropdown.Item>
-                <NavDropdown.Item href="/Orders">
+                <NavDropdown.Item href="/myOrders">
                   My orders
                 </NavDropdown.Item>
                 <NavDropdown.Divider />

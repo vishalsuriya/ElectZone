@@ -101,6 +101,7 @@ const getUser = asyncHandler(async (req, res) => {
         name: user.name,
         email: user.email,
         cart: user.userCart, 
+        orders : user.userOrders
       });
     } else {
       res.status(404).json({ message: "User not found" });
@@ -206,7 +207,7 @@ const decreaseQuantity = async (req, res) => {
     return res.status(500).json({ message: "Internal server error", error: error.message });
   }
 };
- 
+
 const userPayment = asyncHandler(async (req, res) => {
   try {
       const { products, userEmail, userName } = req.body;

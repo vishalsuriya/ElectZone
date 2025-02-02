@@ -17,6 +17,7 @@ import ConfirmOder from "./Components/BuyProducts/ConfirmOrder";
 import CheckOut from "./Components/BuyProducts/CheckOut";
 import ProductPage from "./Components/ProductPage/ProductPage";
 import PaymentSucess from "./Components/BuyProducts/PaymentSucess";
+import UserOrders from "./Components/Users/UserOrders";
 function App() {
   return (
     <>
@@ -37,6 +38,7 @@ function App() {
      <Route path="/Shipping" element ={<Shipping/>}/>
      <Route path="/ConfirmOrder" element ={<ConfirmOder />}/>
      <Route path="/PaymentSucess" element = {<PaymentSucess />} />
+     <Route path="/myOrders" element = {<UserOrders />} />
     </Routes>
     </>
   );

@@ -44,14 +44,12 @@ app.post(
         sig,
         process.env.STRIPE_WEBHOOK_SECRET
       );
-      console.log("✅ Webhook Received:", event.id);
     } catch (err) {
       console.error(`❌ Webhook Error: ${err.message}`);
       return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 
     if (event.type === "checkout.session.completed") {
-      console.log(`✅ Checkout session completed: ${event.data.object.id}`);
       await handleCheckoutSessionCompleted(event.data.object);
     }
 
@@ -62,7 +60,6 @@ app.post(
 const handleCheckoutSessionCompleted = async (session) => {
   try {
     const userEmail = session.customer_email;
-    console.log("User Email:", userEmail);
     const products = JSON.parse(session.metadata.products || "[]");
     const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
     const user = await Users.findOne({ email: userEmail });
@@ -80,7 +77,7 @@ const handleCheckoutSessionCompleted = async (session) => {
       });
 
       await user.save();
-      console.log("🛍️ Order saved for user:", userEmail);
+
     }
 
     await sendConfirmationEmail(userEmail, session, lineItems.data, user?.name || "Customer");
@@ -101,7 +98,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Send order confirmation email
+// Sending order confirmation email
 const sendConfirmationEmail = async (userEmail, session, data, userName) => {
   const products = JSON.parse(session.metadata.products || "[]");
 
