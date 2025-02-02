@@ -59,15 +59,14 @@ app.post(
   })
 );
 
-// Handle successful checkout session
 const handleCheckoutSessionCompleted = async (session) => {
   try {
     const userEmail = session.customer_email;
     console.log("User Email:", userEmail);
-    console.log(session);
-    // Print metadata
-    console.log("Metadata:", session.metadata);
-
+    
+    // Parse metadata products
+    const products = JSON.parse(session.metadata.products || "[]");
+    
     const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
     console.log("Line Items:", lineItems.data);
 
@@ -76,14 +75,15 @@ const handleCheckoutSessionCompleted = async (session) => {
     if (user) {
       user.userOrders.push({
         orderId: session.id,
-        products: lineItems.data.map((item) => ({
-          productId: session.metadata.products.productId,
-          productName: item.description,
-          price: item.amount_total,
-          quantity: item.quantity || 1,
-          imgsrc: session.metadata.products.imgsrc
+        products: products.map((product, index) => ({
+          productId: product.productId,
+          productName: lineItems.data[index]?.description || "Unknown Product",
+          price: lineItems.data[index]?.amount_total || 0,
+          quantity: lineItems.data[index]?.quantity || 1,
+          imgsrc: product.imgsrc || []
         })),
       });
+
       await user.save();
       console.log("🛍️ Order saved for user:", userEmail);
     }
@@ -93,6 +93,7 @@ const handleCheckoutSessionCompleted = async (session) => {
     console.error("🚨 Error handling checkout session:", error);
   }
 };
+
 
 // Nodemailer setup
 const transporter = nodemailer.createTransport({
