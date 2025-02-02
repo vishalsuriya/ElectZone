@@ -80,7 +80,7 @@ const handleCheckoutSessionCompleted = async (session) => {
           productName: lineItems.data[index]?.description || "Unknown Product",
           price: lineItems.data[index]?.amount_total || 0,
           quantity: lineItems.data[index]?.quantity || 1,
-          imgsrc: product.imgsrc || []
+          imgsrc: Array.isArray(product.imgsrc) ? product.imgsrc[0] : product.imgsrc
         })),
       });
 
