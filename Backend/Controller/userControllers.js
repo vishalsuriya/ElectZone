@@ -209,36 +209,38 @@ const decreaseQuantity = async (req, res) => {
  
 const userPayment = asyncHandler(async (req, res) => {
   try {
-      const { products, userEmail } = req.body;
+      const { products, userEmail, userName } = req.body;
+
       if (!products || !userEmail) {
           return res.status(400).json({ error: 'Missing required fields' });
       }
 
-      const lineItems = products.map((data) => ({
-          productId: data.productId || data._id, // ✅ Store productId in metadata
-          productName: data.title || data.productName,
-          price: Math.round(data.price * 100), 
-          quantity: data.quantity || 1,
-          imgsrc: data.imgsrc || "",
+      // Format product details for metadata
+      const productMetadata = products.map((product) => ({
+          productId: product.productId || product._id,
+          productName: product.title || product.productName,
+          quantity: product.quantity || 1,
       }));
 
       const session = await stripe.checkout.sessions.create({
           payment_method_types: ['card'],
-          line_items: lineItems.map((item) => ({
+          line_items: products.map((product) => ({
               price_data: {
                   currency: 'usd',
                   product_data: {
-                      name: item.productName, 
-                      images: item.imgsrc ? [item.imgsrc] : [],
+                      name: product.title || product.productName,
+                      images: product.imgsrc ? [product.imgsrc] : [],
                   },
-                  unit_amount: item.price,
+                  unit_amount: Math.round(product.price * 100),
               },
-              quantity: item.quantity,
-              metadata: { productId: item.productId }
+              quantity: product.quantity || 1,
           })),
           customer_email: userEmail,
           mode: 'payment',
-          success_url: `https://elect-zone-ecommerce.vercel.app/PaymentSucess`
+          success_url: `https://elect-zone-ecommerce.vercel.app/PaymentSucess`,
+          metadata: {
+              products: JSON.stringify(productMetadata), // ✅ Pass product data in session metadata
+          },
       });
 
       res.status(200).json({ sessionId: session.id });
@@ -248,6 +250,7 @@ const userPayment = asyncHandler(async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error', message: error.message });
   }
 });
+
 
 
   module.exports = { registerUser, loginUser, updateUserProfile, userPayment,getUser
