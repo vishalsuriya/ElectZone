@@ -65,7 +65,7 @@ const handleCheckoutSessionCompleted = async (session) => {
     const userEmail = session.customer_email;
     console.log(userEmail);
     const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
-    console.log(lineItems.data.object);
+    console.log(lineItems.data);
     const user = await Users.findOne({ email: userEmail });
 
     if (user) {
