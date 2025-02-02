@@ -227,11 +227,13 @@ const decreaseQuantity = async (req, res) => {
             line_items: lineItems.map((item) => ({
                 price_data: {
                     currency: 'usd',
-                      name: item.productName,
-                      images: item.imgsrc ? [item.imgsrc] : [],
+                    product_data: {
+                        id : item.productId,
+                        name: item.productName,
+                        images: item.imgsrc ? [item.imgsrc] : [],
                     },
                     unit_amount: item.price,
-          
+                },
                 quantity: item.quantity,
             })),
             customer_email: userEmail,
