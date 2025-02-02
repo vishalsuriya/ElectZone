@@ -63,8 +63,6 @@ const handleCheckoutSessionCompleted = async (session) => {
   try {
     const userEmail = session.customer_email;
     console.log("User Email:", userEmail);
-    
-    // Parse metadata products
     const products = JSON.parse(session.metadata.products || "[]");
     const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
     const user = await Users.findOne({ email: userEmail });
@@ -92,7 +90,6 @@ const handleCheckoutSessionCompleted = async (session) => {
 };
 
 
-// Nodemailer setup
 const transporter = nodemailer.createTransport({
   service: "gmail",
   host: "smtp.gmail.com",
@@ -105,7 +102,9 @@ const transporter = nodemailer.createTransport({
 });
 
 // Send order confirmation email
-const sendConfirmationEmail = async (userEmail, session, products, userName) => {
+const sendConfirmationEmail = async (userEmail, session, data, userName) => {
+  const products = JSON.parse(session.metadata.products || "[]");
+
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: userEmail,
@@ -115,12 +114,15 @@ const sendConfirmationEmail = async (userEmail, session, products, userName) => 
       <p>Your Order ID is <strong>${session.id}</strong>.</p>
       <h3>Order Summary:</h3>
       <ul>
-        ${products
+        ${data
           .map(
-            (p) => `
+            (p, index) => `
               <li>
-                <strong>${p.description || p.productName}</strong> (x${p.quantity || 1}): $${(p.amount_total || p.price) / 100}
+                <img src="${products[index]?.image || ''}" alt="${p.productName || 'Product'}" style="width:100px; height:auto; border-radius: 5px;">
+                <br>
+                <strong>${p.description || p.productName}</strong> (x${p.quantity || 1}): ₹${((p.amount_total || p.price) / 100).toFixed(2)}
               </li>
+              <br>
             `
           )
           .join("")}
@@ -136,6 +138,7 @@ const sendConfirmationEmail = async (userEmail, session, products, userName) => 
     console.error("🚨 Error sending email:", error);
   }
 };
+
 // Middleware
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
