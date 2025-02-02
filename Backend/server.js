@@ -63,20 +63,25 @@ app.post(
 const handleCheckoutSessionCompleted = async (session) => {
   try {
     const userEmail = session.customer_email;
-    console.log(userEmail);
+    console.log("User Email:", userEmail);
+    console.log(session);
+    // Print metadata
+    console.log("Metadata:", session.metadata);
+
     const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
-    console.log(lineItems.data);
+    console.log("Line Items:", lineItems.data);
+
     const user = await Users.findOne({ email: userEmail });
 
     if (user) {
       user.userOrders.push({
         orderId: session.id,
         products: lineItems.data.map((item) => ({
-          productId : item.productId|| item._id,
+          productId: item.productId || item._id,
           productName: item.description,
           price: item.amount_total,
           quantity: item.quantity || 1,
-          imgsrc : item.imgsrc
+          imgsrc: item.imgsrc
         })),
       });
       await user.save();
