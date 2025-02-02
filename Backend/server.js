@@ -65,7 +65,7 @@ const handleCheckoutSessionCompleted = async (session) => {
     const userEmail = session.customer_email;
     console.log(userEmail);
     const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
-    console.log(lineItems.data);
+    console.log(lineItems.data.object);
     const user = await Users.findOne({ email: userEmail });
 
     if (user) {
@@ -73,8 +73,8 @@ const handleCheckoutSessionCompleted = async (session) => {
         orderId: session.id,
         products: lineItems.data.map((item) => ({
           productId : item.productId|| item._id,
-          productName: item.title || item.productName,
-          price: item.price / 100,
+          productName: item.description,
+          price: item.amount_total,
           quantity: item.quantity || 1,
           imgsrc : item.imgsrc
         })),
