@@ -7,7 +7,9 @@ const PaymentSuccess = () => {
   const handleClick = () =>{
    navigate("/Login");
   }
-
+const handleOrders =()=>{
+  navigate("/myOrders")
+} 
   return (
     <div
       className="modal show"
@@ -23,7 +25,7 @@ const PaymentSuccess = () => {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="secondary">MyOrders</Button>
+          <Button variant="secondary" onClick={handleOrders}>MyOrders</Button>
           <Button variant="primary" onClick={handleClick}>Continue shopping</Button>
         </Modal.Footer>
       </Modal.Dialog>
