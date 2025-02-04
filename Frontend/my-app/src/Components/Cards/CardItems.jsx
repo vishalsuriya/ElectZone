@@ -11,7 +11,7 @@ import {
 } from "mdb-react-ui-kit";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import Cookies from "js-cookie"
 function CardItems() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
@@ -34,7 +34,7 @@ function CardItems() {
 
   const handleAddItem = async(e, product) => {
     e.stopPropagation();
-    if (!localStorage.getItem("user")) {
+    if (!Cookies.get("user")) {
       setLoginPrompt(true);
       setTimeout(() => {
         navigate("/UserLogin");
@@ -42,7 +42,7 @@ function CardItems() {
     }
     setAddedItem(product);
     try {
-      const user = JSON.parse(localStorage.getItem("user"));
+      const user = JSON.parse(Cookies.get("user"));
       const email = user.data.email;
       const response = await fetch("https://electzone-server.onrender.com/api/cards/userCart", {
         method: "POST",

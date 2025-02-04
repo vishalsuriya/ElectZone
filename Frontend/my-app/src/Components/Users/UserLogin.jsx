@@ -3,7 +3,7 @@ import { Form, Button, Row, Col, Container, Image } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import Loading from '../Loading';
 import ErrorMessage from '../ErrorMessage';
-
+import Cookies from "js-cookie"
 function UserLogin() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
@@ -12,7 +12,7 @@ function UserLogin() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    const userInfo = JSON.parse(localStorage.getItem('user'));
+    const userInfo = Cookies.get('user');
     if (userInfo) {
       navigate("/Login"); 
     }
@@ -33,7 +33,7 @@ function UserLogin() {
 
       const data = await response.json();
       if (response.ok) {
-        localStorage.setItem('user', JSON.stringify(data)); 
+        Cookies.set('user', JSON.stringify(data)); 
         navigate('/Login'); 
       } else {
         setError(data.message || 'Invalid email or password');

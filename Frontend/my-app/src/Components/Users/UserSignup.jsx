@@ -3,7 +3,7 @@ import { Form, Button, Row, Col, Container, Image } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
-
+import Cookies from "js-cookie";
 function UserSignup() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -90,7 +90,7 @@ function UserSignup() {
       if (!response.ok) {
         throw new Error(data.message || "Failed to create account");
       }
-      localStorage.setItem('user', JSON.stringify(data))
+      Cookies.set("user", JSON.stringify(data), { expires: 7, secure: true });
       navigate("/Login");
     } catch (error) {
       setMessage(error.message);

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { MDBRow, MDBCol, MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBBtn } from 'mdb-react-ui-kit';
 import { useLocation, useNavigate } from 'react-router-dom';
 import "../ProductPage/ProductPage.css";
-
+import Cookies from "js-cookie";
 const ProductPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -22,7 +22,7 @@ const ProductPage = () => {
   }, [addedItem]);
   
   const handleAddToCart = async (product) => {
-    if (!localStorage.getItem("user")) {
+    if (!Cookies.get("user")) {
       setLoginPrompt(true);
       setTimeout(() => {
         navigate("/UserLogin");
@@ -31,7 +31,7 @@ const ProductPage = () => {
     }
     setAddedItem(product);
     try {
-      const user = JSON.parse(localStorage.getItem("user"));
+      const user = JSON.parse(Cookies.get("user"));
       const email = user.data.email;
       const response = await fetch("https://electzone-server.onrender.com/api/cards/userCart", {
         method: "POST",
@@ -47,7 +47,7 @@ const ProductPage = () => {
   };
 
   const handleBuyNow = (product) => {
-    if (!localStorage.getItem("user")) {
+    if (!Cookies.get("user")) {
       setLoginPrompt(true);
       setTimeout(() => {
         navigate("/UserLogin");

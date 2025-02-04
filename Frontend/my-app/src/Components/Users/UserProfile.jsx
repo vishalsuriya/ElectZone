@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form, Button, Row, Col, Container, Image } from "react-bootstrap";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
-
+import Cookies from "js-cookie"
 const UserProfile = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -50,7 +50,7 @@ const UserProfile = () => {
   };
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
+    const user = JSON.parse(Cookies.get("user") || "{}")
     if (user) {
       setName(user.data.name || "");
       setEmail(user.data.email || "");
@@ -91,7 +91,7 @@ const UserProfile = () => {
     }
 
     try {
-      const user = JSON.parse(localStorage.getItem("user"));
+      const user = JSON.parse(Cookies.get("user"))
       const userId = user?.data?._id;
       const response = await fetch(`https://electzone-server.onrender.com/api/users/profile/${userId}`, {
         method: "POST",
@@ -108,7 +108,7 @@ const UserProfile = () => {
         setPic(data.pic)
         setPassword("")
         setConfirmPassword("")
-        localStorage.setItem(
+        Cookies.set(
           "user",
           JSON.stringify({ ...user, data: { ...user.data, ...data } })
         );
@@ -135,7 +135,7 @@ const UserProfile = () => {
           <Image
             src={
               pic ||
-              "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
+              "https://www.w3schools.com/howto/img_avatar.png"
             }
             alt={name || "Profile Picture"}
             className="profilePic"

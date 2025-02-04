@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useCart } from "react-use-cart";
+import Cookies from "js-cookie"
 import "../Cards/CircleCardStyle.css";
 import { useNavigate } from "react-router-dom";
 
@@ -50,7 +50,7 @@ function CircleCard3() {
 
   const handleAddItem = async(e, product) => {
     e.stopPropagation();
-    if (!localStorage.getItem("user")) {
+    if (!Cookies.get("user")) {
       setLoginPrompt(true);
       setTimeout(() => {
         navigate("/UserLogin");
@@ -58,7 +58,7 @@ function CircleCard3() {
     } 
     setAddedItem(product);
     try {
-      const user = JSON.parse(localStorage.getItem("user"));
+      const user = JSON.parse(Cookies.get("user"));
       const email = user.data.email;
       const response = await fetch("https://electzone-server.onrender.com/api/cards/userCart", {
         method: "POST",

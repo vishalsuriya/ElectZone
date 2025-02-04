@@ -4,12 +4,12 @@ import CheckOut from './CheckOut';
 import "../BuyProducts/CheckOutStyle.css";
 import { loadStripe } from '@stripe/stripe-js';
 import "../BuyProducts/ConfirmOrderStyle.css";
-
+import Cookies from "js-cookie"
 const stripePromise = loadStripe("pk_test_51Pez84Glv44VgkWUycmbDjCxdByoFchGmuMVBNdVPIQozAh7pkufsnQSRd3VXmdZ2ScohxRPcdzPmbkHv1XuJSM900NpTxkMBw");
 
 export default function ConfirmOrder() {
   const [loading, setLoading] = useState(false);
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(Cookies.get("user"));
   const location = useLocation();
   const { shippingDetails = {},  product = {},data=[] } = location.state || {};
   const allItems = [

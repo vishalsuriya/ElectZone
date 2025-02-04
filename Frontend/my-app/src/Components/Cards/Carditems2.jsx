@@ -28,7 +28,7 @@ function CardItems2() {
   }
   const handleAddItem = async(e) => {
     e.stopPropagation();
-    if (!localStorage.getItem("user")) {
+    if (!Cookies.get("user")) {
       setLoginPrompt(true);
       setTimeout(() => {
         navigate("/UserLogin");

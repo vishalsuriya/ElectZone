@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
-
+import Cookies from "js-cookie"
 function Cartslist() {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
     const fetchCartData = async () => {
       try {
-        const user = JSON.parse(localStorage.getItem("user"));
+        const user = JSON.parse(Cookies.get("user"));
         const userId = user?.data?._id;
         if (userId) {
           const response = await axios.get(`https://electzone-server.onrender.com/api/users/userDetails/${userId}`);
@@ -24,7 +24,7 @@ function Cartslist() {
 
   const handleRemoveItem = async (productId) => {
     try {
-      const user = JSON.parse(localStorage.getItem("user"));
+      const user = JSON.parse(Cookies.get("user"));
       const userId = user?.data?._id;
       const response = await axios.delete(
         `https://electzone-server.onrender.com/api/users/${userId}/removeItem/${productId}`
@@ -40,7 +40,7 @@ function Cartslist() {
   
   const handleClearCart = async () => {
     try {
-      const user = JSON.parse(localStorage.getItem("user"));
+      const user = JSON.parse(Cookies.get("user"));
       const userId = user?.data?._id;
       await axios.delete(`https://electzone-server.onrender.com/api/users/clearCart/${userId}`);
       setData([]);
@@ -50,7 +50,7 @@ function Cartslist() {
   };
  const handleQuantityIncrease = async(productId)=>{
   try{
-    const user = JSON.parse(localStorage.getItem("user"));
+    const user = JSON.parse(Cookies.get("user"));
     const userId = user?.data?._id;
     const response = await axios.patch(`https://electzone-server.onrender.com/api/users/${userId}/increaseQuantity/${productId}`)
    if(response.data.message === "Quantity increased successfully"){
@@ -63,7 +63,7 @@ function Cartslist() {
 
  const handleQuantitydecrease = async(productId)=>{
   try{
-    const user = JSON.parse(localStorage.getItem("user"));
+    const user = JSON.parse(Cookies.get("user"));
     const userId = user?.data?._id;
     const response = await axios.patch(`https://electzone-server.onrender.com/api/users/${userId}/decreaseQuantity/${productId}`)
    if(response.data.message === "Quantity decreased successfully"){

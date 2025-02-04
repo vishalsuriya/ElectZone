@@ -8,7 +8,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import "./NavigationBarStyle.css";
 import { useNavigate } from 'react-router-dom';
 import SearchBar from "../Searchbar/Searchbar";
-
+import Cookies from "js-cookie"
 function NavigationBar2() {
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
@@ -18,8 +18,9 @@ function NavigationBar2() {
     setShowDropdown(!showDropdown);
   };
  const handlelogout = () =>{
+  Cookies.remove("user");
   navigate("/");
-  localStorage.removeItem("user");
+
  }
   const handleDocumentClick = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
