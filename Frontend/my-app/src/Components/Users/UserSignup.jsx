@@ -1,13 +1,17 @@
 import React, { useState } from "react";
-import { Form, Button, Row, Col, Container, Image } from "react-bootstrap";
+import { Form, Button, Row, Col, Container, Image, InputGroup } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 import Cookies from "js-cookie";
+import { Eye, EyeSlash } from "react-bootstrap-icons";
+
 function UserSignup() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const[showConfirmPassword,setShowConfirmPassword] = useState(false)
   const [pic, setPic] = useState(
     "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
   );
@@ -17,60 +21,10 @@ function UserSignup() {
   const [picMessage, setPicMessage] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  const validatePassword = (password) => {
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    return passwordRegex.test(password);
-  };
-
-  const postDetails = (pics) => {
-    if (
-      pics ===
-      "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
-    ) {
-      return setPicMessage("Please Select an Image");
-    }
-    setPicMessage(null);
-    if (pics.type === "image/jpeg" || pics.type === "image/png") {
-      const data = new FormData();
-      data.append("file", pics);
-      data.append("upload_preset", "ElectZone");
-      data.append("cloud_name", "dy6n0qbpd");
-      fetch("https://api.cloudinary.com/v1_1/dy6n0qbpd/image/upload", {
-        method: "post",
-        body: data,
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setPic(data.url.toString());
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      return setPicMessage("Please Select an Image");
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name || !email || !password || !confirmpassword) {
       setMessage("Please fill in all fields");
-      return;
-    }
-    if (!validateEmail(email)) {
-      setMessage("Please enter a valid email address");
-      return;
-    }
-    if (!validatePassword(password)) {
-      setMessage(
-        "Password must be at least 8 characters long, include one uppercase letter, one lowercase letter, one number, and one special character"
-      );
       return;
     }
     if (password !== confirmpassword) {
@@ -145,34 +99,42 @@ function UserSignup() {
 
               <Form.Group controlId="formBasicPassword" className="mb-3">
                 <Form.Label>Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  autoComplete="off"
-                  value={password}
-                  placeholder="Password"
-                  onChange={(e) => setPassword(e.target.value)}
-                />
+                <InputGroup>
+                  <Form.Control
+                    type={showPassword ? "text" : "password"}
+                    autoComplete="off"
+                    value={password}
+                    placeholder="Password"
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <Button variant="outline-secondary" onClick={() => setShowPassword(!showPassword)}>
+                    {showPassword ? <Eye size="20" /> : <EyeSlash size="20" />}
+                  </Button>
+                </InputGroup>
               </Form.Group>
 
               <Form.Group controlId="confirmPassword" className="mb-3">
                 <Form.Label>Confirm Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  value={confirmpassword}
-                  autoComplete="off"
-                  placeholder="Confirm Password"
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                />
+                <InputGroup>
+                  <Form.Control
+                    type={showConfirmPassword ? "text" : "password"}
+                    autoComplete="off"
+                    value={confirmpassword}
+                    placeholder="Password"
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                  />
+                  <Button variant="outline-secondary" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                    {showConfirmPassword ? <Eye size="20" /> : <EyeSlash size="20" />}
+                  </Button>
+                </InputGroup>
               </Form.Group>
 
-              {picMessage && (
-                <ErrorMessage variant="danger">{picMessage}</ErrorMessage>
-              )}
+              {picMessage && <ErrorMessage variant="danger">{picMessage}</ErrorMessage>}
               <Form.Group controlId="pic" className="mb-3">
                 <Form.Label>Profile Picture</Form.Label>
                 <Form.Control
                   type="file"
-                  onChange={(e) => postDetails(e.target.files[0])}
+                  onChange={(e) => setPic(e.target.files[0])}
                 />
               </Form.Group>
               <Button variant="primary" type="submit" className="w-100">

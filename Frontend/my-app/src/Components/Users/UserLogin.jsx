@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Button, Row, Col, Container, Image } from 'react-bootstrap';
+import { Form, Button, Row, Col, Container, Image, InputGroup } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import Loading from '../Loading';
 import ErrorMessage from '../ErrorMessage';
-import Cookies from "js-cookie"
+import Cookies from "js-cookie";
+import { Eye, EyeSlash } from 'react-bootstrap-icons';
+
 function UserLogin() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   useEffect(() => {
     const userInfo = Cookies.get('user');
     if (userInfo) {
-      navigate("/Login"); 
+      navigate("/Login");
     }
   }, [navigate]);
 
@@ -33,8 +36,8 @@ function UserLogin() {
 
       const data = await response.json();
       if (response.ok) {
-        Cookies.set('user', JSON.stringify(data)); 
-        navigate('/Login'); 
+        Cookies.set('user', JSON.stringify(data));
+        navigate('/Login');
       } else {
         setError(data.message || 'Invalid email or password');
       }
@@ -76,17 +79,25 @@ function UserLogin() {
             </Form.Group>
 
             <Form.Group controlId="formBasicPassword" className="form-floating mb-3">
-              <Form.Control
-                type="password"
-                value={password}
-                id="floatingPassword"
-                placeholder="Password"
-                autoComplete="current-password"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <Form.Label htmlFor="floatingPassword">Password</Form.Label>
+              <InputGroup>
+                <Form.Control
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  id="floatingPassword"
+                  placeholder="Password"
+                  autoComplete="current-password"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <Button
+                  variant="outline-secondary"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <Eye size="20" /> : <EyeSlash size="20" />}
+                </Button>
+              </InputGroup>
+          
             </Form.Group>
-            
+
             <Button className="w-100 btn btn-lg btn-primary" type="submit">
               Login
             </Button>
