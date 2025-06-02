@@ -84,7 +84,7 @@ const resetPassword = asyncHandler(async (req, res) => {
     { expiresIn: '15m' } 
   );
 
-  const resetLink = `http://localhost:3000/reset-password/${user._id}/${token}`;
+  const resetLink = `https://elect-zone-ecommerce.vercel.app/reset-password/${user._id}/${token}`;
 
   const transporter = nodemailer.createTransport({
     service: "gmail",
