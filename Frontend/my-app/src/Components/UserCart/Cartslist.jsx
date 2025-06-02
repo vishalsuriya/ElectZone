@@ -16,7 +16,7 @@ function Cartslist() {
 
         if (userId && token) {
           const response = await axios.get(
-            `https://elect-zone-ecommerce.vercel.app/api/users/userDetails/${userId}`,
+            `https://electzone-server.onrender.com/api/users/userDetails/${userId}`,
             {
               headers: {
                 "Authorization": `Bearer ${token}`,
@@ -40,7 +40,7 @@ function Cartslist() {
       const token = user?.data?.token;
 
       const response = await axios.delete(
-        `https://elect-zone-ecommerce.vercel.app/api/users/${userId}/removeItem/${productId}`,
+        `https://electzone-server.onrender.com/api/users/${userId}/removeItem/${productId}`,
         {
           headers: {
             "Authorization": `Bearer ${token}`,
@@ -63,7 +63,7 @@ function Cartslist() {
       const token = user?.data?.token;
 
       await axios.delete(
-        `https://elect-zone-ecommerce.vercel.app/api/users/clearCart/${userId}`,
+        `https://electzone-server.onrender.com/api/users/clearCart/${userId}`,
         {
           headers: {
             "Authorization": `Bearer ${token}`,
@@ -83,7 +83,7 @@ function Cartslist() {
       const token = user?.data?.token;
 
       const response = await axios.patch(
-        `https://elect-zone-ecommerce.vercel.app/api/users/${userId}/increaseQuantity/${productId}`,
+        `https://electzone-server.onrender.com/api/users/${userId}/increaseQuantity/${productId}`,
         {},
         {
           headers: {
@@ -107,7 +107,7 @@ function Cartslist() {
       const token = user?.data?.token;
 
       const response = await axios.patch(
-        `https://elect-zone-ecommerce.vercel.app/api/users/${userId}/decreaseQuantity/${productId}`,
+        `https://electzone-server.onrender.com/api/users/${userId}/decreaseQuantity/${productId}`,
         {},
         {
           headers: {

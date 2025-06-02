@@ -295,7 +295,7 @@ const userPayment = asyncHandler(async (req, res) => {
           })),
           customer_email: userEmail,
           mode: 'payment',
-          success_url: `https://elect-zone-ecommerce.vercel.app/PaymentSucess`,
+          success_url: `https://electzone-server.onrender.com/PaymentSucess`,
           metadata: {
               products: JSON.stringify(productMetadata), 
           },

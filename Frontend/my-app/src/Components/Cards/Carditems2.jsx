@@ -19,7 +19,7 @@ function CardItems2() {
 
   useEffect(() => {
     axios
-      .get("https://elect-zone-ecommerce.vercel.app/api/cards")
+      .get("https://electzone-server.onrender.com/api/cards")
       .then((response) => setData(response.data))
       .catch((error) => console.error(error));
   }, []);

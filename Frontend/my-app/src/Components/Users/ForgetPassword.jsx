@@ -8,7 +8,7 @@ const ForgetPassword = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const response = await fetch('https://elect-zone-ecommerce.vercel.app/api/users/forgetpassword', {
+      const response = await fetch('https://electzone-server.onrender.com/api/users/forgetpassword', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

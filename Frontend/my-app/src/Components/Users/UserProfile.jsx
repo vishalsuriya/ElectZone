@@ -93,7 +93,7 @@ const UserProfile = () => {
     try {
       const user = JSON.parse(Cookies.get("user"))
       const userId = user?.data?._id;
-      const response = await fetch(`https://elect-zone-ecommerce.vercel.app/api/users/profile/${userId}`, {
+      const response = await fetch(`https://electzone-server.onrender.com/api/users/profile/${userId}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" ,
         "Authorization": `Bearer ${user?.data?.token}`

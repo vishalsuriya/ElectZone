@@ -31,7 +31,7 @@ export const ResetPassword = () => {
     if (userId && token) {
       try {
         const response = await fetch(
-          `https://elect-zone-ecommerce.vercel.app/api/users/updatepassword/${userId}/${token}`,
+          `https://electzone-server.onrender.com/api/users/updatepassword/${userId}/${token}`,
           {
             method: 'PATCH',
             headers: {

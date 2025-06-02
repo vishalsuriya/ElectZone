@@ -12,7 +12,7 @@ const SearchBar = () => {
   const navigate = useNavigate();
   const fetchData = async (searchQuery) => {
     try {
-      const response = await axios.get(`https://elect-zone-ecommerce.vercel.app/api/cards/allcards?q=${searchQuery}`);
+      const response = await axios.get(`https://electzone-server.onrender.com/api/cards/allcards?q=${searchQuery}`);
       setResults(response.data);
       setShowSuggestions(true);
     } catch (error) {

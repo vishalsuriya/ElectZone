@@ -23,7 +23,7 @@ function CircleCard3() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://elect-zone-ecommerce.vercel.app/api/cards/CircleCards4"
+          "https://electzone-server.onrender.com/api/cards/CircleCards4"
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -58,7 +58,7 @@ function CircleCard3() {
     try {
       const user = JSON.parse(Cookies.get("user"));
       const email = user.data.email;
-      const response = await fetch("https://elect-zone-ecommerce.vercel.app/api/cards/userCart", {
+      const response = await fetch("https://electzone-server.onrender.com/api/cards/userCart", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ product ,email}),
