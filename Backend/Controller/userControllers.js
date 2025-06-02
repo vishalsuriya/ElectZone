@@ -2,9 +2,11 @@ const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcryptjs");
 const Users = require("../model/UserModel.js");
 const mongoose = require("mongoose");
+const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const  generateToken  = require( "../utils/generateToken.js");
+const nodemailer = require("nodemailer");
 const registerUser = asyncHandler(async(req,res)=>{
     const {name,email,password,pic} = req.body;
     const userExists = await Users.findOne({email});
@@ -65,6 +67,64 @@ const loginUser = asyncHandler(async (req, res) => {
     },
   });
 }
+});
+const resetPassword = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+
+  const user = await Users.findOne({ email });
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  const secret = process.env.JWT_SECRET + user.password;
+  const token = jwt.sign(
+    { email: user.email, id: user._id },
+    secret,
+    { expiresIn: '15m' } 
+  );
+
+  const resetLink = `http://localhost:3000/reset-password/${user._id}/${token}`;
+
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: user.email,
+    subject: "Password Reset Request",
+    html: `<p>Click <a href="${resetLink}">here</a> to reset your password.</p>
+           <p>This link will expire in 15 minutes.</p>`
+  };
+
+  await transporter.sendMail(mailOptions);
+  res.status(200).json({ message: "Password reset link sent to your email." });
+});
+
+const Updatepassword = asyncHandler(async (req, res) => {
+  const { userId, token } = req.params;
+  const { password } = req.body;
+  const user = await Users.findById(userId);
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+  const secret = process.env.JWT_SECRET + user.password;
+
+  try {
+    jwt.verify(token, secret);
+    const hashedPassword = await bcrypt.hash(password, 10);
+    user.password = hashedPassword;
+    await user.save();
+
+    return res.status(200).json({ message: "Password updated successfully" });
+  } catch (error) {
+    return res.status(400).json({ message: "Invalid or expired token" });
+  }
 });
 
 const updateUserProfile = asyncHandler(async (req, res) => {
@@ -252,5 +312,5 @@ const userPayment = asyncHandler(async (req, res) => {
 
 
   module.exports = { registerUser, loginUser, updateUserProfile, userPayment,getUser
-    ,clearUserCart,removeUserItem,increaseQuantity,decreaseQuantity
+    ,clearUserCart,removeUserItem,increaseQuantity,decreaseQuantity,resetPassword,Updatepassword
   };

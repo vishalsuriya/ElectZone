@@ -1,6 +1,5 @@
 // Required dependencies
 const express = require("express");
-const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const nodemailer = require("nodemailer");
 const cors = require("cors");
@@ -19,7 +18,7 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 // Enable CORS
 app.use(
   cors({
-    origin: "https://elect-zone-ecommerce.vercel.app",
+    origin: "http://localhost:3000",
     methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
     credentials: true,
   })
@@ -138,7 +137,7 @@ const sendConfirmationEmail = async (userEmail, session, data, userName) => {
 
 // Middleware
 app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/api/cards", cardsRoutes);

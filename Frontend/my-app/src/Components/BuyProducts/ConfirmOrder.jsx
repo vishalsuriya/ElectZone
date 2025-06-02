@@ -32,10 +32,13 @@ export default function ConfirmOrder() {
   const handlePayment = async () => {
     setLoading(true);
     try {
+      const user = JSON.parse(Cookies.get("user"))
       const stripe = await stripePromise;
-      const response = await fetch("https://electzone-server.onrender.com/api/users/payment", {
+      const response = await fetch("https://elect-zone-ecommerce.vercel.app/api/users/payment", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json" ,
+        "Authorization": `Bearer ${user?.data?.token}`
+        },
         body: JSON.stringify({ products: allItems, userEmail: user.data.email ,userName : user.data.name}),
       });
       

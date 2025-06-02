@@ -1,10 +1,7 @@
 const mongoose = require("mongoose");
-
-const MONGO_URL =
-  "mongodb+srv://sivab2211:root@cluster0.wilizo0.mongodb.net/ElectZone";
 const connectDB = async () => {
   try {
-    const con = await mongoose.connect(MONGO_URL, {
+    const con = await mongoose.connect(process.env.MONGO_URL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });

@@ -26,7 +26,7 @@ function UserLogin() {
     setLoading(true);
     setError('');
     try {
-      const response = await fetch("https://electzone-server.onrender.com/api/users/login", {
+      const response = await fetch("https://elect-zone-ecommerce.vercel.app/api/users/login", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -106,6 +106,11 @@ function UserLogin() {
             <small className="text-body-secondary">
               New Customer? <Link to="/UserSignup">Register Here</Link>
             </small>
+            <div className="d-flex justify-content-end mt-0">
+       <Link to="/forgot-password" className="btn btn-sm btn-outline-primary">
+         Forgot password?
+       </Link>
+         </div>
           </Form>
         </Col>
       </Row>

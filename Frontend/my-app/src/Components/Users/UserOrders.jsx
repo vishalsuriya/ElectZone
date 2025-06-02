@@ -10,7 +10,7 @@ const UserOrders = () => {
         const user = JSON.parse(Cookies.get("user"));
         const userId = user?.data?._id;
         if (userId) {
-          const response = await axios.get(`https://electzone-server.onrender.com/api/users/userDetails/${userId}`);
+          const response = await axios.get(`https://elect-zone-ecommerce.vercel.app/api/users/userDetails/${userId}`);
           setOrders(response.data.orders || []);
         }
       } catch (error) {

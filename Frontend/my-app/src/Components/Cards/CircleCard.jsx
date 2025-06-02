@@ -9,7 +9,7 @@ function CircleCard() {
         <div className="circular-image-container">
           <a href="/CircleCard1">
             <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS51HA3ji2bnJOH9AJ_YcL7NUVSu0mc0wEpug&usqp=CAU"
+              src="https://www.semiconductorforu.com/wp-content/uploads/2017/06/IC.jpg"
               className="img-fluid"
               alt=""
             />

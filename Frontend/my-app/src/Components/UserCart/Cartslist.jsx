@@ -1,17 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
-import Cookies from "js-cookie"
+import Cookies from "js-cookie";
+
 function Cartslist() {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
+
   useEffect(() => {
     const fetchCartData = async () => {
       try {
         const user = JSON.parse(Cookies.get("user"));
         const userId = user?.data?._id;
-        if (userId) {
-          const response = await axios.get(`https://electzone-server.onrender.com/api/users/userDetails/${userId}`);
+        const token = user?.data?.token;
+
+        if (userId && token) {
+          const response = await axios.get(
+            `https://elect-zone-ecommerce.vercel.app/api/users/userDetails/${userId}`,
+            {
+              headers: {
+                "Authorization": `Bearer ${token}`,
+              },
+            }
+          );
           setData(response.data.cart);
         }
       } catch (error) {
@@ -26,53 +37,93 @@ function Cartslist() {
     try {
       const user = JSON.parse(Cookies.get("user"));
       const userId = user?.data?._id;
+      const token = user?.data?.token;
+
       const response = await axios.delete(
-        `https://electzone-server.onrender.com/api/users/${userId}/removeItem/${productId}`
+        `https://elect-zone-ecommerce.vercel.app/api/users/${userId}/removeItem/${productId}`,
+        {
+          headers: {
+            "Authorization": `Bearer ${token}`,
+          },
+        }
       );
+
       if (response.data.message === "Item removed successfully") {
-        setData(response.data.cart); 
+        setData(response.data.cart);
       }
-      setData(data.filter((item) => item.productId !== productId));
     } catch (error) {
       console.error("Error removing item:", error);
     }
   };
-  
+
   const handleClearCart = async () => {
     try {
       const user = JSON.parse(Cookies.get("user"));
       const userId = user?.data?._id;
-      await axios.delete(`https://electzone-server.onrender.com/api/users/clearCart/${userId}`);
+      const token = user?.data?.token;
+
+      await axios.delete(
+        `https://elect-zone-ecommerce.vercel.app/api/users/clearCart/${userId}`,
+        {
+          headers: {
+            "Authorization": `Bearer ${token}`,
+          },
+        }
+      );
       setData([]);
     } catch (error) {
       console.error("Error clearing cart:", error);
     }
   };
- const handleQuantityIncrease = async(productId)=>{
-  try{
-    const user = JSON.parse(Cookies.get("user"));
-    const userId = user?.data?._id;
-    const response = await axios.patch(`https://electzone-server.onrender.com/api/users/${userId}/increaseQuantity/${productId}`)
-   if(response.data.message === "Quantity increased successfully"){
-    setData(response.data.cart)
-   }
-  }catch(error){
-    console.error("Error increasing quantity:",error)
-  }
- }
 
- const handleQuantitydecrease = async(productId)=>{
-  try{
-    const user = JSON.parse(Cookies.get("user"));
-    const userId = user?.data?._id;
-    const response = await axios.patch(`https://electzone-server.onrender.com/api/users/${userId}/decreaseQuantity/${productId}`)
-   if(response.data.message === "Quantity decreased successfully"){
-    setData(response.data.cart)
-   }
-  }catch(error){
-    console.error("Error increasing quantity:",error)
-  }
- }
+  const handleQuantityIncrease = async (productId) => {
+    try {
+      const user = JSON.parse(Cookies.get("user"));
+      const userId = user?.data?._id;
+      const token = user?.data?.token;
+
+      const response = await axios.patch(
+        `https://elect-zone-ecommerce.vercel.app/api/users/${userId}/increaseQuantity/${productId}`,
+        {},
+        {
+          headers: {
+            "Authorization": `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.data.message === "Quantity increased successfully") {
+        setData(response.data.cart);
+      }
+    } catch (error) {
+      console.error("Error increasing quantity:", error);
+    }
+  };
+
+  const handleQuantityDecrease = async (productId) => {
+    try {
+      const user = JSON.parse(Cookies.get("user"));
+      const userId = user?.data?._id;
+      const token = user?.data?.token;
+
+      const response = await axios.patch(
+        `https://elect-zone-ecommerce.vercel.app/api/users/${userId}/decreaseQuantity/${productId}`,
+        {},
+        {
+          headers: {
+            "Authorization": `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.data.message === "Quantity decreased successfully") {
+        setData(response.data.cart);
+      }
+    } catch (error) {
+      console.error("Error decreasing quantity:", error);
+    }
+  };
+
   return (
     <section className="py-4 container">
       <div className="row justify-content-center">
@@ -83,7 +134,11 @@ function Cartslist() {
               {data.map((product, index) => (
                 <tr key={index}>
                   <td>
-                    <img src={product.imgsrc} alt={product.productName} style={{ height: '6rem' }} />
+                    <img
+                      src={product.imgsrc}
+                      alt={product.productName}
+                      style={{ height: '6rem' }}
+                    />
                   </td>
                   <td>{product.productName}</td>
                   <td>₹{product.price}</td>
@@ -91,7 +146,7 @@ function Cartslist() {
                   <td>
                     <button
                       className="btn btn-info ms-2"
-                      onClick={() => handleQuantitydecrease(product.productId)}
+                      onClick={() => handleQuantityDecrease(product.productId)}
                     >
                       -
                     </button>
@@ -116,7 +171,10 @@ function Cartslist() {
           </table>
         </div>
         <div className="col-auto ms-auto">
-          <h2>Total Price: ₹{data.reduce((acc, item) => acc + item.price * item.quantity, 0)}</h2>
+          <h2>
+            Total Price: ₹
+            {data.reduce((acc, item) => acc + item.price * item.quantity, 0)}
+          </h2>
         </div>
         <div className="col-auto">
           <button className="btn btn-danger m-2" onClick={handleClearCart}>

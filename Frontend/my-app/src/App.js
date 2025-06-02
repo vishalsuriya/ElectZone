@@ -18,6 +18,8 @@ import CheckOut from "./Components/BuyProducts/CheckOut";
 import ProductPage from "./Components/ProductPage/ProductPage";
 import PaymentSucess from "./Components/BuyProducts/PaymentSucess";
 import UserOrders from "./Components/Users/UserOrders";
+import ForgetPassword from "./Components/Users/ForgetPassword";
+import { ResetPassword } from "./Components/Users/ResetPassword";
 function App() {
   return (
     <>
@@ -39,6 +41,8 @@ function App() {
      <Route path="/ConfirmOrder" element ={<ConfirmOder />}/>
      <Route path="/PaymentSucess" element = {<PaymentSucess />} />
      <Route path="/myOrders" element = {<UserOrders />} />
+     <Route path="/forgot-password" element ={<ForgetPassword />} />
+     <Route path="/reset-password/:userId/:token" element={<ResetPassword />} />
     </Routes>
     </>
   );
