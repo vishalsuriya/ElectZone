@@ -125,10 +125,10 @@ const allCards = asyncHandler(async (req, res) => {
         return true;
       }
     });
-    if (searchQuery) {
-      allCards = allCards.filter(card =>
-        card.title.toLowerCase().includes(searchQuery)
-      );
+   if (searchQuery) {
+  allCards = allCards.filter(card =>
+    card.title.toLowerCase().startsWith(searchQuery)
+  );
     }
     res.status(200).json(allCards);
   } catch (err) {
